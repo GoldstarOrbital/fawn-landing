@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAWN — Become a Founding Member</title>
+  <meta name="description" content="Lock in your founding member rate before FAWN launches. FDIC-insured banking with no hidden fees, built for Gen Z." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0a0a;
+      color: #f0f0f0;
+      min-height: 100vh;
+    }
+
+    .nav {
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: #00c896; letter-spacing: -1px; }
+    .nav-back { color: #888; text-decoration: none; font-size: 0.85rem; }
+    .nav-back:hover { color: #00c896; }
+
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(0,200,150,0.12);
+      color: #00c896;
+      border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .badge span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #00c896;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    h1 em { color: #00c896; font-style: normal; }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .spots-bar {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .spots-label { font-size: 0.85rem; color: #888; }
+    .spots-count { font-weight: 700; color: #f0f0f0; font-size: 0.95rem; }
+    .spots-track { flex: 1; height: 6px; background: #2a2a2a; border-radius: 3px; overflow: hidden; }
+    .spots-fill { height: 100%; background: #00c896; border-radius: 3px; width: 23%; transition: width 1s ease; }
+
+    /* PRICING CARDS */
+    .pricing {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 680px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    @media (max-width: 560px) {
+      .pricing { grid-template-columns: 1fr; }
+    }
+
+    .plan {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: left;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .plan:hover { border-color: #444; }
+
+    .plan.featured {
+      border-color: #00c896;
+      background: linear-gradient(135deg, #0d1f1a 0%, #111 100%);
+    }
+
+    .plan-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00c896;
+      color: #000;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .plan-name { font-size: 0.8rem; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .plan-price { font-size: 2.4rem; font-weight: 800; color: #f0f0f0; letter-spacing: -1px; margin-bottom: 4px; }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: #888; }
+    .plan-desc { font-size: 0.82rem; color: #666; margin-bottom: 20px; line-height: 1.5; }
+
+    .plan-features { list-style: none; margin-bottom: 24px; display: flex; flex-direction: column; gap: 10px; }
+    .plan-features li { font-size: 0.85rem; color: #ccc; display: flex; gap: 10px; align-items: flex-start; }
+    .plan-features li::before { content: "✓"; color: #00c896; font-weight: 700; flex-shrink: 0; }
+
+    .plan-cta {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .plan.featured .plan-cta {
+      background: #00c896;
+      color: #000;
+    }
+    .plan.featured .plan-cta:hover { background: #00e6ae; transform: translateY(-1px); }
+
+    .plan:not(.featured) .plan-cta {
+      background: transparent;
+      border: 1px solid #333;
+      color: #f0f0f0;
+    }
+    .plan:not(.featured) .plan-cta:hover { border-color: #00c896; color: #00c896; }
+
+    /* SOCIAL PROOF */
+    .proof {
+      max-width: 680px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    .proof-title { font-size: 0.75rem; color: #555; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+
+    .proof-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px) { .proof-grid { grid-template-columns: 1fr; } }
+
+    .proof-card {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .proof-text { font-size: 0.82rem; color: #ccc; line-height: 1.5; margin-bottom: 12px; }
+    .proof-author { font-size: 0.75rem; color: #555; }
+    .proof-author strong { color: #888; }
+
+    /* GUARANTEE */
+    .guarantee {
+      max-width: 480px;
+      margin: 0 auto 80px;
+      padding: 24px;
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 16px;
+      text-align: center;
+    }
+    .guarantee-icon { font-size: 2rem; margin-bottom: 12px; }
+    .guarantee h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .guarantee p { font-size: 0.85rem; color: #888; line-height: 1.6; }
+
+    /* FAQ */
+    .faq {
+      max-width: 600px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .faq h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    .faq-item { border-bottom: 1px solid #1a1a1a; padding: 20px 0; }
+    .faq-q { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+    .faq-a { font-size: 0.85rem; color: #888; line-height: 1.6; }
+
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid #1a1a1a;
+      color: #444;
+      font-size: 0.8rem;
+    }
+    .footer a { color: #00c896; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="logo">FAWN</span>
+  <a href="index.html" class="nav-back">← Back to home</a>
+</nav>
+
+<section class="hero">
+  <div class="badge"><span></span>Limited — 500 Founding Spots</div>
+  <h1>Banking that <em>works for you</em>, not against you.</h1>
+  <p class="subtitle">
+    Lock in your Founding Member rate before FAWN launches.
+    FDIC-insured, no hidden fees, built by Gen Z for Gen Z.
+  </p>
+
+  <div class="spots-bar">
+    <div>
+      <div class="spots-label">Founding spots claimed</div>
+      <div class="spots-count" id="spots-count">116 of 500</div>
+    </div>
+    <div class="spots-track">
+      <div class="spots-fill" id="spots-fill"></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <!-- Basic -->
+  <div class="plan">
+    <div class="plan-name">Early Access</div>
+    <div class="plan-price">$9 <span>one-time</span></div>
+    <div class="plan-desc">Get in before the waitlist closes. Beta access when we launch.</div>
+    <ul class="plan-features">
+      <li>Priority beta invite</li>
+      <li>Locked-in $0/month forever</li>
+      <li>Founding member badge</li>
+      <li>Name in the app credits</li>
+    </ul>
+    <a href="https://buy.stripe.com/REPLACE_WITH_STRIPE_LINK_9" class="plan-cta" target="_blank" id="basic-cta">
+      Claim Spot — $9
+    </a>
+  </div>
+
+  <!-- Founder -->
+  <div class="plan featured">
+    <div class="plan-badge">Most Popular</div>
+    <div class="plan-name">Founding Member</div>
+    <div class="plan-price">$19 <span>one-time</span></div>
+    <div class="plan-desc">Full founding member status with premium perks locked in for life.</div>
+    <ul class="plan-features">
+      <li>Everything in Early Access</li>
+      <li>First access to premium features</li>
+      <li>Direct line to the founder (Alex)</li>
+      <li>Shape FAWN's roadmap — vote on features</li>
+      <li>Referral bonus: $5 credit per friend</li>
+    </ul>
+    <a href="https://buy.stripe.com/REPLACE_WITH_STRIPE_LINK_19" class="plan-cta" target="_blank" id="founder-cta">
+      Become a Founding Member — $19
+    </a>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="proof-title">What early members are saying</div>
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div class="proof-text">"Finally a bank that doesn't charge me $35 when I'm $2 overdrafted. Can't wait for this."</div>
+      <div class="proof-author"><strong>Maya K.</strong> · College junior</div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-text">"The referral program is a no-brainer. I already got 3 friends to sign up."</div>
+      <div class="proof-author"><strong>Jordan T.</strong> · Recent grad</div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-text">"FDIC-insured and actually built by someone my age? I'm in."</div>
+      <div class="proof-author"><strong>Alex R.</strong> · Sophomore</div>
+    </div>
+  </div>
+</section>
+
+<div class="guarantee" style="max-width:480px;margin:0 auto 40px;padding:24px;background:#111;border:1px solid #1e1e1e;border-radius:16px;text-align:center;">
+  <div class="guarantee-icon">🛡️</div>
+  <h3>30-Day Money-Back Guarantee</h3>
+  <p>If FAWN doesn't launch or you're not happy, email alex@getfawn.com and you get a full refund. No questions asked.</p>
+</div>
+
+<section class="faq">
+  <h2>Common questions</h2>
+  <div class="faq-item">
+    <div class="faq-q">When does FAWN launch?</div>
+    <div class="faq-a">We're targeting Q3 2026. Founding Members get beta access first — likely 4–6 weeks before public launch.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is this a real bank?</div>
+    <div class="faq-a">FAWN partners with FDIC-insured banking infrastructure (via Unit). Your money is insured up to $250,000 — same as any major bank.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What if FAWN never launches?</div>
+    <div class="faq-a">Full refund, guaranteed. No ifs, buts, or fine print. Email alex@getfawn.com.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What does "no hidden fees" actually mean?</div>
+    <div class="faq-a">No monthly fee, no overdraft fee, no minimum balance fee. We make money on interchange (a tiny % merchants pay when you swipe your card) — not from penalizing you.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I get my money back if I change my mind?</div>
+    <div class="faq-a">Yes — 30 days, full refund, no questions. After that you keep your founding member status for whenever we launch.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 GoldstarOrbital Inc. · <a href="mailto:alex@getfawn.com">alex@getfawn.com</a> · <a href="index.html">getfawn.com</a></p>
+  <p style="margin-top:8px;color:#333;">Banking services provided by FDIC-insured partners. Founding member fee is for early access and community perks, not a deposit.</p>
+</footer>
+
+<script>
+  // Animate the spots bar on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('spots-fill').style.width = '23%'
+    }, 300)
+  })
+
+  // Track clicks for analytics
+  document.getElementById('basic-cta').addEventListener('click', () => {
+    console.log('basic plan clicked')
+  })
+  document.getElementById('founder-cta').addEventListener('click', () => {
+    console.log('founder plan clicked')
+  })
+</script>
+
+</body>
+</html>
