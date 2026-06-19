@@ -401,8 +401,30 @@
 </footer>
 
 <script>
-  // Spots bar stays at 0% until real sales. Update this value manually
-  // (or wire to a /stripe-sales endpoint) once founding members start claiming.
+  // Live counter: pulls real sales counts from the FAWN backend (which
+  // reads from Stripe). Cached server-side for 60s. No fake data — if the
+  // API is down, the numbers stay at 0.
+  const STATS_URL = 'https://web-production-13d5b.up.railway.app/public/founding-stats';
+  async function refreshStats() {
+    try {
+      const r = await fetch(STATS_URL);
+      if (!r.ok) return;
+      const d = await r.json();
+      const founding = d.founding_sold || 0;
+      const cap = d.founding_cap || 20;
+      const countEl = document.getElementById('spots-count');
+      const fillEl = document.getElementById('spots-fill');
+      if (founding === 0) {
+        countEl.textContent = '0 of ' + cap + ' — be the first';
+        fillEl.style.width = '0%';
+      } else {
+        countEl.textContent = founding + ' of ' + cap + ' claimed';
+        fillEl.style.width = Math.min(100, (founding / cap) * 100) + '%';
+      }
+    } catch (e) { /* silent — keep 0 displayed */ }
+  }
+  refreshStats();
+  setInterval(refreshStats, 60000);
 
   // Track clicks for analytics
   document.getElementById('basic-cta').addEventListener('click', () => {
