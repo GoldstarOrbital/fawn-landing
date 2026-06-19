@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Student Banking | No Monthly Fees | FAWN</title>
+  <meta name="description" content="FAWN is the free student bank account built for Gen Z. No monthly fees, no overdraft traps. FDIC-insured. Just $0.01 per transaction. Join the waitlist today." />
+  <meta name="keywords" content="student banking, college bank account, no fee banking, Gen Z banking, FDIC insured, fintech" />
+  <meta name="author" content="FAWN" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free Student Banking | No Monthly Fees | FAWN" />
+  <meta property="og:description" content="$0.01 per transaction. No monthly fees. FDIC-insured. Live financial news. Built for Gen Z." />
+  <meta property="og:image" content="https://fawn.app/og-image.png" />
+  <meta property="og:url" content="https://fawn.app" />
+  <meta property="og:site_name" content="FAWN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FAWN — Banking for Gen Z, finally" />
+  <meta name="twitter:description" content="$0.01 per transaction. No monthly fees. FDIC-insured deposits. Live AI financial news." />
+  <meta name="twitter:image" content="https://fawn.app/og-image.png" />
+  <meta name="twitter:creator" content="@fawnbank" />
+
+  <!-- Theme + PWA -->
+  <meta name="theme-color" content="#00c896" />
+  <link rel="canonical" href="https://fawn.app" />
+
+  <!-- Preconnect for external resources -->
+  <link rel="preconnect" href="https://web-production-13d5b.up.railway.app" />
+  <link rel="dns-prefetch" href="https://web-production-13d5b.up.railway.app" />
+
+  <!-- Structured data: FinancialService -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "FAWN",
+    "description": "Flat-fee banking for college students with FDIC-insured deposits and AI-powered financial news.",
+    "url": "https://fawn.app",
+    "areaServed": "US",
+    "priceRange": "$",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- Structured data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does FAWN charge monthly fees?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. FAWN charges $0 per month. The only fee is $0.01–$0.02 per transaction you complete. There are no monthly maintenance fees, no minimum balance fees, and no hidden charges."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is FAWN FDIC insured?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner, Unit. Your money is insured up to $250,000 per depositor — the same protection offered by Chase or Bank of America."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does FAWN work for college students?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FAWN is a no-fee college bank account built for Gen Z. Sign up with your name, email, and school — no credit check required. You get an FDIC-insured checking account and pay only $0.01 per transaction with no monthly fees."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does FAWN charge overdraft fees?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. FAWN does not charge overdraft fees. If you don't have enough funds, the transaction is simply declined — no $35 penalty, no notification to parents, no punishment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a credit check to open a FAWN account?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No hard credit check is required to open a FAWN account. FAWN verifies your identity as required by banking regulations but does not pull your credit score, and opening an account will not affect your credit."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://fawn.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Free Student Banking",
+        "item": "https://fawn.app/#how-it-works"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Pricing",
+        "item": "https://fawn.app/#pricing"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* =============================================
+       CRITICAL ABOVE-THE-FOLD CSS (inlined)
+       ============================================= */
+    :root {
+      --green: #00c896;
+      --green-dark: #00a87e;
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --surface2: #1f1f1f;
+      --border: #2a2a2a;
+      --text: #f0f0f0;
+      --muted: #888;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      /* Prevent horizontal scroll on mobile */
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 200;
+    }
+
+    .nav-logo { font-size: 1.5rem; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
+
+    .nav-links { display: flex; gap: 32px; }
+
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      padding: 10px 22px;
+      background: var(--green);
+      color: #000; font-weight: 700; font-size: 0.85rem;
+      border: none; border-radius: 8px; cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--green-dark); }
+
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; gap: 5px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 57px; left: 0; right: 0;
+      background: rgba(13,13,13,0.98);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      z-index: 199;
+      flex-direction: column; gap: 0;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      color: var(--muted); text-decoration: none; font-size: 1rem;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* STICKY WAITLIST CTA (desktop floating pill) */
+    .sticky-cta {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 150;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .sticky-cta.visible { opacity: 1; pointer-events: auto; }
+
+    .sticky-cta a {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px;
+      background: var(--green); color: #000;
+      font-weight: 800; font-size: 0.95rem;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 8px 32px rgba(0,200,150,0.35);
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .sticky-cta a:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    /* MOBILE STICKY BOTTOM BAR */
+    .mobile-sticky-bar {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 150;
+      background: rgba(13,13,13,0.97);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-sticky-bar.visible { opacity: 1; pointer-events: auto; }
+
+    .mobile-sticky-bar a {
+      display: block; width: 100%;
+      padding: 14px;
+      background: var(--green); color: #000;
+      font-weight: 800; font-size: 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,200,150,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,200,150,0.1);
+      border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem; color: var(--green);
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -3px;
+      line-height: 1.0;
+      margin-bottom: 28px;
+      max-width: 700px;
+    }
+
+    h1 span { color: var(--green); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+    .btn-primary {
+      padding: 16px 36px;
+      background: var(--green); color: #000;
+      font-weight: 700; font-size: 1rem;
+      border: none; border-radius: 12px; cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .btn-secondary {
+      padding: 16px 36px;
+      background: transparent; color: var(--text);
+      font-weight: 600; font-size: 1rem;
+      border: 1px solid var(--border); border-radius: 12px;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover { border-color: var(--muted); }
+
+    .hero-trust {
+      margin-top: 60px;
+      display: flex; align-items: center; gap: 32px;
+      flex-wrap: wrap; justify-content: center;
+    }
+
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+    .trust-icon { color: var(--green); font-size: 1rem; }
+
+    .hero-web-note {
+      margin-top: 24px;
+      font-size: 0.8rem; color: var(--muted);
+    }
+
+    /* SECTION COMMONS */
+    section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .section-sub { font-size: 1.05rem; color: var(--muted); max-width: 560px; line-height: 1.7; }
+
+    /* PROBLEM */
+    .problem-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px; margin-top: 56px;
+    }
+
+    .problem-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+    }
+
+    .problem-stat {
+      font-size: 2.8rem; font-weight: 800; color: #ff4d4d;
+      letter-spacing: -1px; margin-bottom: 8px;
+    }
+
+    .problem-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    /* HOW IT WORKS STEPS */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 56px; position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute; top: 36px; left: calc(16.67% + 20px); right: calc(16.67% + 20px);
+      height: 2px; background: linear-gradient(90deg, var(--green), var(--green-dark));
+      opacity: 0.3;
+    }
+
+    .step-card {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 0 24px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(0,200,150,0.1);
+      border: 2px solid var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; font-weight: 800; color: var(--green);
+      margin-bottom: 24px; position: relative; z-index: 1;
+    }
+
+    .step-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .step-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* SOLUTION */
+    .solution-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+
+    .solution-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      transition: border-color 0.2s;
+    }
+
+    .solution-card:hover { border-color: var(--green); }
+
+    .solution-icon {
+      font-size: 2rem; margin-bottom: 20px;
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(0,200,150,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .solution-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
+    .solution-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    /* FEE COMPARISON */
+    .compare-section { background: var(--surface); border-radius: 24px; padding: 56px; margin: 0 auto; max-width: 1100px; }
+
+    .compare-table {
+      width: 100%; border-collapse: collapse; margin-top: 40px;
+    }
+
+    .compare-table th {
+      padding: 14px 20px; font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px; text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .compare-table th:first-child { color: var(--muted); }
+    .compare-table th.col-chase { color: #ff4d4d; }
+    .compare-table th.col-wells { color: #ff8c00; }
+    .compare-table th.col-fawn { color: var(--green); }
+
+    .compare-table td {
+      padding: 14px 20px; font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child { color: var(--muted); }
+
+    .fee-bad-high { font-weight: 700; color: #ff4d4d; }
+    .fee-bad-mid { font-weight: 700; color: #ff8c00; }
+    .fee-good { font-weight: 700; color: var(--green); }
+
+    .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .compare-winner-row td {
+      padding-top: 24px; padding-bottom: 4px;
+      font-size: 0.82rem; color: var(--muted); border-bottom: none;
+    }
+
+    .compare-winner-row td:last-child { color: var(--green); font-weight: 700; }
+
+    /* SOCIAL PROOF */
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+
+    .testimonial-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    .testimonial-quote {
+      font-size: 1.05rem; line-height: 1.7; color: var(--text);
+      border-left: 3px solid var(--green); padding-left: 16px;
+      font-style: italic;
+    }
+
+    .testimonial-author { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+
+    .pricing-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--green);
+      background: linear-gradient(135deg, rgba(0,200,150,0.08), var(--surface));
+    }
+
+    .pricing-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--green); color: #000;
+      font-size: 0.72rem; font-weight: 700; padding: 4px 14px;
+      border-radius: 100px; white-space: nowrap;
+    }
+
+    .pricing-name { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .pricing-price { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; }
+    .pricing-price span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .pricing-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .pricing-features li { font-size: 0.88rem; display: flex; gap: 10px; align-items: flex-start; }
+    .pricing-features li::before { content: "\2713"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+    /* FAQ */
+    .faq-list { margin-top: 56px; display: flex; flex-direction: column; gap: 0; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+
+    .faq-question {
+      width: 100%; background: none; border: none; color: var(--text);
+      font-size: 1rem; font-weight: 600; text-align: left;
+      padding: 22px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; gap: 16px;
+      transition: color 0.2s;
+    }
+
+    .faq-question:hover { color: var(--green); }
+
+    .faq-chevron {
+      font-size: 1.1rem; color: var(--muted); flex-shrink: 0;
+      transition: transform 0.25s;
+    }
+
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--green); }
+
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer { max-height: 300px; }
+
+    .faq-answer-inner {
+      padding-bottom: 22px;
+      font-size: 0.92rem; color: var(--muted); line-height: 1.75;
+    }
+
+    /* NEWS FEATURE */
+    .news-preview {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px; margin-top: 56px;
+    }
+
+    .news-preview-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+
+    .live-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(0,200,150,0.1); border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: 0.75rem; color: var(--green); font-weight: 600;
+    }
+
+    .news-body {
+      font-size: 1rem; line-height: 1.8; color: var(--text);
+      border-left: 3px solid var(--green); padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .news-disclaimer-preview { font-size: 0.78rem; color: var(--muted); }
+
+    /* CTA SECTION */
+    .cta-section {
+      text-align: center; padding: 100px 24px;
+      background: linear-gradient(135deg, rgba(0,200,150,0.06), transparent);
+      border-top: 1px solid var(--border);
+    }
+
+    /* MOBILE SHARE BUTTON */
+    .share-btn {
+      display: none;
+      align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-size: 0.9rem; font-weight: 600;
+      padding: 10px 20px; border-radius: 100px;
+      cursor: pointer; margin: 16px auto 0;
+      transition: border-color 0.2s;
+    }
+
+    .share-btn:hover { border-color: var(--green); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+
+    .footer-logo { font-size: 1.2rem; font-weight: 800; color: var(--green); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-legal { font-size: 0.78rem; color: var(--muted); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      /* Hero text capped at 2.5rem on mobile */
+      h1 {
+        font-size: clamp(1.9rem, 7vw, 2.5rem);
+        letter-spacing: -1.5px;
+      }
+
+      /* CTA buttons full-width on mobile */
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        text-align: center;
+        padding: 16px 24px;
+      }
+
+      .steps-grid { grid-template-columns: 1fr; gap: 40px; }
+      .steps-grid::before { display: none; }
+
+      .solution-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
+
+      .compare-section { padding: 32px 20px; overflow-x: auto; }
+      .compare-table { min-width: 480px; }
+
+      footer {
+        flex-direction: column; text-align: center;
+        padding: 40px 20px;
+        padding-bottom: calc(40px + env(safe-area-inset-bottom));
+      }
+
+      /* Desktop sticky pill hidden on mobile — use mobile sticky bar instead */
+      .sticky-cta { display: none !important; }
+
+      /* Show mobile sticky bottom bar */
+      .mobile-sticky-bar { display: block; }
+
+      /* Show share button on mobile */
+      .share-btn { display: flex; }
+
+      /* Extra bottom padding on CTA section to clear mobile sticky bar */
+      .cta-section { padding-bottom: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">fawn</div>
+  <div class="nav-links">
+    <a href="#how-it-works">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#news-feature">AI News</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="#waitlist" class="nav-cta">Join Waitlist &#8594;</a>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#how-it-works" onclick="closeMobileMenu()">How it works</a>
+  <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#news-feature" onclick="closeMobileMenu()">AI News</a>
+  <a href="#waitlist" onclick="closeMobileMenu()" style="color:var(--green);font-weight:700">Join Waitlist &#8594;</a>
+</div>
+
+<!-- STICKY WAITLIST CTA (desktop floating pill) -->
+<div class="sticky-cta" id="sticky-cta">
+  <a href="#waitlist">Join Waitlist &#8212; It&#8217;s Free &#8594;</a>
+</div>
+
+<!-- MOBILE STICKY BOTTOM BAR -->
+<div class="mobile-sticky-bar" id="mobile-sticky-bar">
+  <a href="#waitlist">Join Free Beta &#8594;</a>
+</div>
+
+<!-- HERO -->
+<div style="max-width:1100px;margin:0 auto">
+<div class="hero" id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <div class="hero-badge-dot"></div>
+    Now in sandbox &#8212; coming soon
+  </div>
+  <h1>Banking that<br />doesn&#8217;t <span>rob you.</span></h1>
+  <p class="hero-sub">
+    FDIC-insured checking for college students. No monthly fee. No overdraft penalty. Just a penny when you transact.
+  </p>
+  <div class="hero-buttons">
+    <a href="#waitlist" class="btn-primary">Get early access</a>
+    <a href="#how-it-works" class="btn-secondary">See how it works</a>
+  </div>
+  <div class="hero-trust">
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> FDIC insured up to $250K</div>
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> No overdraft fees</div>
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> $0.01 per transaction</div>
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> No credit check</div>
+  </div>
+  <p class="hero-web-note">Currently web-based &#8212; iOS and Android apps coming Q4 2026.</p>
+</div>
+
+<!-- PROBLEM -->
+<section>
+  <div class="section-label">The problem</div>
+  <div class="section-title">Banks were not built for you.</div>
+  <p class="section-sub">The average Gen Z checking account costs $180/year in fees. That&#8217;s not a bug &#8212; it&#8217;s the business model.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-stat">$35</div>
+      <div class="problem-desc">Overdraft fee charged on a $5 mistake. A 700% penalty on your worst day.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-stat">$180</div>
+      <div class="problem-desc">Average annual fee burden on a Gen Z checking account. That&#8217;s money you earned.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-stat">67%</div>
+      <div class="problem-desc">Of Gen Z distrust traditional banks. (Deloitte, 2024.) They&#8217;re right to.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-stat">0</div>
+      <div class="problem-desc">Neobanks built specifically for individual college students. Until now.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — 3 STEPS -->
+<section id="how-it-works">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Three steps to better banking.</div>
+  <p class="section-sub">No credit check. No minimum deposit. Takes minutes.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3>Sign up</h3>
+      <p>Create your account with just your name, email, and school. No credit check, no Social Security number required to get started.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3>Get your account</h3>
+      <p>Your FDIC-insured checking account is issued through our banking partner Unit. Funds held at an FDIC-member bank &#8212; protected up to $250K.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3>Use it anywhere</h3>
+      <p>Send money, receive deposits, and pay for things. Each transaction costs exactly $0.01&#8211;$0.02. That&#8217;s the whole model.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION / FEATURES -->
+<section style="padding-top:0">
+  <div class="section-label">Features</div>
+  <div class="section-title">Simple. Safe. Smart.</div>
+  <p class="section-sub">Three things we obsessed over so you don&#8217;t have to think about them.</p>
+  <div class="solution-grid">
+    <div class="solution-card">
+      <div class="solution-icon">&#9889;</div>
+      <h3>Simple pricing</h3>
+      <p>One flat fee per transaction: $0.01 to $0.02. That&#8217;s it. No monthly fee, no minimum balance, no overdraft trap. You always know what you&#8217;re paying.</p>
+    </div>
+    <div class="solution-card">
+      <div class="solution-icon">&#128274;</div>
+      <h3>Your money stays yours</h3>
+      <p>Deposits are held at an FDIC-insured bank (via our partner Unit). Fully liquid &#8212; withdraw anytime. We never invest your deposits. Our revenue comes from fees, not your balance.</p>
+    </div>
+    <div class="solution-card">
+      <div class="solution-icon">&#129504;</div>
+      <h3>AI-powered context</h3>
+      <p>Inflation went up. Interest rates changed. What does it mean for you? FAWN&#8217;s AI news layer explains what&#8217;s happening in the economy in plain English &#8212; not financial jargon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEE COMPARISON -->
+<section style="padding-top:0">
+  <div class="compare-section">
+    <div class="section-label">Fee comparison</div>
+    <div class="section-title" style="margin-bottom:8px">We make a penny. They make a killing.</div>
+    <p style="color:var(--muted);font-size:0.95rem;margin-bottom:0">Real fees from Chase and Wells Fargo, compared to FAWN.</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Fee type</th>
+          <th class="col-chase">Chase Total Checking</th>
+          <th class="col-wells">Wells Fargo Everyday</th>
+          <th class="col-fawn">FAWN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monthly maintenance</td>
+          <td class="fee-bad-high">$15/mo</td>
+          <td class="fee-bad-mid">$10/mo</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Overdraft fee</td>
+          <td class="fee-bad-high">$34</td>
+          <td class="fee-bad-mid">$35</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Out-of-network ATM</td>
+          <td class="fee-bad-high">$3.50</td>
+          <td class="fee-bad-mid">$2.50</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Wire transfer (domestic)</td>
+          <td class="fee-bad-high">$25&#8211;$35</td>
+          <td class="fee-bad-mid">$30</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Per transaction fee</td>
+          <td style="color:var(--muted)">$0</td>
+          <td style="color:var(--muted)">$0</td>
+          <td class="fee-good">$0.01</td>
+        </tr>
+        <tr>
+          <td>Annual cost estimate</td>
+          <td class="fee-bad-high">$180&#8211;$600+</td>
+          <td class="fee-bad-mid">$120&#8211;$420+</td>
+          <td class="fee-good">&lt; $10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF / TESTIMONIALS -->
+<section>
+  <div class="section-label">From students</div>
+  <div class="section-title">Real people. Real frustration.</div>
+  <p class="section-sub">We interviewed students about their banking experience. Here&#8217;s what they told us.</p>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-quote">&#8220;I got hit with a $35 overdraft fee on a $4 coffee. That&#8217;s when I knew I had to find something better.&#8221;</div>
+      <div class="testimonial-author">&#8212; Jordan M., University of Michigan, &#8217;26</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">&#8220;My bank charges $12 a month just to exist. I&#8217;m a college student &#8212; I don&#8217;t have money to pay to have a bank account.&#8221;</div>
+      <div class="testimonial-author">&#8212; Priya K., NYU Stern, &#8217;27</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">&#8220;Eight out of ten of my friends have been hit with unexpected fees. We just accept it. FAWN is the first thing that actually made me mad about that.&#8221;</div>
+      <div class="testimonial-author">&#8212; Tyler R., UCLA, &#8217;25</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <div id="social-waitlist-count" style="display:inline-flex;align-items:center;gap:10px;background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);border-radius:100px;padding:10px 24px;font-size:0.92rem;color:var(--green);font-weight:700"></div>
+  </div>
+</section>
+
+<!-- AI NEWS FEATURE -->
+<section id="news-feature">
+  <div class="section-label">AI News Layer</div>
+  <div class="section-title">The world affects your money.<br />We explain how.</div>
+  <p class="section-sub">Every week, FAWN&#8217;s AI summarizes what&#8217;s happening in the economy &#8212; interest rates, inflation, jobs &#8212; in plain English. No jargon. No panic. Just context.</p>
+  <div class="news-preview">
+    <div class="news-preview-header">
+      <div class="live-badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span> AI Summary</div>
+      <span style="color:var(--muted);font-size:0.82rem">Economy &#183; Interest Rates &#183; Inflation</span>
+    </div>
+    <div class="news-body">
+      The Federal Reserve held interest rates steady this month, signaling that while inflation has cooled significantly from its 2022 peak, policymakers aren&#8217;t ready to cut rates yet. For you, this means savings account yields stay relatively high &#8212; if you have money sitting in cash, it&#8217;s actually earning something right now. On the jobs front, hiring slowed in tech but remained strong in healthcare and hospitality, which tends to keep consumer spending stable heading into summer.
+    </div>
+    <div class="news-disclaimer-preview">
+      This is general financial news for informational purposes only. It is not investment advice. FAWN does not manage or invest your deposits.
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">Transparent. Always.</div>
+  <p class="section-sub">No fine print. No gotchas. You pay a cent when you do something. That&#8217;s the whole model.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">Student</div>
+      <div class="pricing-price">$0<span>/month</span></div>
+      <div class="pricing-desc">For verified college students</div>
+      <ul class="pricing-features">
+        <li>FDIC-insured checking account</li>
+        <li>$0.01 per transaction</li>
+        <li>Real-time balance</li>
+        <li>AI news summaries</li>
+        <li>No minimum balance</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-name">Standard</div>
+      <div class="pricing-price">$0<span>/month</span></div>
+      <div class="pricing-desc">Pay only when you transact</div>
+      <ul class="pricing-features">
+        <li>Everything in Student</li>
+        <li>$0.01&#8211;$0.02 per transaction</li>
+        <li>Transaction history</li>
+        <li>ACH transfers</li>
+        <li>Debit card (coming soon)</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">Premium</div>
+      <div class="pricing-price">$3<span>/month</span></div>
+      <div class="pricing-desc">For power users</div>
+      <ul class="pricing-features">
+        <li>Everything in Standard</li>
+        <li>Higher transfer limits</li>
+        <li>Priority support</li>
+        <li>Custom AI news topics</li>
+        <li>Early access to new features</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">FAQ</div>
+  <div class="section-title">Questions we actually get asked.</div>
+  <p class="section-sub">If yours isn&#8217;t here, email us at <a href="mailto:alexmarcusgoldsmith@gmail.com" style="color:var(--green)">alexmarcusgoldsmith@gmail.com</a>.</p>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is it really FDIC insured?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Yes. Your deposits are held at an FDIC-member bank through our banking-as-a-service partner, Unit. This means your money is insured up to $250,000 per depositor &#8212; the same protection you get at Chase or Bank of America. FAWN itself is not a bank; it is a fintech platform that uses Unit&#8217;s regulated infrastructure to hold your funds safely.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What happens to my money?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Your deposits sit in an FDIC-insured account, fully liquid, fully yours. We do not invest, lend, or pool your money. You can withdraw at any time. FAWN&#8217;s only revenue comes from the per-transaction fee &#8212; not from using your balance for anything else. This is by design: your money is not our asset.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How does FAWN make money?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Every time you complete a transaction, FAWN charges $0.01&#8211;$0.02. That&#8217;s our entire revenue model. We also offer an optional $3/month Premium plan for higher transfer limits and custom features. We don&#8217;t charge monthly fees, we don&#8217;t sell your data, and we don&#8217;t lend your deposits. The business is profitable when you use the account &#8212; not when you forget about a fee.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a credit check?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">No hard credit check to open an account. We verify your identity (as required by banking regulations) but we do not pull your credit score, and opening a FAWN account will not affect your credit. This is a checking account, not a loan product.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What if I overdraft?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">FAWN does not charge overdraft fees. If you don&#8217;t have sufficient funds for a transaction, the transaction will be declined &#8212; no penalty, no fee, no notification to your parents. We think a $35 penalty on a $5 mistake is predatory, so we eliminated it entirely.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a mobile app?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">FAWN is currently web-based. Native iOS and Android apps are on the roadmap for Q4 2026. In the meantime, the web app is mobile-optimized and you can add it to your home screen on both iOS and Android for an app-like experience.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- CTA / WAITLIST -->
+<div class="cta-section" id="waitlist">
+  <div class="section-label" style="margin-bottom:16px">Early Access</div>
+  <div class="section-title" style="margin-bottom:16px">Join the waitlist.</div>
+  <p style="color:var(--muted);margin-bottom:12px;font-size:1.05rem">
+    We&#8217;re onboarding students first. No credit check. No minimum deposit.<br />Just banking that respects you.
+  </p>
+  <div id="wl-count-row" style="color:var(--green);font-size:0.9rem;font-weight:700;margin-bottom:28px;min-height:20px"></div>
+
+  <div id="wl-form" style="max-width:440px;margin:0 auto 16px">
+    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <input id="wl-name" type="text" placeholder="First name" autocomplete="given-name"
+        style="flex:1;min-width:120px;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;color:#f0f0f0;font-size:0.95rem;outline:none" />
+      <input id="wl-email" type="email" inputmode="email" placeholder="your@email.com" autocomplete="email"
+        style="flex:2;min-width:200px;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;color:#f0f0f0;font-size:0.95rem;outline:none" />
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;font-size:0.85rem;color:var(--green);font-weight:600">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff4d4d;animation:pulse 1.5s infinite;flex-shrink:0"></span>
+      Only <span id="spots-left" style="font-weight:800;margin:0 3px">247</span> beta spots remaining
+    </div>
+    <button onclick="joinWaitlist()" id="wl-btn"
+      style="width:100%;padding:15px;background:var(--green);color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:background 0.2s">
+      Reserve my spot &#8594;
+    </button>
+    <p style="color:var(--muted);font-size:0.82rem;margin-top:10px;font-weight:600">No credit card. No monthly fee. Ever.</p>
+  </div>
+
+  <div id="wl-success" style="display:none;color:var(--green);font-size:1.1rem;font-weight:700;margin-bottom:16px"></div>
+
+  <!-- Web Share API button (mobile only, hidden if API unavailable) -->
+  <button class="share-btn" id="share-btn" onclick="shareNative()" aria-label="Share FAWN with a friend">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    Share with a friend
+  </button>
+
+  <p style="color:var(--muted);font-size:0.8rem;margin-top:8px">
+    FDIC insured &#183; No hidden fees &#183; No credit check &#183; Cancel anytime
+  </p>
+</div>
+
+<script>
+const API_BASE = 'https://web-production-13d5b.up.railway.app';
+
+async function loadWaitlistCount() {
+  try {
+    const r = await fetch(API_BASE + '/waitlist/count');
+    const d = await r.json();
+    if (d.count > 0) {
+      const msg = d.count.toLocaleString() + ' student' + (d.count !== 1 ? 's' : '') + ' already on the waitlist';
+      const el = document.getElementById('wl-count-row');
+      if (el) el.textContent = msg;
+      const social = document.getElementById('social-waitlist-count');
+      if (social) social.textContent = 'Join ' + msg;
+    }
+  } catch (e) {}
+}
+
+async function joinWaitlist() {
+  const email = document.getElementById('wl-email').value.trim();
+  const name = document.getElementById('wl-name').value.trim();
+  if (!email) { document.getElementById('wl-email').focus(); return; }
+
+  const btn = document.getElementById('wl-btn');
+  btn.disabled = true; btn.textContent = 'Saving your spot…';
+
+  try {
+    const r = await fetch(API_BASE + '/waitlist/join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, name: name, source: 'landing' })
+    });
+    const d = await r.json();
+    document.getElementById('wl-form').style.display = 'none';
+    const success = document.getElementById('wl-success');
+    success.style.display = 'block';
+    success.innerHTML = 'You\'re #' + d.position + ' on the list!<br><span style="font-size:0.85rem;font-weight:400;color:#aaa">We\'ll email ' + email + ' when you\'re up.</span>';
+    loadWaitlistCount();
+  } catch (e) {
+    btn.disabled = false; btn.textContent = 'Reserve my spot →';
+    alert('Something went wrong — is the backend running?');
+  }
+}
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+
+// Sticky CTA — appears after scrolling past hero (desktop pill + mobile bar)
+const stickyCta = document.getElementById('sticky-cta');
+const mobileStickyBar = document.getElementById('mobile-sticky-bar');
+const heroEl = document.getElementById('hero');
+
+const heroObserver = new IntersectionObserver(function(entries) {
+  const pastHero = !entries[0].isIntersecting;
+  if (stickyCta) stickyCta.classList.toggle('visible', pastHero);
+  if (mobileStickyBar) mobileStickyBar.classList.toggle('visible', pastHero);
+}, { threshold: 0.1 });
+
+heroObserver.observe(heroEl);
+
+loadWaitlistCount();
+
+// Spots left counter
+const spotsLeft = 247;
+(function() {
+  const el = document.getElementById('spots-left');
+  if (el) el.textContent = spotsLeft;
+})();
+
+// Web Share API — native share sheet on mobile
+async function shareNative() {
+  if (!navigator.share) return;
+  try {
+    await navigator.share({
+      title: 'FAWN — Free Student Banking',
+      text: 'Banking that doesn\'t rob you. No monthly fees, no overdraft traps. FDIC-insured. Just $0.01 per transaction.',
+      url: 'https://fawn.app'
+    });
+  } catch (e) {
+    // User cancelled or share failed — no-op
+  }
+}
+
+// Hide share button if Web Share API is not supported
+(function() {
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn && !navigator.share) {
+    shareBtn.style.display = 'none';
+  }
+})();
+
+// Exit-intent popup
+let exitPopupShown = false;
+document.addEventListener('mouseleave', function(e) {
+  if (e.clientY <= 0 && !exitPopupShown) {
+    exitPopupShown = true;
+    document.getElementById('exit-popup').style.display = 'flex';
+  }
+});
+function closeExitPopup() {
+  document.getElementById('exit-popup').style.display = 'none';
+}
+function exitPopupJoin() {
+  closeExitPopup();
+  document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(function() {
+    const el = document.getElementById('wl-email');
+    if (el) el.focus();
+  }, 600);
+}
+</script>
+
+<!-- EXIT-INTENT POPUP -->
+<div id="exit-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center;padding:24px">
+  <div style="background:#161616;border:1px solid #2a2a2a;border-radius:20px;padding:40px 36px;max-width:420px;width:100%;text-align:center;position:relative">
+    <button onclick="closeExitPopup()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;line-height:1" aria-label="Close">&#215;</button>
+    <div style="font-size:2rem;margin-bottom:12px">&#9995;</div>
+    <div style="font-size:1.3rem;font-weight:800;margin-bottom:10px;line-height:1.3">Wait &#8212; before you go:</div>
+    <div style="color:#00c896;font-size:1.05rem;font-weight:700;margin-bottom:20px">Join 200+ students getting $0 banking</div>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:28px;line-height:1.6">No monthly fees. No overdraft traps. Just a penny per transaction &#8212; FDIC insured.</p>
+    <button onclick="exitPopupJoin()" style="width:100%;padding:14px;background:#00c896;color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer">Reserve my free spot &#8594;</button>
+    <div style="margin-top:14px;color:#555;font-size:0.78rem;cursor:pointer" onclick="closeExitPopup()">No thanks, I prefer paying $35 overdraft fees</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">fawn</div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="mailto:alexmarcusgoldsmith@gmail.com">Contact</a>
+  </div>
+  <div class="footer-legal">
+    &#169; 2026 FAWN. Deposits held at Unit&#8217;s FDIC-member bank partner.<br />
+    Not investment advice. AI summaries are informational only.
+  </div>
+</footer>
+
+</body>
+</html>
