@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -13,20 +13,20 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Free Student Banking | No Monthly Fees | FAWN" />
   <meta property="og:description" content="$0.01 per transaction. No monthly fees. FDIC-insured. Live financial news. Built for Gen Z." />
-  <meta property="og:image" content="https://fawn.app/og-image.png" />
-  <meta property="og:url" content="https://fawn.app" />
+  <meta property="og:image" content="https://goldstarorbital.github.io/fawn-landing/og-image.png" />
+  <meta property="og:url" content="https://goldstarorbital.github.io/fawn-landing" />
   <meta property="og:site_name" content="FAWN" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="FAWN — Banking for Gen Z, finally" />
+  <meta name="twitter:title" content="FAWN â€” Banking for Gen Z, finally" />
   <meta name="twitter:description" content="$0.01 per transaction. No monthly fees. FDIC-insured deposits. Live AI financial news." />
-  <meta name="twitter:image" content="https://fawn.app/og-image.png" />
+  <meta name="twitter:image" content="https://goldstarorbital.github.io/fawn-landing/og-image.png" />
   <meta name="twitter:creator" content="@fawnbank" />
 
   <!-- Theme + PWA -->
   <meta name="theme-color" content="#00c896" />
-  <link rel="canonical" href="https://fawn.app" />
+  <link rel="canonical" href="https://goldstarorbital.github.io/fawn-landing" />
 
   <!-- Preconnect for external resources -->
   <link rel="preconnect" href="https://web-production-13d5b.up.railway.app" />
@@ -39,7 +39,7 @@
     "@type": "FinancialService",
     "name": "FAWN",
     "description": "Flat-fee banking for college students with FDIC-insured deposits and AI-powered financial news.",
-    "url": "https://fawn.app",
+    "url": "https://goldstarorbital.github.io/fawn-landing",
     "areaServed": "US",
     "priceRange": "$",
     "sameAs": []
@@ -57,7 +57,7 @@
         "name": "Does FAWN charge monthly fees?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. FAWN charges $0 per month. The only fee is $0.01–$0.02 per transaction you complete. There are no monthly maintenance fees, no minimum balance fees, and no hidden charges."
+          "text": "No. FAWN charges $0 per month. The only fee is $0.01â€“$0.02 per transaction you complete. There are no monthly maintenance fees, no minimum balance fees, and no hidden charges."
         }
       },
       {
@@ -65,7 +65,7 @@
         "name": "Is FAWN FDIC insured?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner, Unit. Your money is insured up to $250,000 per depositor — the same protection offered by Chase or Bank of America."
+          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner, Unit. Your money is insured up to $250,000 per depositor â€” the same protection offered by Chase or Bank of America."
         }
       },
       {
@@ -73,7 +73,7 @@
         "name": "How does FAWN work for college students?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FAWN is a no-fee college bank account built for Gen Z. Sign up with your name, email, and school — no credit check required. You get an FDIC-insured checking account and pay only $0.01 per transaction with no monthly fees."
+          "text": "FAWN is a no-fee college bank account built for Gen Z. Sign up with your name, email, and school â€” no credit check required. You get an FDIC-insured checking account and pay only $0.01 per transaction with no monthly fees."
         }
       },
       {
@@ -81,7 +81,7 @@
         "name": "Does FAWN charge overdraft fees?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. FAWN does not charge overdraft fees. If you don't have enough funds, the transaction is simply declined — no $35 penalty, no notification to parents, no punishment."
+          "text": "No. FAWN does not charge overdraft fees. If you don't have enough funds, the transaction is simply declined â€” no $35 penalty, no notification to parents, no punishment."
         }
       },
       {
@@ -106,19 +106,19 @@
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://fawn.app"
+        "item": "https://goldstarorbital.github.io/fawn-landing"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Free Student Banking",
-        "item": "https://fawn.app/#how-it-works"
+        "item": "https://goldstarorbital.github.io/fawn-landing/#how-it-works"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": "Pricing",
-        "item": "https://fawn.app/#pricing"
+        "item": "https://goldstarorbital.github.io/fawn-landing/#pricing"
       }
     ]
   }
@@ -680,7 +680,7 @@
         padding-bottom: calc(40px + env(safe-area-inset-bottom));
       }
 
-      /* Desktop sticky pill hidden on mobile — use mobile sticky bar instead */
+      /* Desktop sticky pill hidden on mobile â€” use mobile sticky bar instead */
       .sticky-cta { display: none !important; }
 
       /* Show mobile sticky bottom bar */
@@ -782,7 +782,7 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS — 3 STEPS -->
+<!-- HOW IT WORKS â€” 3 STEPS -->
 <section id="how-it-works">
   <div class="section-label">How it works</div>
   <div class="section-title">Three steps to better banking.</div>
@@ -1103,7 +1103,7 @@ async function joinWaitlist() {
   if (!email) { document.getElementById('wl-email').focus(); return; }
 
   const btn = document.getElementById('wl-btn');
-  btn.disabled = true; btn.textContent = 'Saving your spot…';
+  btn.disabled = true; btn.textContent = 'Saving your spotâ€¦';
 
   try {
     const r = await fetch(API_BASE + '/waitlist/join', {
@@ -1118,8 +1118,8 @@ async function joinWaitlist() {
     success.innerHTML = 'You\'re #' + d.position + ' on the list!<br><span style="font-size:0.85rem;font-weight:400;color:#aaa">We\'ll email ' + email + ' when you\'re up.</span>';
     loadWaitlistCount();
   } catch (e) {
-    btn.disabled = false; btn.textContent = 'Reserve my spot →';
-    alert('Something went wrong — is the backend running?');
+    btn.disabled = false; btn.textContent = 'Reserve my spot â†’';
+    alert('Something went wrong â€” is the backend running?');
   }
 }
 
@@ -1139,7 +1139,7 @@ function toggleFaq(btn) {
   if (!isOpen) item.classList.add('open');
 }
 
-// Sticky CTA — appears after scrolling past hero (desktop pill + mobile bar)
+// Sticky CTA â€” appears after scrolling past hero (desktop pill + mobile bar)
 const stickyCta = document.getElementById('sticky-cta');
 const mobileStickyBar = document.getElementById('mobile-sticky-bar');
 const heroEl = document.getElementById('hero');
@@ -1161,17 +1161,17 @@ const spotsLeft = 247;
   if (el) el.textContent = spotsLeft;
 })();
 
-// Web Share API — native share sheet on mobile
+// Web Share API â€” native share sheet on mobile
 async function shareNative() {
   if (!navigator.share) return;
   try {
     await navigator.share({
-      title: 'FAWN — Free Student Banking',
+      title: 'FAWN â€” Free Student Banking',
       text: 'Banking that doesn\'t rob you. No monthly fees, no overdraft traps. FDIC-insured. Just $0.01 per transaction.',
-      url: 'https://fawn.app'
+      url: 'https://goldstarorbital.github.io/fawn-landing'
     });
   } catch (e) {
-    // User cancelled or share failed — no-op
+    // User cancelled or share failed â€” no-op
   }
 }
 
@@ -1233,3 +1233,5 @@ function exitPopupJoin() {
 
 </body>
 </html>
+
+
