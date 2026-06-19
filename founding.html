@@ -250,10 +250,10 @@
   <div class="spots-bar">
     <div>
       <div class="spots-label">Founding spots claimed</div>
-      <div class="spots-count" id="spots-count">3 of 20</div>
+      <div class="spots-count" id="spots-count">0 of 20 — be the first</div>
     </div>
     <div class="spots-track">
-      <div class="spots-fill" id="spots-fill"></div>
+      <div class="spots-fill" id="spots-fill" style="width:0%;"></div>
     </div>
   </div>
 </section>
@@ -356,20 +356,12 @@
 </section>
 
 <section class="proof">
-  <div class="proof-title">What early members are saying</div>
-  <div class="proof-grid">
-    <div class="proof-card">
-      <div class="proof-text">"Finally a bank that doesn't charge me $35 when I'm $2 overdrafted. Can't wait for this."</div>
-      <div class="proof-author"><strong>Maya K.</strong> · College junior</div>
-    </div>
-    <div class="proof-card">
-      <div class="proof-text">"The referral program is a no-brainer. I already got 3 friends to sign up."</div>
-      <div class="proof-author"><strong>Jordan T.</strong> · Recent grad</div>
-    </div>
-    <div class="proof-card">
-      <div class="proof-text">"FDIC-insured and actually built by someone my age? I'm in."</div>
-      <div class="proof-author"><strong>Alex R.</strong> · Sophomore</div>
-    </div>
+  <div class="proof-title">Why we're doing this</div>
+  <div style="background:#111;border:1px solid #1e1e1e;border-radius:16px;padding:24px;font-size:0.92rem;color:#ccc;line-height:1.7;">
+    <p style="margin-bottom:14px;">FAWN is pre-launch. There are no users yet — you'd be one of the first.</p>
+    <p style="margin-bottom:14px;">That's why this offer exists. We need a small group of people who'll actually use the product and tell us what sucks before we open to everyone else.</p>
+    <p style="margin-bottom:14px;">In exchange: $49 once, free Premium for life. No subscription, no upsell ladder, no fine print buried in a 40-page agreement.</p>
+    <p>If FAWN doesn't launch, you get a full refund — no questions, no forms. Just email <a href="mailto:alex@getfawn.com" style="color:#00c896;">alex@getfawn.com</a>.</p>
   </div>
 </section>
 
@@ -409,12 +401,8 @@
 </footer>
 
 <script>
-  // Animate the spots bar on load
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('spots-fill').style.width = '23%'
-    }, 300)
-  })
+  // Spots bar stays at 0% until real sales. Update this value manually
+  // (or wire to a /stripe-sales endpoint) once founding members start claiming.
 
   // Track clicks for analytics
   document.getElementById('basic-cta').addEventListener('click', () => {
