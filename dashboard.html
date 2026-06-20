@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - FAWN</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10;
+      --surface: #0e1318;
+      --surface2: #141b22;
+      --border: #1e2730;
+      --accent: #00c896;
+      --accent-dim: rgba(0,200,150,0.10);
+      --accent-border: rgba(0,200,150,0.25);
+      --text: #e8edf2;
+      --muted: #6b7a8d;
+      --red: #ff4d6d;
+      --green: #00c896;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 28px;
+      background: rgba(8,11,16,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-email { font-size: 0.8rem; color: var(--muted); }
+    .btn-signout {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      font-size: 0.78rem; padding: 6px 14px; border-radius: 8px; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-signout:hover { border-color: var(--muted); color: var(--text); }
+
+    /* LAYOUT */
+    .page { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* GREETING */
+    .greeting { margin-bottom: 28px; }
+    .greeting h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+    .greeting p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+    /* BALANCE CARD */
+    .balance-card {
+      background: linear-gradient(135deg, #0d2b22 0%, var(--surface) 100%);
+      border: 1px solid var(--accent-border);
+      border-radius: 20px; padding: 28px 32px;
+      margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .balance-left .label { font-size: 0.75rem; color: var(--accent); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+    .balance-amount { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    .balance-available { font-size: 0.82rem; color: var(--muted); margin-top: 6px; }
+    .balance-right { text-align: right; }
+    .account-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-dim); border: 1px solid var(--accent-border);
+      border-radius: 100px; padding: 5px 12px;
+      font-size: 0.72rem; color: var(--accent); font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ACCOUNT NUMBERS */
+    .account-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin-bottom: 20px;
+    }
+    .account-tile {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 20px;
+    }
+    .account-tile .label { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .account-tile .value {
+      font-size: 1.05rem; font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace;
+      letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px;
+    }
+    .value-masked { filter: blur(5px); user-select: none; transition: filter 0.3s; }
+    .value-masked.revealed { filter: none; }
+    .reveal-btn {
+      background: none; border: none; color: var(--muted); font-size: 0.75rem;
+      cursor: pointer; padding: 2px 6px; border-radius: 4px;
+      transition: color 0.2s; flex-shrink: 0;
+    }
+    .reveal-btn:hover { color: var(--accent); }
+    .copy-btn {
+      background: none; border: none; color: var(--muted); font-size: 0.72rem;
+      cursor: pointer; padding: 2px 6px; border-radius: 4px; margin-top: 6px;
+      transition: color 0.2s;
+    }
+    .copy-btn:hover { color: var(--accent); }
+    .copy-btn.copied { color: var(--accent); }
+
+    /* TRANSACTIONS */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
+    }
+    .section-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+
+    .txn-list { display: flex; flex-direction: column; gap: 2px; }
+    .txn-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 16px; border-radius: 12px;
+      background: var(--surface); border: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .txn-item:hover { border-color: var(--border); }
+    .txn-left { display: flex; align-items: center; gap: 12px; }
+    .txn-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--surface2); display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: var(--muted); flex-shrink: 0;
+    }
+    .txn-desc { font-size: 0.9rem; font-weight: 600; }
+    .txn-date { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .txn-amount { font-size: 0.95rem; font-weight: 700; }
+    .txn-amount.credit { color: var(--green); }
+    .txn-amount.debit { color: var(--text); }
+
+    .empty-state {
+      text-align: center; padding: 48px 24px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; color: var(--muted); font-size: 0.9rem;
+    }
+
+    /* STATUS STATES */
+    .state-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px 32px; text-align: center;
+    }
+    .state-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .state-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+    .state-body { color: var(--muted); font-size: 0.9rem; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+    .pending-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,180,0,0.1); border: 1px solid rgba(255,180,0,0.3);
+      color: #ffb400; border-radius: 100px; padding: 5px 14px;
+      font-size: 0.78rem; font-weight: 600; margin-bottom: 20px;
+    }
+
+    /* SKELETON LOADER */
+    .skeleton { background: var(--surface); border-radius: 8px; animation: shimmer 1.4s infinite; }
+    @keyframes shimmer {
+      0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; }
+    }
+
+    /* FDIC BADGE */
+    .fdic-note {
+      margin-top: 20px; padding: 14px 18px;
+      background: var(--accent-dim); border: 1px solid var(--accent-border);
+      border-radius: 12px; font-size: 0.78rem; color: var(--muted); line-height: 1.5;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .balance-card { flex-direction: column; }
+      .balance-right { text-align: left; }
+      .account-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">fawn</div>
+  <div class="nav-right">
+    <span class="nav-email" id="nav-email"></span>
+    <button class="btn-signout" onclick="signOut()">Sign out</button>
+  </div>
+</nav>
+
+<div class="page" id="page">
+  <!-- Loading state -->
+  <div id="state-loading">
+    <div class="greeting"><div class="skeleton" style="width:200px;height:28px;margin-bottom:8px"></div><div class="skeleton" style="width:140px;height:16px"></div></div>
+    <div class="balance-card" style="min-height:120px"><div class="skeleton" style="width:180px;height:48px"></div></div>
+    <div class="account-grid">
+      <div class="skeleton" style="height:80px;border-radius:14px"></div>
+      <div class="skeleton" style="height:80px;border-radius:14px"></div>
+    </div>
+    <div class="skeleton" style="height:200px;border-radius:14px;margin-top:20px"></div>
+  </div>
+
+  <!-- No auth -->
+  <div id="state-noauth" style="display:none">
+    <div class="state-card">
+      <div class="state-icon">&#128274;</div>
+      <div class="state-title">Sign in to view your dashboard</div>
+      <p class="state-body">You need to be signed in to access your account.</p>
+      <a href="signup.html" style="display:inline-block;margin-top:24px;background:var(--accent);color:#000;font-weight:700;padding:12px 28px;border-radius:10px;text-decoration:none;">Open an account</a>
+      <br>
+      <a href="login.html" style="display:inline-block;margin-top:12px;color:var(--accent);font-size:0.85rem;">Already have one? Sign in</a>
+    </div>
+  </div>
+
+  <!-- Pending KYC -->
+  <div id="state-pending" style="display:none">
+    <div class="state-card">
+      <div class="pending-badge"><div class="live-dot" style="background:#ffb400"></div> Under review</div>
+      <div class="state-title">Your identity is being verified</div>
+      <p class="state-body">Our banking partner (Unit) is reviewing your application. This usually takes 1-2 business days. We will email you when your account is ready.</p>
+      <div style="margin-top:24px;color:var(--muted);font-size:0.82rem">Questions? Email <a href="mailto:alex@getfawn.com" style="color:var(--accent)">alex@getfawn.com</a></div>
+    </div>
+  </div>
+
+  <!-- Active dashboard -->
+  <div id="state-active" style="display:none">
+    <div class="greeting">
+      <h1>Good <span id="time-of-day">morning</span>, <span id="first-name">there</span>.</h1>
+      <p>Here is your FAWN account.</p>
+    </div>
+
+    <div class="balance-card">
+      <div class="balance-left">
+        <div class="label">Available balance</div>
+        <div class="balance-amount" id="balance-available">$0.00</div>
+        <div class="balance-available" id="balance-current"></div>
+      </div>
+      <div class="balance-right">
+        <div class="account-badge"><div class="live-dot"></div> FDIC Insured</div>
+        <div style="font-size:0.75rem;color:var(--muted)">Checking account</div>
+      </div>
+    </div>
+
+    <div class="account-grid">
+      <div class="account-tile">
+        <div class="label">Routing number</div>
+        <div class="value">
+          <span class="value-masked" id="routing-val">-----------</span>
+          <button class="reveal-btn" onclick="toggleReveal('routing')">show</button>
+        </div>
+        <button class="copy-btn" id="routing-copy" onclick="copyVal('routing')">Copy</button>
+      </div>
+      <div class="account-tile">
+        <div class="label">Account number</div>
+        <div class="value">
+          <span class="value-masked" id="account-val">-----------</span>
+          <button class="reveal-btn" onclick="toggleReveal('account')">show</button>
+        </div>
+        <button class="copy-btn" id="account-copy" onclick="copyVal('account')">Copy</button>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title">Recent transactions</div>
+    </div>
+    <div class="txn-list" id="txn-list"></div>
+
+    <div class="fdic-note">
+      Deposits held by Unit's FDIC-member bank partner - insured up to $250,000 per depositor.<br>
+      FAWN does not invest or lend your deposits. Fully liquid, withdraw anytime.
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://web-production-13d5b.up.railway.app';
+const TOKEN_KEY = 'fawn_token';
+
+function show(id) {
+  ['state-loading','state-noauth','state-pending','state-active'].forEach(s => {
+    document.getElementById(s).style.display = s === id ? '' : 'none';
+  });
+}
+
+function timeOfDay() {
+  const h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
+}
+
+function fmt(n) {
+  return '$' + Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function txnIcon(type) {
+  const t = (type || '').toLowerCase();
+  if (t.includes('card')) return '&#128179;';
+  if (t.includes('ach') || t.includes('transfer')) return '&#8644;';
+  if (t.includes('atm')) return '&#127974;';
+  return '&#9711;';
+}
+
+let routing = '', account = '';
+
+function toggleReveal(field) {
+  const el = document.getElementById(field + '-val');
+  const btn = document.querySelector(`button[onclick="toggleReveal('${field}')"]`);
+  const revealed = el.classList.toggle('revealed');
+  btn.textContent = revealed ? 'hide' : 'show';
+}
+
+function copyVal(field) {
+  const val = field === 'routing' ? routing : account;
+  if (!val) return;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.getElementById(field + '-copy');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function renderTransactions(txns) {
+  const list = document.getElementById('txn-list');
+  if (!txns || txns.length === 0) {
+    list.innerHTML = '<div class="empty-state">No transactions yet. Your account is ready to use.</div>';
+    return;
+  }
+  list.innerHTML = txns.map(t => {
+    const isCredit = t.amount > 0;
+    const amtStr = (isCredit ? '+' : '-') + fmt(t.amount);
+    return `
+      <div class="txn-item">
+        <div class="txn-left">
+          <div class="txn-icon">${txnIcon(t.type)}</div>
+          <div>
+            <div class="txn-desc">${esc(t.description || 'Transaction')}</div>
+            <div class="txn-date">${esc(t.date)}</div>
+          </div>
+        </div>
+        <div class="txn-amount ${isCredit ? 'credit' : 'debit'}">${amtStr}</div>
+      </div>`;
+  }).join('');
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function signOut() {
+  localStorage.removeItem(TOKEN_KEY);
+  window.location.href = 'index.html';
+}
+
+async function loadDashboard() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { show('state-noauth'); return; }
+
+  try {
+    // Load user info and dashboard in parallel
+    const [meRes, dashRes] = await Promise.all([
+      fetch(API + '/auth/me', { headers: { Authorization: 'Bearer ' + token } }),
+      fetch(API + '/accounts/dashboard', { headers: { Authorization: 'Bearer ' + token } }),
+    ]);
+
+    if (meRes.status === 401 || meRes.status === 403) { show('state-noauth'); return; }
+
+    const me = await meRes.json();
+    const dash = dashRes.ok ? await dashRes.json() : null;
+
+    // Set greeting
+    const firstName = (me.full_name || '').split(' ')[0] || 'there';
+    document.getElementById('first-name').textContent = firstName;
+    document.getElementById('time-of-day').textContent = timeOfDay();
+    document.getElementById('nav-email').textContent = me.email || '';
+
+    if (dash && dash.application_pending) {
+      show('state-pending');
+      return;
+    }
+
+    if (!dash || !dash.account_active) {
+      // Account not yet set up - show pending
+      show('state-pending');
+      return;
+    }
+
+    // Active account
+    const bal = dash.balance || {};
+    const details = dash.account_details || {};
+
+    document.getElementById('balance-available').textContent = fmt(bal.available || 0);
+    if (bal.current !== bal.available) {
+      document.getElementById('balance-current').textContent = 'Current balance: ' + fmt(bal.current || 0);
+    }
+
+    routing = details.routing_number || '';
+    account = details.account_number || '';
+    document.getElementById('routing-val').textContent = routing || '--';
+    document.getElementById('account-val').textContent = account || '--';
+
+    renderTransactions(dash.transactions || []);
+    show('state-active');
+
+  } catch (e) {
+    console.error('Dashboard load failed:', e);
+    show('state-noauth');
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>
