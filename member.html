@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAWN ?- Member Dashboard</title>
+  <title>FAWN - Member Dashboard</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -20,7 +20,7 @@
 
     .logo { font-size: 1.4rem; font-weight: 800; color: #00c896; letter-spacing: -1px; margin-bottom: 32px; }
 
-    /* ?"??"? login form ?"??"? */
+    /* -- login form -- */
     #login-view h2 { font-size: 1.3rem; margin-bottom: 8px; }
     #login-view p { color: #888; font-size: 0.9rem; margin-bottom: 28px; line-height: 1.5; }
     input[type="email"] {
@@ -38,13 +38,13 @@
     .btn:hover { opacity: 0.88; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ?"??"? sent state ?"??"? */
+    /* -- sent state -- */
     #sent-view { text-align: center; display: none; }
     #sent-view .icon { font-size: 3rem; margin-bottom: 16px; }
     #sent-view h2 { font-size: 1.3rem; margin-bottom: 8px; }
     #sent-view p { color: #888; font-size: 0.9rem; line-height: 1.5; }
 
-    /* ?"??"? dashboard ?"??"? */
+    /* -- dashboard -- */
     #dashboard-view { display: none; }
     .member-badge {
       background: linear-gradient(135deg, #00c896 0%, #00b882 100%);
@@ -65,7 +65,7 @@
       padding: 12px 0; border-bottom: 1px solid #1a1a1a;
       font-size: 0.88rem; color: #ccc; display: flex; align-items: center; gap: 10px;
     }
-    .perks li::before { content: '??"'; color: #00c896; font-weight: 700; font-size: 0.9rem; }
+    .perks li::before { content: '\2713'; color: #00c896; font-weight: 700; font-size: 0.9rem; }
     .perks li:last-child { border-bottom: none; }
 
     .meta-row {
@@ -92,7 +92,7 @@
     }
     .signout button:hover { color: #666; }
 
-    /* ?"??"? error state ?"??"? */
+    /* -- error state -- */
     #error-view { text-align: center; display: none; }
     #error-view h2 { font-size: 1.2rem; margin-bottom: 8px; }
     #error-view p { color: #888; font-size: 0.88rem; line-height: 1.5; }
@@ -112,7 +112,7 @@
   <!-- Login form -->
   <div id="login-view">
     <h2>Member dashboard</h2>
-    <p>Enter the email you used at checkout. We'll send you a one-click sign-in link ??" no password needed.</p>
+    <p>Enter the email you used at checkout. We'll send you a one-click sign-in link  - no password needed.</p>
     <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email" />
     <button class="btn" id="send-btn" onclick="requestLink()">Send my sign-in link</button>
     <div class="status-msg" id="login-status"></div>
@@ -120,7 +120,7 @@
 
   <!-- Sent confirmation -->
   <div id="sent-view">
-    <div class="icon">??"?</div>
+    <div class="icon">&#9993;</div>
     <h2>Check your inbox</h2>
     <p>We sent a sign-in link to <strong id="sent-email"></strong>. It expires in 15 minutes and works once.</p>
     <div class="status-msg" style="margin-top:16px;">Didn't get it? Check spam, or <a href="#" onclick="resetLogin()" style="color:#00c896;">try again</a>.</div>
@@ -130,7 +130,7 @@
   <div id="dashboard-view">
     <div class="member-badge">
       <div class="label">Founding Member</div>
-      <div class="number" id="d-number">#??"</div>
+      <div class="number" id="d-number">#1</div>
       <div class="tier-name" id="d-tier"></div>
     </div>
 
@@ -176,7 +176,7 @@ async function requestLink() {
   const btn = document.getElementById('send-btn');
   const status = document.getElementById('login-status');
   btn.disabled = true;
-  btn.textContent = 'Sending???';
+  btn.textContent = 'Sending...';
   status.textContent = '';
   try {
     const r = await fetch(API + '/member/request-link', {
@@ -193,7 +193,7 @@ async function requestLink() {
       btn.textContent = 'Send my sign-in link';
     }
   } catch(e) {
-    status.textContent = 'Network error ??" please try again.';
+    status.textContent = 'Network error  - please try again.';
     btn.disabled = false;
     btn.textContent = 'Send my sign-in link';
   }
@@ -219,7 +219,7 @@ async function loadDashboard(token) {
     document.getElementById('d-email').textContent = d.email;
     document.getElementById('d-joined').textContent = d.joined_at
       ? new Date(d.joined_at).toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'})
-      : '??"';
+      : ' -';
     const perksEl = document.getElementById('d-perks');
     perksEl.innerHTML = '';
     (d.perks || []).forEach(p => {

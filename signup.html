@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Your Account - FAWN</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10;
+      --surface: #0e1318;
+      --border: #1e2730;
+      --accent: #00c896;
+      --accent-dim: rgba(0,200,150,0.12);
+      --text: #e8edf2;
+      --muted: #6b7a8d;
+      --error: #ff4d6d;
+    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 16px 80px; }
+    .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); margin-bottom: 32px; text-decoration: none; }
+    .logo span { color: var(--text); }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 36px; width: 100%; max-width: 480px; }
+    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 28px; }
+
+    /* Steps */
+    .steps { display: flex; gap: 6px; margin-bottom: 28px; }
+    .step-dot { flex: 1; height: 3px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+    .step-dot.active { background: var(--accent); }
+    .step-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 20px; }
+
+    /* Form */
+    .pane { display: none; }
+    .pane.active { display: block; }
+    .field { margin-bottom: 18px; }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    input, select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; color: var(--text); font-size: 0.925rem; outline: none; transition: border-color 0.2s; }
+    input:focus, select:focus { border-color: var(--accent); }
+    input::placeholder { color: var(--muted); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .sensitive-note { background: var(--accent-dim); border: 1px solid rgba(0,200,150,0.25); border-radius: 10px; padding: 12px 14px; font-size: 0.78rem; color: var(--accent); margin-bottom: 18px; line-height: 1.5; }
+
+    .error-msg { color: var(--error); font-size: 0.8rem; margin-top: 4px; display: none; }
+    .form-error { background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3); border-radius: 10px; padding: 12px 14px; color: var(--error); font-size: 0.85rem; margin-bottom: 16px; display: none; }
+
+    /* Buttons */
+    .btn { width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; border: none; transition: opacity 0.2s, transform 0.1s; }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); margin-top: 10px; }
+    .btn-ghost:hover { border-color: var(--muted); }
+
+    /* Review pane */
+    .review-block { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .review-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.875rem; border-bottom: 1px solid var(--border); }
+    .review-row:last-child { border-bottom: none; }
+    .review-row .k { color: var(--muted); }
+    .review-row .v { font-weight: 500; }
+    .ssn-mask { letter-spacing: 0.1em; }
+
+    /* Success */
+    #success { display: none; text-align: center; }
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .account-box { background: var(--accent-dim); border: 1px solid rgba(0,200,150,0.3); border-radius: 14px; padding: 20px; margin: 24px 0; }
+    .account-box .label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+    .account-box .value { font-size: 1.1rem; font-weight: 700; font-family: monospace; letter-spacing: 0.08em; }
+    .pending-box { background: rgba(255,180,0,0.08); border: 1px solid rgba(255,180,0,0.3); border-radius: 14px; padding: 20px; margin: 24px 0; color: #ffb400; }
+
+    .login-link { margin-top: 20px; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    .login-link a { color: var(--accent); text-decoration: none; }
+
+    /* Spinner */
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #000; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <a class="logo" href="index.html">FAWN<span>.bank</span></a>
+
+  <div class="card" id="form-card">
+    <h1>Open your account</h1>
+    <p class="subtitle">FDIC-insured checking, zero fees, 2 minutes.</p>
+
+    <div class="steps" id="step-dots"></div>
+    <div class="step-label" id="step-label"></div>
+
+    <!-- Step 1: Personal Info -->
+    <div class="pane active" id="pane-1">
+      <div class="field">
+        <label>Full legal name</label>
+        <input type="text" id="full_name" placeholder="Jane Smith" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="email" placeholder="jane@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password (8+ characters)</label>
+        <input type="password" id="password" placeholder="Create a password" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" id="phone" placeholder="(555) 000-0000" autocomplete="tel">
+      </div>
+      <div class="form-error" id="err-1"></div>
+      <button class="btn btn-primary" onclick="goTo(2)">Continue</button>
+    </div>
+
+    <!-- Step 2: Identity -->
+    <div class="pane" id="pane-2">
+      <div class="sensitive-note">
+        Your SSN and date of birth are sent directly to our FDIC-insured banking partner (Unit) for identity verification. FAWN never stores your SSN.
+      </div>
+      <div class="field">
+        <label>Social Security Number</label>
+        <input type="text" id="ssn" placeholder="XXX-XX-XXXX" maxlength="11" autocomplete="off" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label>Date of birth</label>
+        <input type="date" id="dob" autocomplete="bday">
+      </div>
+      <div class="form-error" id="err-2"></div>
+      <button class="btn btn-primary" onclick="goTo(3)">Continue</button>
+      <button class="btn btn-ghost" onclick="goTo(1)">Back</button>
+    </div>
+
+    <!-- Step 3: Address -->
+    <div class="pane" id="pane-3">
+      <div class="field">
+        <label>Street address</label>
+        <input type="text" id="street" placeholder="123 Main St" autocomplete="address-line1">
+      </div>
+      <div class="field">
+        <label>City</label>
+        <input type="text" id="city" placeholder="San Francisco" autocomplete="address-level2">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>State</label>
+          <select id="state" autocomplete="address-level1">
+            <option value="">-- State --</option>
+            <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
+            <option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option>
+            <option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option>
+            <option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+            <option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option>
+            <option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option>
+            <option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option>
+            <option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+            <option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option>
+            <option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>ZIP code</label>
+          <input type="text" id="postal_code" placeholder="94105" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+        </div>
+      </div>
+      <div class="form-error" id="err-3"></div>
+      <button class="btn btn-primary" onclick="goTo(4)">Continue</button>
+      <button class="btn btn-ghost" onclick="goTo(2)">Back</button>
+    </div>
+
+    <!-- Step 4: Review -->
+    <div class="pane" id="pane-4">
+      <div class="review-block" id="review-personal"></div>
+      <div class="review-block" id="review-address"></div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;">
+        By opening an account you agree to FAWN's <a href="terms.html" style="color:var(--accent)">Terms</a> and <a href="privacy.html" style="color:var(--accent)">Privacy Policy</a>. Banking services provided by Unit Finance Inc., Member FDIC.
+      </p>
+      <div class="form-error" id="err-4"></div>
+      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Open my account</button>
+      <button class="btn btn-ghost" onclick="goTo(3)">Back</button>
+    </div>
+  </div>
+
+  <!-- Success state -->
+  <div class="card" id="success">
+    <div class="success-icon">&#10003;</div>
+    <h1 id="success-title">Account opened!</h1>
+    <p class="subtitle" id="success-subtitle">Welcome to FAWN. Your checking account is ready.</p>
+
+    <div id="account-info"></div>
+
+    <a href="dashboard.html" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin-top:8px;">Go to my dashboard</a>
+  </div>
+
+  <div class="login-link">Already have an account? <a href="login.html">Sign in</a></div>
+
+  <script>
+    const API = 'https://web-production-13d5b.up.railway.app';
+    let currentStep = 1;
+    const TOTAL = 4;
+
+    function buildDots() {
+      const c = document.getElementById('step-dots');
+      c.innerHTML = '';
+      for (let i = 1; i <= TOTAL; i++) {
+        const d = document.createElement('div');
+        d.className = 'step-dot' + (i <= currentStep ? ' active' : '');
+        c.appendChild(d);
+      }
+      const labels = ['Personal info', 'Identity', 'Address', 'Review'];
+      document.getElementById('step-label').textContent = `Step ${currentStep} of ${TOTAL}: ${labels[currentStep-1]}`;
+    }
+
+    function showErr(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = msg ? 'block' : 'none';
+    }
+
+    function validateStep(step) {
+      showErr('err-' + step, '');
+      if (step === 1) {
+        const name = document.getElementById('full_name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const pw = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value.replace(/\D/g,'');
+        if (!name || name.split(' ').length < 2) return 'Enter your full legal name (first and last)';
+        if (!email.includes('@')) return 'Enter a valid email address';
+        if (pw.length < 8) return 'Password must be at least 8 characters';
+        if (phone.length < 10) return 'Enter a valid 10-digit phone number';
+      }
+      if (step === 2) {
+        const ssn = document.getElementById('ssn').value.replace(/\D/g,'');
+        const dob = document.getElementById('dob').value;
+        if (ssn.length !== 9) return 'Enter your 9-digit SSN';
+        if (!dob) return 'Enter your date of birth';
+        const age = (new Date() - new Date(dob)) / (365.25 * 86400000);
+        if (age < 18) return 'You must be 18 or older to open an account';
+      }
+      if (step === 3) {
+        if (!document.getElementById('street').value.trim()) return 'Enter your street address';
+        if (!document.getElementById('city').value.trim()) return 'Enter your city';
+        if (!document.getElementById('state').value) return 'Select your state';
+        const zip = document.getElementById('postal_code').value.replace(/\D/g,'');
+        if (zip.length !== 5) return 'Enter a valid 5-digit ZIP code';
+      }
+      return null;
+    }
+
+    function goTo(step) {
+      if (step > currentStep) {
+        const err = validateStep(currentStep);
+        if (err) { showErr('err-' + currentStep, err); return; }
+      }
+      if (step === 4) buildReview();
+      document.getElementById('pane-' + currentStep).classList.remove('active');
+      currentStep = step;
+      document.getElementById('pane-' + currentStep).classList.add('active');
+      buildDots();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function buildReview() {
+      const p = document.getElementById('review-personal');
+      const ssn = document.getElementById('ssn').value.replace(/\D/g,'');
+      p.innerHTML = `
+        <div class="review-row"><span class="k">Name</span><span class="v">${esc(document.getElementById('full_name').value)}</span></div>
+        <div class="review-row"><span class="k">Email</span><span class="v">${esc(document.getElementById('email').value)}</span></div>
+        <div class="review-row"><span class="k">Phone</span><span class="v">${esc(document.getElementById('phone').value)}</span></div>
+        <div class="review-row"><span class="k">Date of birth</span><span class="v">${esc(document.getElementById('dob').value)}</span></div>
+        <div class="review-row"><span class="k">SSN</span><span class="v ssn-mask">XXX-XX-${ssn.slice(-4)}</span></div>
+      `;
+      const a = document.getElementById('review-address');
+      a.innerHTML = `
+        <div class="review-row"><span class="k">Address</span><span class="v">${esc(document.getElementById('street').value)}</span></div>
+        <div class="review-row"><span class="k">City / State</span><span class="v">${esc(document.getElementById('city').value)}, ${esc(document.getElementById('state').value)} ${esc(document.getElementById('postal_code').value)}</span></div>
+      `;
+    }
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    async function submitForm() {
+      showErr('err-4', '');
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Opening account...';
+
+      const body = {
+        full_name: document.getElementById('full_name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value.replace(/\D/g,'').slice(-10),
+        ssn: document.getElementById('ssn').value.replace(/\D/g,''),
+        date_of_birth: document.getElementById('dob').value,
+        address: {
+          street: document.getElementById('street').value.trim(),
+          city: document.getElementById('city').value.trim(),
+          state: document.getElementById('state').value,
+          postal_code: document.getElementById('postal_code').value.trim(),
+          country: 'US',
+        },
+        is_student: true,
+        occupation: 'Student',
+      };
+
+      try {
+        const resp = await fetch(API + '/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          const msg = data.detail || 'Registration failed. Please try again.';
+          showErr('err-4', msg);
+          btn.disabled = false;
+          btn.textContent = 'Open my account';
+          return;
+        }
+
+        // Store token
+        localStorage.setItem('fawn_token', data.access_token);
+
+        // Fetch dashboard to get account details
+        const dash = await fetch(API + '/accounts/dashboard', {
+          headers: { 'Authorization': 'Bearer ' + data.access_token }
+        });
+        const dashData = await resp.ok ? await dash.json() : null;
+
+        showSuccess(dashData);
+      } catch (e) {
+        showErr('err-4', 'Network error. Check your connection and try again.');
+        btn.disabled = false;
+        btn.textContent = 'Open my account';
+      }
+    }
+
+    function showSuccess(dashData) {
+      document.getElementById('form-card').style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      const info = document.getElementById('account-info');
+
+      if (dashData && dashData.account_active && dashData.account_details) {
+        const d = dashData.account_details;
+        info.innerHTML = `
+          <div class="account-box">
+            <div class="label">Routing number</div>
+            <div class="value">${esc(d.routing_number)}</div>
+          </div>
+          <div class="account-box" style="margin-top:12px;">
+            <div class="label">Account number</div>
+            <div class="value">${esc(d.account_number)}</div>
+          </div>
+        `;
+      } else if (dashData && dashData.application_pending) {
+        document.getElementById('success-title').textContent = 'Application submitted';
+        document.getElementById('success-subtitle').textContent = 'We are reviewing your identity. You will get an email within 1-2 business days.';
+        info.innerHTML = `<div class="pending-box">Your identity is under review. No action needed - we will email you when approved.</div>`;
+      } else {
+        info.innerHTML = `<div class="pending-box">Account opening in progress. Check your dashboard for updates.</div>`;
+      }
+    }
+
+    // Auto-format SSN
+    document.addEventListener('DOMContentLoaded', () => {
+      buildDots();
+      const ssn = document.getElementById('ssn');
+      ssn.addEventListener('input', () => {
+        let v = ssn.value.replace(/\D/g,'');
+        if (v.length > 5) v = v.slice(0,3) + '-' + v.slice(3,5) + '-' + v.slice(5,9);
+        else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+        ssn.value = v;
+      });
+    });
+  </script>
+</body>
+</html>
