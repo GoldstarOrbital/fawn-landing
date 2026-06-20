@@ -466,10 +466,11 @@
       });
       const d = await r.json();
       if (r.ok || r.status === 201) {
-        result.textContent = 'âœ“ Got it. You\'re #' + (d.position || '?') + ' on the list. We\'ll email you at launch.';
+        result.textContent = '✓ Got it. You\'re #' + (d.position || '?') + ' on the list. We\'ll email you at launch.';
         result.style.display = 'block';
         emailInput.value = '';
         btn.textContent = 'Added';
+        if (window.posthog) posthog.capture('waitlist_joined', { position: d.position, source: 'founding-page' });
       } else {
         result.textContent = 'Something went wrong. Email alex@getfawn.com if it keeps failing.';
         result.style.color = '#ff6b6b';
