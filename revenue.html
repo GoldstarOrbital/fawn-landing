@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAWN Revenue · Live</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0a0a; color: #f0f0f0; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+
+    .card {
+      max-width: 480px; width: 100%;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 24px;
+      padding: 40px 32px;
+    }
+
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #00c896; letter-spacing: -1px; }
+    .live-dot {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; color: #888;
+    }
+    .live-dot::before {
+      content: ''; width: 8px; height: 8px;
+      background: #00c896; border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .revenue {
+      text-align: center; margin-bottom: 36px;
+    }
+    .revenue-label {
+      font-size: 0.75rem; color: #666; text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 12px;
+    }
+    .revenue-amount {
+      font-size: 3.5rem; font-weight: 800; color: #00c896;
+      letter-spacing: -2px; line-height: 1;
+    }
+    .revenue-goal {
+      font-size: 0.85rem; color: #888; margin-top: 8px;
+    }
+
+    .progress-bar {
+      background: #1a1a1a; border-radius: 100px; height: 8px;
+      margin-top: 18px; overflow: hidden;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #00c896 0%, #00e6ae 100%);
+      height: 100%; border-radius: 100px;
+      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .tiers {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-bottom: 28px;
+    }
+    .tier {
+      background: #0a0a0a; border: 1px solid #1e1e1e;
+      border-radius: 14px; padding: 16px 12px; text-align: center;
+    }
+    .tier-label {
+      font-size: 0.62rem; color: #666; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .tier-count {
+      font-size: 1.6rem; font-weight: 800; color: #f0f0f0;
+      letter-spacing: -1px;
+    }
+    .tier-cap { font-size: 0.7rem; color: #555; margin-top: 2px; }
+    .tier-price { font-size: 0.72rem; color: #00c896; font-weight: 600; margin-top: 4px; }
+
+    .meta {
+      font-size: 0.72rem; color: #444; text-align: center;
+      padding-top: 20px; border-top: 1px solid #1a1a1a;
+    }
+    .meta a { color: #666; text-decoration: none; }
+    .meta a:hover { color: #00c896; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <span class="logo">FAWN</span>
+    <span class="live-dot">Live</span>
+  </div>
+
+  <div class="revenue">
+    <div class="revenue-label">Revenue today</div>
+    <div class="revenue-amount" id="rev-amount">$0</div>
+    <div class="revenue-goal" id="rev-goal">$0 of $1,000 goal</div>
+    <div class="progress-bar"><div class="progress-fill" id="rev-fill" style="width:0%;"></div></div>
+  </div>
+
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-label">Founding</div>
+      <div class="tier-count" id="founding-sold">0</div>
+      <div class="tier-cap" id="founding-cap">/ 20</div>
+      <div class="tier-price">$49</div>
+    </div>
+    <div class="tier">
+      <div class="tier-label">Inner Circle</div>
+      <div class="tier-count" id="inner-sold">0</div>
+      <div class="tier-cap" id="inner-cap">/ 5</div>
+      <div class="tier-price">$97</div>
+    </div>
+    <div class="tier">
+      <div class="tier-label">Dev Sprint</div>
+      <div class="tier-count" id="sprint-sold">0</div>
+      <div class="tier-cap">∞</div>
+      <div class="tier-price">$300</div>
+    </div>
+  </div>
+
+  <div class="meta">
+    Updated every 60s · <a href="founding.html">Share founding page →</a><br>
+    <span id="last-update" style="color:#333;font-size:0.7rem;">Loading...</span>
+  </div>
+</div>
+
+<script>
+  const STATS_URL = 'https://web-production-13d5b.up.railway.app/public/founding-stats';
+  const GOAL_CENTS = 100000; // $1000
+
+  async function refresh() {
+    try {
+      const r = await fetch(STATS_URL + '?t=' + Date.now());
+      if (!r.ok) return;
+      const d = await r.json();
+      const rev = d.total_revenue_cents || 0;
+      document.getElementById('rev-amount').textContent = '$' + (rev/100).toFixed(0);
+      document.getElementById('rev-goal').textContent =
+        '$' + (rev/100).toFixed(0) + ' of $1,000 goal';
+      document.getElementById('rev-fill').style.width =
+        Math.min(100, (rev/GOAL_CENTS)*100) + '%';
+      document.getElementById('founding-sold').textContent = d.founding_sold || 0;
+      document.getElementById('founding-cap').textContent =
+        '/ ' + (d.founding_cap || 20);
+      document.getElementById('inner-sold').textContent =
+        d.inner_circle_sold || 0;
+      document.getElementById('inner-cap').textContent =
+        '/ ' + (d.inner_circle_cap || 5);
+      document.getElementById('sprint-sold').textContent =
+        d.dev_sprint_sold || 0;
+      document.getElementById('last-update').textContent =
+        'Last updated: ' + new Date().toLocaleTimeString();
+      // Sound alert on revenue change if user has interacted (mobile autoplay rules)
+      if (window.lastRev !== undefined && rev > window.lastRev) {
+        try {
+          new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=').play();
+        } catch(e) {}
+        document.body.style.transition = 'background 0.5s';
+        document.body.style.background = '#0d2b22';
+        setTimeout(() => { document.body.style.background = '#0a0a0a'; }, 800);
+      }
+      window.lastRev = rev;
+    } catch (e) {
+      document.getElementById('last-update').textContent = 'API unreachable, retrying...';
+    }
+  }
+  refresh();
+  setInterval(refresh, 60000);
+</script>
+
+</body>
+</html>
