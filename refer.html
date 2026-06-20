@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAWN — You're Invited</title>
+<title>FAWN - You're Invited</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -74,7 +74,7 @@
 <body>
 <div class="bg-gradient"></div>
 <div class="page">
-  <div class="fawn-logo"><div class="logo-icon">🦌</div> FAWN</div>
+  <div class="fawn-logo"><div class="logo-icon"></div> FAWN</div>
   <div class="top-badge"><div class="dot"></div> Waitlist now open</div>
 
   <div id="invite-banner" class="invite-banner" style="display:none;">
@@ -86,7 +86,7 @@
   </div>
 
   <h1 id="headline">Banking that<br><span>works for students</span></h1>
-  <p class="subheadline">Pay <span class="fee-highlight">$0.01 per swipe</span> — and nothing else. No monthly fees. No minimums. No nonsense.</p>
+  <p class="subheadline">Pay <span class="fee-highlight">$0.01 per swipe</span> - and nothing else. No monthly fees. No minimums. No nonsense.</p>
 
   <div class="form-card">
     <h2>Join the waitlist</h2>
@@ -96,17 +96,17 @@
         <div class="field"><label for="last-name">Last name</label><input type="text" id="last-name" placeholder="Smith" autocomplete="family-name"></div>
       </div>
       <div class="field"><label for="email">Email address</label><input type="email" id="email" placeholder="you@university.edu" autocomplete="email"></div>
-      <button class="btn-join" id="join-btn" onclick="handleJoin()">Claim my spot →</button>
+      <button class="btn-join" id="join-btn" onclick="handleJoin()">Claim my spot -></button>
       <p class="fine-print">No credit card. No monthly fee. Ever.</p>
       <div class="error-msg" id="error-msg"></div>
     </div>
     <div class="success-state" id="success-state">
-      <div class="success-icon">✓</div>
+      <div class="success-icon">&#10003;</div>
       <h2>You're on the list!</h2>
       <p id="success-msg">We'll let you know when FAWN launches.</p>
-      <div class="position-pill" id="position-pill" style="display:none;">You're <span class="position-num" id="user-position">#—</span> on the waitlist</div>
+      <div class="position-pill" id="position-pill" style="display:none;">You're <span class="position-num" id="user-position">#-</span> on the waitlist</div>
       <div class="share-section">
-        <p>Share your link — move up the list</p>
+        <p>Share your link - move up the list</p>
         <div class="share-link-row">
           <input class="share-link-input" type="text" id="share-link-input" readonly>
           <button class="btn-copy" id="copy-btn" onclick="copyLink()">Copy</button>
@@ -127,14 +127,14 @@
   </div>
 
   <div class="features-grid">
-    <div class="feat-card"><div class="feat-icon">💸</div><h3>$0.01 per swipe</h3><p>One cent per transaction, nothing more.</p></div>
-    <div class="feat-card"><div class="feat-icon">🏦</div><h3>FDIC-insured</h3><p>Your money protected up to $250,000.</p></div>
-    <div class="feat-card"><div class="feat-icon">⚡</div><h3>No overdraft fees</h3><p>Transaction declines cleanly. No penalty.</p></div>
-    <div class="feat-card"><div class="feat-icon">🎓</div><h3>Built for college</h3><p>Split rent, pay dining, manage your budget.</p></div>
+    <div class="feat-card"><div class="feat-icon"></div><h3>$0.01 per swipe</h3><p>One cent per transaction, nothing more.</p></div>
+    <div class="feat-card"><div class="feat-icon"></div><h3>FDIC-insured</h3><p>Your money protected up to $250,000.</p></div>
+    <div class="feat-card"><div class="feat-icon"></div><h3>No overdraft fees</h3><p>Transaction declines cleanly. No penalty.</p></div>
+    <div class="feat-card"><div class="feat-icon"></div><h3>Built for college</h3><p>Split rent, pay dining, manage your budget.</p></div>
   </div>
 
   <div class="trust-bar">
-    <span class="fdic-badge">✓ FDIC Insured</span>
+    <span class="fdic-badge">&#10003; FDIC Insured</span>
     <span class="unit-badge">Powered by Unit</span>
   </div>
 </div>
@@ -158,7 +158,7 @@
     var posParam = params.get('pos');
     if (posParam) {
       var posTag = document.getElementById('referrer-position-tag');
-      posTag.textContent = "They're #" + posParam + " — join and skip ahead";
+      posTag.textContent = "They're #" + posParam + " - join and skip ahead";
       posTag.style.display = 'inline-block';
     }
     document.getElementById('headline').innerHTML = displayName + ' thinks<br><span>you\'ll love FAWN</span>';
@@ -173,7 +173,7 @@ function handleJoin() {
   if (!firstName) { errEl.textContent = 'Please enter your first name.'; errEl.style.display = 'block'; return; }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email.'; errEl.style.display = 'block'; return; }
   var btn = document.getElementById('join-btn');
-  btn.disabled = true; btn.textContent = 'Joining…';
+  btn.disabled = true; btn.textContent = 'Joining...';
   var params = new URLSearchParams(window.location.search);
   var payload = { email: email };
   if (firstName) payload.first_name = firstName;
@@ -183,10 +183,10 @@ function handleJoin() {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
   }).then(function(r) { return r.json().then(function(d) { return {ok:r.ok,data:d}; }); })
   .then(function(result) {
-    btn.disabled = false; btn.textContent = 'Claim my spot →';
+    btn.disabled = false; btn.textContent = 'Claim my spot ->';
     if (!result.ok) { var msg = result.data.detail || 'Something went wrong.'; if (typeof msg === 'object') msg = JSON.stringify(msg); errEl.textContent = msg; errEl.style.display = 'block'; return; }
     showSuccess(result.data, firstName);
-  }).catch(function() { btn.disabled = false; btn.textContent = 'Claim my spot →'; errEl.textContent = 'Connection error. Try again.'; errEl.style.display = 'block'; });
+  }).catch(function() { btn.disabled = false; btn.textContent = 'Claim my spot ->'; errEl.textContent = 'Connection error. Try again.'; errEl.style.display = 'block'; });
 }
 
 function showSuccess(data, firstName) {
