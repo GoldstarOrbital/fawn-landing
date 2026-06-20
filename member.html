@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAWN · Member Dashboard</title>
+  <title>FAWN Â· Member Dashboard</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -20,7 +20,7 @@
 
     .logo { font-size: 1.4rem; font-weight: 800; color: #00c896; letter-spacing: -1px; margin-bottom: 32px; }
 
-    /* ── login form ── */
+    /* â”€â”€ login form â”€â”€ */
     #login-view h2 { font-size: 1.3rem; margin-bottom: 8px; }
     #login-view p { color: #888; font-size: 0.9rem; margin-bottom: 28px; line-height: 1.5; }
     input[type="email"] {
@@ -38,13 +38,13 @@
     .btn:hover { opacity: 0.88; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ── sent state ── */
+    /* â”€â”€ sent state â”€â”€ */
     #sent-view { text-align: center; display: none; }
     #sent-view .icon { font-size: 3rem; margin-bottom: 16px; }
     #sent-view h2 { font-size: 1.3rem; margin-bottom: 8px; }
     #sent-view p { color: #888; font-size: 0.9rem; line-height: 1.5; }
 
-    /* ── dashboard ── */
+    /* â”€â”€ dashboard â”€â”€ */
     #dashboard-view { display: none; }
     .member-badge {
       background: linear-gradient(135deg, #00c896 0%, #00b882 100%);
@@ -65,7 +65,7 @@
       padding: 12px 0; border-bottom: 1px solid #1a1a1a;
       font-size: 0.88rem; color: #ccc; display: flex; align-items: center; gap: 10px;
     }
-    .perks li::before { content: '✓'; color: #00c896; font-weight: 700; font-size: 0.9rem; }
+    .perks li::before { content: 'âœ“'; color: #00c896; font-weight: 700; font-size: 0.9rem; }
     .perks li:last-child { border-bottom: none; }
 
     .meta-row {
@@ -92,7 +92,7 @@
     }
     .signout button:hover { color: #666; }
 
-    /* ── error state ── */
+    /* â”€â”€ error state â”€â”€ */
     #error-view { text-align: center; display: none; }
     #error-view h2 { font-size: 1.2rem; margin-bottom: 8px; }
     #error-view p { color: #888; font-size: 0.88rem; line-height: 1.5; }
@@ -101,7 +101,7 @@
   </style>
   <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureFlagEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_PLACEHOLDER_KEY',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
+    posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
   </script>
 </head>
 <body>
@@ -112,7 +112,7 @@
   <!-- Login form -->
   <div id="login-view">
     <h2>Member dashboard</h2>
-    <p>Enter the email you used at checkout. We'll send you a one-click sign-in link — no password needed.</p>
+    <p>Enter the email you used at checkout. We'll send you a one-click sign-in link â€” no password needed.</p>
     <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email" />
     <button class="btn" id="send-btn" onclick="requestLink()">Send my sign-in link</button>
     <div class="status-msg" id="login-status"></div>
@@ -120,7 +120,7 @@
 
   <!-- Sent confirmation -->
   <div id="sent-view">
-    <div class="icon">📬</div>
+    <div class="icon">ðŸ“¬</div>
     <h2>Check your inbox</h2>
     <p>We sent a sign-in link to <strong id="sent-email"></strong>. It expires in 15 minutes and works once.</p>
     <div class="status-msg" style="margin-top:16px;">Didn't get it? Check spam, or <a href="#" onclick="resetLogin()" style="color:#00c896;">try again</a>.</div>
@@ -130,7 +130,7 @@
   <div id="dashboard-view">
     <div class="member-badge">
       <div class="label">Founding Member</div>
-      <div class="number" id="d-number">#—</div>
+      <div class="number" id="d-number">#â€”</div>
       <div class="tier-name" id="d-tier"></div>
     </div>
 
@@ -176,7 +176,7 @@ async function requestLink() {
   const btn = document.getElementById('send-btn');
   const status = document.getElementById('login-status');
   btn.disabled = true;
-  btn.textContent = 'Sending…';
+  btn.textContent = 'Sendingâ€¦';
   status.textContent = '';
   try {
     const r = await fetch(API + '/member/request-link', {
@@ -193,7 +193,7 @@ async function requestLink() {
       btn.textContent = 'Send my sign-in link';
     }
   } catch(e) {
-    status.textContent = 'Network error — please try again.';
+    status.textContent = 'Network error â€” please try again.';
     btn.disabled = false;
     btn.textContent = 'Send my sign-in link';
   }
@@ -219,7 +219,7 @@ async function loadDashboard(token) {
     document.getElementById('d-email').textContent = d.email;
     document.getElementById('d-joined').textContent = d.joined_at
       ? new Date(d.joined_at).toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'})
-      : '—';
+      : 'â€”';
     const perksEl = document.getElementById('d-perks');
     perksEl.innerHTML = '';
     (d.perks || []).forEach(p => {
@@ -276,3 +276,4 @@ document.getElementById('email-input').addEventListener('keydown', e => {
 
 </body>
 </html>
+
