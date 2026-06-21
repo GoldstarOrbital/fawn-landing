@@ -325,7 +325,7 @@
         const dash = await fetch(API + '/accounts/dashboard', {
           headers: { 'Authorization': 'Bearer ' + data.access_token }
         });
-        const dashData = await resp.ok ? await dash.json() : null;
+        const dashData = dash.ok ? await dash.json() : null;
 
         showSuccess(dashData);
       } catch (e) {
