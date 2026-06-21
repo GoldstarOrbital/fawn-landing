@@ -620,6 +620,56 @@
       .school-tab { font-size: 0.8rem; padding: 8px 16px; }
     }
 
+    /* TOMORROW'S PICKS */
+    .deal-card-tomorrow {
+      border-color: rgba(0,200,150,0.35);
+      background: linear-gradient(135deg, rgba(0,200,150,0.08) 0%, rgba(0,200,150,0.02) 100%);
+    }
+    .deal-card-tomorrow .deal-cat { color: var(--green); }
+    .tomorrow-badge {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      background: rgba(0,200,150,0.15); color: var(--green);
+      padding: 3px 8px; border-radius: 100px; margin-bottom: 10px;
+    }
+
+    /* SUGGEST A DEAL MODAL */
+    .suggest-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .suggest-modal-overlay.open { display: flex; }
+    .suggest-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; max-width: 440px; width: 100%;
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .suggest-modal h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .suggest-modal > p { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .suggest-modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; color: var(--muted);
+      font-size: 1.4rem; cursor: pointer; line-height: 1;
+    }
+    .suggest-field { margin-bottom: 14px; }
+    .suggest-field label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 6px; }
+    .suggest-field select, .suggest-field input, .suggest-field textarea {
+      width: 100%; padding: 10px 12px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 0.9rem; font-family: inherit; outline: none;
+    }
+    .suggest-field select:focus, .suggest-field input:focus, .suggest-field textarea:focus { border-color: var(--green); }
+    .suggest-field textarea { resize: vertical; min-height: 80px; }
+    .suggest-submit {
+      width: 100%; padding: 12px; background: var(--green); color: #000;
+      font-weight: 700; font-size: 0.9rem; border: none; border-radius: 8px;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .suggest-submit:hover { opacity: 0.88; }
+    .suggest-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .suggest-status { font-size: 0.8rem; color: var(--muted); margin-top: 12px; text-align: center; min-height: 1.2em; }
+
     .faq-item { border-bottom: 1px solid var(--border); }
 
     .faq-question {
@@ -1064,8 +1114,52 @@
   <div class="school-tabs" id="school-tabs"></div>
   <div id="school-panels"></div>
 
-  <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;">Prices are community-verified estimates and may vary. Know a better deal? <a href="mailto:alexmarcusgoldsmith@gmail.com" style="color:var(--green)">Submit it.</a> &middot; Got an .edu email? <a href="perks.html" style="color:var(--green)">See your software &amp; subscription discounts &#8594;</a></p>
+  <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;">Prices are community-verified estimates, refreshed daily. Know a better deal? <button onclick="openSuggestModal()" style="background:none;border:none;color:var(--green);cursor:pointer;font-size:0.78rem;text-decoration:underline;padding:0;">Submit it.</button> &middot; Got an .edu email? <a href="perks.html" style="color:var(--green)">See your software &amp; subscription discounts &#8594;</a></p>
 </section>
+
+<!-- SUGGEST A DEAL MODAL -->
+<div class="suggest-modal-overlay" id="suggest-modal-overlay" onclick="closeSuggestModal(event)">
+  <div class="suggest-modal" onclick="event.stopPropagation()">
+    <button class="suggest-modal-close" onclick="closeSuggestModal()" aria-label="Close">&#215;</button>
+    <h3>Know a better deal?</h3>
+    <p>Tell us what we&#8217;re missing. We review every submission before it goes live.</p>
+    <div class="suggest-field">
+      <label for="suggest-school">School</label>
+      <select id="suggest-school">
+        <option value="berkeley">UC Berkeley</option>
+        <option value="stanford">Stanford</option>
+        <option value="scu">Santa Clara</option>
+        <option value="sjsu">San Jose State</option>
+        <option value="usf">USF</option>
+        <option value="sfstate">SF State</option>
+        <option value="smc">Saint Mary&#8217;s College</option>
+        <option value="uoregon">U of Oregon</option>
+      </select>
+    </div>
+    <div class="suggest-field">
+      <label for="suggest-category">Category</label>
+      <select id="suggest-category">
+        <option value="gas">Gas</option>
+        <option value="food">Food Combos</option>
+        <option value="coffee">Coffee &amp; Study Spots</option>
+        <option value="housing">Housing</option>
+        <option value="bars">Bars</option>
+        <option value="bulk">Bulk Alcohol</option>
+        <option value="coupons">Coupons &amp; Codes</option>
+      </select>
+    </div>
+    <div class="suggest-field">
+      <label for="suggest-text">The deal</label>
+      <textarea id="suggest-text" maxlength="500" placeholder="e.g. Boba Guys on College Ave does $4 drinks for students with ID on Wednesdays"></textarea>
+    </div>
+    <div class="suggest-field">
+      <label for="suggest-email">Your email (optional)</label>
+      <input type="email" id="suggest-email" placeholder="so we can credit you / follow up" />
+    </div>
+    <button class="suggest-submit" id="suggest-submit-btn" onclick="submitSuggestion()">Submit deal</button>
+    <div class="suggest-status" id="suggest-status"></div>
+  </div>
+</div>
 
 <script>
 const CAT_META = {
@@ -1191,6 +1285,40 @@ function savingsCard() {
   </div>`;
 }
 
+// Seeds the daily rotation off TOMORROW's date so picks change once every 24h
+// and are the same for every visitor on a given day (no server needed).
+function dayOfYearSeed(offsetDays) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const start = new Date(d.getFullYear(), 0, 0);
+  return Math.floor((d - start) / 86400000);
+}
+
+function tomorrowLabel() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toLocaleDateString('en-US', { weekday: 'long' });
+}
+
+function tomorrowPicksCard(school) {
+  const seed = dayOfYearSeed(1);
+  const pickCats = ['food', 'bars', 'coupons'].filter(c => school.categories[c]);
+  const picks = pickCats.map(catKey => {
+    const items = school.categories[catKey].items;
+    const item = items[seed % items.length];
+    return { catLabel: CAT_META[catKey].label, name: item[0], price: item[1] };
+  });
+  const rows = picks.map(p =>
+    `<div class="deal-row"><span class="deal-name">${p.name} <span style="color:var(--muted);font-size:0.7rem;">(${p.catLabel})</span></span><span class="deal-price">${p.price}</span></div>`
+  ).join('');
+  return `<div class="deal-card deal-card-tomorrow">
+    <div class="tomorrow-badge">Refreshes daily</div>
+    <div class="deal-icon">&#128302;</div>
+    <div class="deal-cat">Key Picks for ${tomorrowLabel()}</div>
+    <div class="deal-items">${rows}<div class="deal-tip">&#128161; Rotates automatically each day &#8212; check back tomorrow for new picks.</div></div>
+  </div>`;
+}
+
 function renderSchools() {
   const tabsEl = document.getElementById('school-tabs');
   const panelsEl = document.getElementById('school-panels');
@@ -1198,12 +1326,67 @@ function renderSchools() {
     `<button class="school-tab${i === 0 ? ' active' : ''}" onclick="switchSchool('${s.key}',this)">${s.name}</button>`
   ).join('');
   panelsEl.innerHTML = SCHOOLS.map((s, i) => {
-    const cards = Object.keys(s.categories).map(catKey => dealCard(catKey, s.categories[catKey])).join('') + savingsCard();
+    const cards = tomorrowPicksCard(s) +
+      Object.keys(s.categories).map(catKey => dealCard(catKey, s.categories[catKey])).join('') +
+      savingsCard();
     return `<div class="school-panel${i === 0 ? ' active' : ''}" id="panel-${s.key}"><div class="deals-grid">${cards}</div></div>`;
   }).join('');
 }
 
 renderSchools();
+
+// ── Suggest-a-deal modal ────────────────────────────────────────────────────
+const DEALS_API = 'https://web-production-13d5b.up.railway.app';
+
+function openSuggestModal() {
+  document.getElementById('suggest-modal-overlay').classList.add('open');
+}
+
+function closeSuggestModal(e) {
+  if (e && e.target !== document.getElementById('suggest-modal-overlay')) return;
+  document.getElementById('suggest-modal-overlay').classList.remove('open');
+  document.getElementById('suggest-status').textContent = '';
+}
+
+async function submitSuggestion() {
+  const school = document.getElementById('suggest-school').value;
+  const category = document.getElementById('suggest-category').value;
+  const suggestion = document.getElementById('suggest-text').value.trim();
+  const submitter_email = document.getElementById('suggest-email').value.trim() || null;
+  const statusEl = document.getElementById('suggest-status');
+  const btn = document.getElementById('suggest-submit-btn');
+
+  if (!suggestion) {
+    statusEl.textContent = 'Tell us what the deal actually is.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  statusEl.textContent = '';
+
+  try {
+    const r = await fetch(`${DEALS_API}/deals/suggest`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ school, category, suggestion, submitter_email }),
+    });
+    if (r.ok) {
+      statusEl.textContent = 'Thanks! We review every submission before it goes live.';
+      document.getElementById('suggest-text').value = '';
+      document.getElementById('suggest-email').value = '';
+      setTimeout(() => closeSuggestModal(), 2000);
+    } else {
+      const err = await r.json().catch(() => ({}));
+      statusEl.textContent = err.detail ? String(err.detail) : 'Something went wrong. Try again.';
+    }
+  } catch (e) {
+    statusEl.textContent = 'Network error — please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Submit deal';
+  }
+}
 </script>
 
 <!-- FAQ -->
