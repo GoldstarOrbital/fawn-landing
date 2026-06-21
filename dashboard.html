@@ -158,6 +158,27 @@
       0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; }
     }
 
+    /* CAMPUS SAVINGS */
+    .cs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .cs-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 20px;
+    }
+    .cs-card-icon { font-size: 1.15rem; margin-bottom: 6px; }
+    .cs-card-cat {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .cs-row {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+      font-size: 0.8rem; color: var(--muted); padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .cs-row:last-of-type { border-bottom: none; }
+    .cs-row .name { flex: 1; }
+    .cs-row .price { font-weight: 700; color: var(--text); white-space: nowrap; }
+    @media (max-width: 600px) { .cs-grid { grid-template-columns: 1fr; } }
+
     /* FDIC BADGE */
     .fdic-note {
       margin-top: 20px; padding: 14px 18px;
@@ -259,6 +280,19 @@
       <div class="section-title">Recent transactions</div>
     </div>
     <div class="txn-list" id="txn-list"></div>
+
+    <div id="campus-savings-section" style="display:none; margin-top:28px;">
+      <div class="section-header">
+        <div class="section-title" id="campus-savings-title">Campus Savings</div>
+        <a href="index.html#campus-deals" style="font-size:0.75rem;color:var(--accent);text-decoration:none;">See all schools &#8594;</a>
+      </div>
+      <div class="cs-grid" id="campus-savings-grid"></div>
+    </div>
+    <div id="campus-savings-noschool" style="display:none; margin-top:28px;">
+      <div class="empty-state">
+        Add your school to your profile to see local savings here. <a href="index.html#campus-deals" style="color:var(--accent);">Browse all campuses &#8594;</a>
+      </div>
+    </div>
 
     <div class="fdic-note">
       Deposits held by Unit's FDIC-member bank partner - insured up to $250,000 per depositor.<br>
@@ -396,11 +430,46 @@ async function loadDashboard() {
     document.getElementById('account-val').textContent = account || '--';
 
     renderTransactions(dash.transactions || []);
+    loadCampusSavings(me.school);
     show('state-active');
 
   } catch (e) {
     console.error('Dashboard load failed:', e);
     show('state-noauth');
+  }
+}
+
+const CS_CATEGORY_ORDER = ['gas', 'food', 'coffee', 'bars', 'bulk', 'coupons'];
+
+async function loadCampusSavings(school) {
+  if (!school) {
+    document.getElementById('campus-savings-noschool').style.display = '';
+    return;
+  }
+  try {
+    const r = await fetch(API + '/deals/schools/' + encodeURIComponent(school));
+    if (!r.ok) { document.getElementById('campus-savings-noschool').style.display = ''; return; }
+    const data = await r.json();
+    document.getElementById('campus-savings-title').textContent = 'Campus Savings — ' + data.name;
+    const grid = document.getElementById('campus-savings-grid');
+    grid.innerHTML = CS_CATEGORY_ORDER
+      .filter(catKey => data.categories[catKey])
+      .map(catKey => {
+        const meta = data.categoryMeta[catKey];
+        const cat = data.categories[catKey];
+        const rows = cat.items.slice(0, 3).map(([name, price]) =>
+          `<div class="cs-row"><span class="name">${name}</span><span class="price">${price}</span></div>`
+        ).join('');
+        return `<div class="cs-card">
+          <div class="cs-card-icon">${meta.icon}</div>
+          <div class="cs-card-cat">${meta.label}</div>
+          ${rows}
+        </div>`;
+      }).join('');
+    document.getElementById('campus-savings-section').style.display = '';
+  } catch (e) {
+    console.error('Campus savings load failed:', e);
+    document.getElementById('campus-savings-noschool').style.display = '';
   }
 }
 
