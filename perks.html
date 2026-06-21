@@ -120,22 +120,26 @@
   </div>
 
   <p class="disclaimer">
-    FAWN doesn't control these third-party offers — terms, prices, and eligibility are set by each company and can change anytime. Click through to verify directly before signing up. Know a perk we're missing? <a href="mailto:alexmarcusgoldsmith@gmail.com">Tell us.</a>
+    FAWN doesn't control these third-party offers — terms, prices, and eligibility are set by each company and can change anytime. Click through to verify directly before signing up. Links go straight to each company's own page; FAWN isn't currently earning a commission on any of them. Know a perk we're missing, or a link that's broken? <a href="mailto:alexmarcusgoldsmith@gmail.com">Tell us.</a>
   </p>
 
 </main>
 
 <script>
-// Centralized affiliate config. Replace 'ref' values with real tracking IDs
-// once Alex is approved for each program's affiliate/referral network.
-// Until then these are plain links — no commission is being earned.
-const AFF = {
-  ref: 'fawn', // generic fallback query param tag
-};
-
-function withRef(url, param = 'ref') {
-  const sep = url.includes('?') ? '&' : '?';
-  return `${url}${sep}${param}=${AFF.ref}`;
+// Affiliate tracking, per-program. Most of these companies don't run an open
+// affiliate program for individuals (their student-plan pages are B2B/contract
+// deals, not commissionable signups) — adding a generic ?ref=fawn param to
+// every link doesn't earn anything and actively breaks some sites (Amazon's
+// `ref` query param collides with its own internal tracking format and
+// returns a 503). So: no fake tracking param by default. Where a program
+// listed below DOES run a real, joinable affiliate network, swap in Alex's
+// real ID once he's approved — see the `affiliateProgram` note per entry.
+function withTracking(p) {
+  if (p.affiliateId) {
+    const sep = p.url.includes('?') ? '&' : '?';
+    return `${p.url}${sep}${p.affiliateParam || 'ref'}=${p.affiliateId}`;
+  }
+  return p.url;
 }
 
 const PERKS = {
@@ -158,23 +162,23 @@ const PERKS = {
     { name: 'UNiDAYS', deal: 'Hub for hundreds of student discounts', desc: 'One free account unlocks verified discounts across fashion, tech, food delivery, and more — the single best place to start.', url: 'https://www.myunidays.com/' },
     { name: 'Student Beans', deal: 'Hub for verified student discount codes', desc: 'Similar to UNiDAYS — overlapping but sometimes exclusive deals, worth checking both.', url: 'https://www.studentbeans.com/' },
     { name: 'DoorDash Student Plan (DashPass)', deal: 'Discounted DashPass subscription', desc: 'Reduced-fee unlimited delivery subscription for verified students.', url: 'https://www.doordash.com/student/' },
-    { name: 'Uber One Student Discount', deal: 'Discounted membership', desc: 'Lower-cost Uber One membership for rides and Uber Eats delivery.', url: 'https://www.uber.com/us/en/student-discount/' },
-    { name: 'Best Buy Student Deals', deal: 'Periodic student-exclusive pricing', desc: 'Rotating student deals on laptops and electronics — check before any major purchase.', url: 'https://www.bestbuy.com/site/back-to-school/student-deals/pcmcat1571490066933.c' },
+    { name: 'Uber One Student Discount', deal: '50% off Uber One ($4.99/mo)', desc: 'Half-price Uber One membership for rides and Uber Eats delivery, verified via SheerID. 4-week free trial available.', url: 'https://www.uber.com/us/en/uber-one/student/' },
+    { name: 'Best Buy Student Deals', deal: 'Periodic student-exclusive pricing', desc: 'Rotating student deals on laptops and electronics — the exact deals page changes seasonally, so search "student deals" from the homepage if this link doesn\'t show one.', url: 'https://www.bestbuy.com/' },
   ],
   wellness: [
-    { name: 'Headspace for Students', deal: '~85% off annual plan', desc: 'Meditation and sleep content at a steep student discount, verified via SheerID.', url: 'https://www.headspace.com/student' },
-    { name: 'Calm Student Discount', deal: 'Discounted annual plan', desc: 'Meditation, sleep stories, and focus music at reduced student pricing.', url: 'https://www.calm.com/student' },
+    { name: 'Headspace for Students', deal: '~85% off annual plan', desc: 'Meditation and sleep content at a steep student discount, verified via SheerID.', url: 'https://www.headspace.com/studentplan' },
+    { name: 'Calm Student Discount', deal: 'Discounted annual plan', desc: 'Meditation, sleep stories, and focus music at reduced student pricing.', url: 'https://www.calm.com/education' },
     { name: 'Peloton App Student Discount', deal: 'Discounted membership', desc: 'Access to Peloton&#8217;s full workout library without owning the equipment.', url: 'https://www.onepeloton.com/app' },
   ],
 };
 
 function perkCard(p) {
-  const link = withRef(p.url);
+  const link = withTracking(p);
   return `<div class="perk-card">
     <div class="perk-name">${p.name}</div>
     <div class="perk-deal">${p.deal}</div>
     <div class="perk-desc">${p.desc}</div>
-    <a href="${link}" target="_blank" rel="noopener noreferrer sponsored" class="perk-link">Get this perk &#8594;</a>
+    <a href="${link}" target="_blank" rel="noopener noreferrer" class="perk-link">Get this perk &#8594;</a>
     <div class="perk-verify">Verify current terms on their site</div>
   </div>`;
 }
