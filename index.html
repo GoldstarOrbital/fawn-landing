@@ -365,6 +365,7 @@
       font-size: 0.8rem; color: var(--muted);
     }
 
+
     /* SECTION COMMONS */
     section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
 
@@ -549,6 +550,76 @@
 
     /* FAQ */
     .faq-list { margin-top: 56px; display: flex; flex-direction: column; gap: 0; }
+    /* COLLEGE SAVINGS HUB */
+    .school-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 32px; justify-content: center;
+    }
+    .school-tab {
+      padding: 10px 22px;
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .school-tab:hover { border-color: var(--green); color: var(--text); }
+    .school-tab.active { background: var(--green); color: #000; border-color: var(--green); }
+
+    .school-panel { display: none; }
+    .school-panel.active { display: block; }
+
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .deal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+    }
+    .deal-card-savings {
+      border-color: rgba(0,200,150,0.3);
+      background: rgba(0,200,150,0.04);
+    }
+    .deal-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .deal-cat {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--green); margin-bottom: 16px;
+    }
+    .deal-items { display: flex; flex-direction: column; gap: 8px; }
+    .deal-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 0.82rem; color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px;
+    }
+    .deal-row:last-of-type { border-bottom: none; }
+    .deal-row-highlight { color: var(--text); }
+    .deal-name { flex: 1; padding-right: 12px; }
+    .deal-price { font-weight: 700; color: var(--text); white-space: nowrap; }
+    .deal-green { color: var(--green) !important; }
+    .deal-red { color: #ff6b6b !important; }
+    .deal-total {
+      border-top: 1px solid var(--border) !important;
+      border-bottom: none !important;
+      padding-top: 10px !important; margin-top: 4px;
+      font-weight: 700; font-size: 0.88rem !important;
+    }
+    .deal-tip {
+      font-size: 0.74rem; color: var(--muted);
+      margin-top: 10px; line-height: 1.5;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 10px;
+    }
+    .deal-tip-green { color: rgba(0,200,150,0.8) !important; }
+
+    @media (max-width: 900px) { .deals-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      .deals-grid { grid-template-columns: 1fr; }
+      .school-tab { font-size: 0.8rem; padding: 8px 16px; }
+    }
+
     .faq-item { border-bottom: 1px solid var(--border); }
 
     .faq-question {
@@ -980,6 +1051,302 @@
   </div>
 </section>
 
+<!-- COLLEGE SAVINGS HUB -->
+<section id="campus-deals">
+  <div class="section-label">Campus savings</div>
+  <div class="section-title">Every buck counts.</div>
+  <p class="section-sub">Real local deals for your campus. Updated regularly by the FAWN community.</p>
+
+  <div class="school-tabs">
+    <button class="school-tab active" onclick="switchSchool('berkeley',this)">UC Berkeley</button>
+    <button class="school-tab" onclick="switchSchool('stanford',this)">Stanford</button>
+    <button class="school-tab" onclick="switchSchool('scu',this)">Santa Clara</button>
+    <button class="school-tab" onclick="switchSchool('uoregon',this)">U of Oregon</button>
+  </div>
+
+  <!-- UC BERKELEY -->
+  <div class="school-panel active" id="panel-berkeley">
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-icon">&#9981;</div>
+        <div class="deal-cat">Cheapest Gas</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Costco Richmond</span><span class="deal-price">$3.89/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Arco on University Ave</span><span class="deal-price">$4.19/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Shell on Telegraph</span><span class="deal-price">$4.45/gal</span></div>
+          <div class="deal-tip">&#128161; Costco requires membership &#8212; split with 3 friends and it pays for itself in 2 fill-ups.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127828;</div>
+        <div class="deal-cat">Best Food Combos</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Top Dog (Telegraph) &#8212; dog + drink</span><span class="deal-price">$5.50</span></div>
+          <div class="deal-row"><span class="deal-name">Chipotle student bowl (no guac)</span><span class="deal-price">$8.25</span></div>
+          <div class="deal-row"><span class="deal-name">Cheeseboard Pizza slice + lemonade</span><span class="deal-price">$7.00</span></div>
+          <div class="deal-row"><span class="deal-name">Gypsy's Trattoria pasta special</span><span class="deal-price">$9.50</span></div>
+          <div class="deal-tip">&#128161; Top Dog cash only &#8212; FAWN&#8217;s $0.01 fee beats the ATM every time.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127968;</div>
+        <div class="deal-cat">Cheapest Housing</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Albany shared room (BART)</span><span class="deal-price">$800&#8211;950/mo</span></div>
+          <div class="deal-row"><span class="deal-name">El Cerrito 3BR split</span><span class="deal-price">$900&#8211;1100/mo</span></div>
+          <div class="deal-row"><span class="deal-name">Piedmont Ave studio</span><span class="deal-price">$1,300/mo</span></div>
+          <div class="deal-tip">&#128161; Albany &amp; El Cerrito are 15 min by BART &#8212; cheapest options near campus.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127866;</div>
+        <div class="deal-cat">Cheapest Bars</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Kip&#8217;s Bar &#8212; draft beers</span><span class="deal-price">$3.00</span></div>
+          <div class="deal-row"><span class="deal-name">The Albatross &#8212; well drinks</span><span class="deal-price">$4.00</span></div>
+          <div class="deal-row"><span class="deal-name">Triple Rock Brewery pints</span><span class="deal-price">$5.50</span></div>
+          <div class="deal-row"><span class="deal-name">Spats on Shattuck &#8212; happy hour</span><span class="deal-price">$4.50</span></div>
+          <div class="deal-tip">&#128161; Kip&#8217;s runs $3 drafts on weeknights until 9 PM.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#128717;</div>
+        <div class="deal-cat">Bulk Alcohol</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Costco Richmond &#8212; 30pk Coors</span><span class="deal-price">$22.99</span></div>
+          <div class="deal-row"><span class="deal-name">BevMo Emeryville &#8212; 5 Cent Sale</span><span class="deal-price">Buy 1 get 1 &#162;</span></div>
+          <div class="deal-row"><span class="deal-name">Total Wine Emeryville &#8212; house wine</span><span class="deal-price">$5.99/btl</span></div>
+          <div class="deal-tip">&#128161; BevMo&#8217;s 5&#162; sale stacks on wine &#8212; best deal in the East Bay.</div>
+        </div>
+      </div>
+      <div class="deal-card deal-card-savings">
+        <div class="deal-icon">&#128200;</div>
+        <div class="deal-cat">FAWN Savings vs Chase</div>
+        <div class="deal-items">
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Monthly maintenance fee saved</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Overdraft fee avoided (avg 1&#215;/mo)</span><span class="deal-price deal-green">+$35.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">ATM fee savings (4&#215;/mo)</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">FAWN transaction cost (50&#215;/mo)</span><span class="deal-price deal-red">-$0.50</span></div>
+          <div class="deal-row deal-total"><span class="deal-name">Monthly savings with FAWN</span><span class="deal-price deal-green">$58.50</span></div>
+          <div class="deal-tip deal-tip-green">&#128176; $58.50/mo = $702/year back in your pocket.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STANFORD -->
+  <div class="school-panel" id="panel-stanford">
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-icon">&#9981;</div>
+        <div class="deal-cat">Cheapest Gas</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Costco Mountain View</span><span class="deal-price">$3.92/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Arco on El Camino Real</span><span class="deal-price">$4.29/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Shell near Page Mill Rd</span><span class="deal-price">$4.59/gal</span></div>
+          <div class="deal-tip">&#128161; Costco Mountain View is the cheapest within 5 miles of campus.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127828;</div>
+        <div class="deal-cat">Best Food Combos</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Tresidder Union daily special</span><span class="deal-price">$7.50</span></div>
+          <div class="deal-row"><span class="deal-name">Coupa Caf&#233; empanada + coffee</span><span class="deal-price">$8.00</span></div>
+          <div class="deal-row"><span class="deal-name">Tacos El Grullense (Redwood City)</span><span class="deal-price">$3.50/taco</span></div>
+          <div class="deal-row"><span class="deal-name">Chipotle University Ave</span><span class="deal-price">$9.25</span></div>
+          <div class="deal-tip">&#128161; Tacos El Grullense in Redwood City = best $10 meal near campus.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127968;</div>
+        <div class="deal-cat">Cheapest Housing</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">East Palo Alto shared room</span><span class="deal-price">$1,100&#8211;1,400/mo</span></div>
+          <div class="deal-row"><span class="deal-name">Redwood City 3BR split</span><span class="deal-price">$1,200&#8211;1,500/mo</span></div>
+          <div class="deal-row"><span class="deal-name">Menlo Park studio</span><span class="deal-price">$1,800/mo</span></div>
+          <div class="deal-tip">&#128161; East Palo Alto is 10 min by bike &#8212; biggest savings near Stanford.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127866;</div>
+        <div class="deal-cat">Cheapest Bars</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Antonio&#8217;s Nut House &#8212; pints</span><span class="deal-price">$4.00</span></div>
+          <div class="deal-row"><span class="deal-name">The Rose &amp; Crown &#8212; happy hour</span><span class="deal-price">$5.00</span></div>
+          <div class="deal-row"><span class="deal-name">Old Pro &#8212; pitchers</span><span class="deal-price">$14.00</span></div>
+          <div class="deal-row"><span class="deal-name">Nola&#8217;s &#8212; well drinks</span><span class="deal-price">$6.00</span></div>
+          <div class="deal-tip">&#128161; Antonio&#8217;s is the cheapest bar in Palo Alto &#8212; cash preferred.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#128717;</div>
+        <div class="deal-cat">Bulk Alcohol</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Total Wine Sunnyvale &#8212; 30pk</span><span class="deal-price">$21.99</span></div>
+          <div class="deal-row"><span class="deal-name">BevMo Mountain View</span><span class="deal-price">Buy 1 get 1 &#162;</span></div>
+          <div class="deal-row"><span class="deal-name">Costco Mountain View &#8212; wine</span><span class="deal-price">$6.99/btl</span></div>
+          <div class="deal-tip">&#128161; Total Wine Sunnyvale has the best selection and price on the Peninsula.</div>
+        </div>
+      </div>
+      <div class="deal-card deal-card-savings">
+        <div class="deal-icon">&#128200;</div>
+        <div class="deal-cat">FAWN Savings vs Chase</div>
+        <div class="deal-items">
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Monthly maintenance fee saved</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Overdraft fee avoided (avg 1&#215;/mo)</span><span class="deal-price deal-green">+$35.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">ATM fee savings (4&#215;/mo)</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">FAWN transaction cost (50&#215;/mo)</span><span class="deal-price deal-red">-$0.50</span></div>
+          <div class="deal-row deal-total"><span class="deal-name">Monthly savings with FAWN</span><span class="deal-price deal-green">$58.50</span></div>
+          <div class="deal-tip deal-tip-green">&#128176; $58.50/mo = $702/year back in your pocket.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SANTA CLARA -->
+  <div class="school-panel" id="panel-scu">
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-icon">&#9981;</div>
+        <div class="deal-cat">Cheapest Gas</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Costco Mountain View</span><span class="deal-price">$3.92/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Arco on El Camino (SCU side)</span><span class="deal-price">$4.25/gal</span></div>
+          <div class="deal-row"><span class="deal-name">76 on Stevens Creek Blvd</span><span class="deal-price">$4.49/gal</span></div>
+          <div class="deal-tip">&#128161; The Costco in Mountain View is 10 min away and worth the drive.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127828;</div>
+        <div class="deal-cat">Best Food Combos</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Benson Center lunch special</span><span class="deal-price">$7.00</span></div>
+          <div class="deal-row"><span class="deal-name">Chipotle on El Camino</span><span class="deal-price">$8.75</span></div>
+          <div class="deal-row"><span class="deal-name">Lee&#8217;s Sandwiches (Westfield)</span><span class="deal-price">$5.50</span></div>
+          <div class="deal-row"><span class="deal-name">In-N-Out double double combo</span><span class="deal-price">$7.45</span></div>
+          <div class="deal-tip">&#128161; In-N-Out is a 5 min drive &#8212; best calorie-per-dollar on this list.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127968;</div>
+        <div class="deal-cat">Cheapest Housing</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Sunnyvale shared room</span><span class="deal-price">$1,000&#8211;1,300/mo</span></div>
+          <div class="deal-row"><span class="deal-name">Santa Clara 3BR house split</span><span class="deal-price">$900&#8211;1,200/mo</span></div>
+          <div class="deal-row"><span class="deal-name">San Jose (near light rail) room</span><span class="deal-price">$850&#8211;1,100/mo</span></div>
+          <div class="deal-tip">&#128161; San Jose near the light rail is the cheapest option &#8212; 20 min to campus.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127866;</div>
+        <div class="deal-cat">Cheapest Bars</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Mission City Bar &#8212; well drinks</span><span class="deal-price">$4.00</span></div>
+          <div class="deal-row"><span class="deal-name">The Hut &#8212; pitchers</span><span class="deal-price">$12.00</span></div>
+          <div class="deal-row"><span class="deal-name">Gordon Biersch SJ &#8212; happy hour</span><span class="deal-price">$5.00</span></div>
+          <div class="deal-row"><span class="deal-name">Johnny V&#8217;s &#8212; draft pints</span><span class="deal-price">$4.50</span></div>
+          <div class="deal-tip">&#128161; Mission City Bar is the go-to for cheap drinks near SCU.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#128717;</div>
+        <div class="deal-cat">Bulk Alcohol</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Total Wine Sunnyvale &#8212; 30pk</span><span class="deal-price">$21.99</span></div>
+          <div class="deal-row"><span class="deal-name">Costco Mountain View &#8212; vodka</span><span class="deal-price">$19.99/1.75L</span></div>
+          <div class="deal-row"><span class="deal-name">BevMo Santa Clara &#8212; wine</span><span class="deal-price">Buy 1 get 1 &#162;</span></div>
+          <div class="deal-tip">&#128161; Costco Kirkland vodka is legitimately good &#8212; same distillery as Grey Goose.</div>
+        </div>
+      </div>
+      <div class="deal-card deal-card-savings">
+        <div class="deal-icon">&#128200;</div>
+        <div class="deal-cat">FAWN Savings vs Chase</div>
+        <div class="deal-items">
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Monthly maintenance fee saved</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Overdraft fee avoided (avg 1&#215;/mo)</span><span class="deal-price deal-green">+$35.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">ATM fee savings (4&#215;/mo)</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">FAWN transaction cost (50&#215;/mo)</span><span class="deal-price deal-red">-$0.50</span></div>
+          <div class="deal-row deal-total"><span class="deal-name">Monthly savings with FAWN</span><span class="deal-price deal-green">$58.50</span></div>
+          <div class="deal-tip deal-tip-green">&#128176; $58.50/mo = $702/year back in your pocket.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIVERSITY OF OREGON -->
+  <div class="school-panel" id="panel-uoregon">
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-icon">&#9981;</div>
+        <div class="deal-cat">Cheapest Gas</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Costco Eugene</span><span class="deal-price">$3.45/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Arco on Franklin Blvd</span><span class="deal-price">$3.59/gal</span></div>
+          <div class="deal-row"><span class="deal-name">Safeway on 18th Ave</span><span class="deal-price">$3.69/gal</span></div>
+          <div class="deal-tip">&#128161; Eugene gas prices are 20% cheaper than the Bay Area &#8212; enjoy it.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127828;</div>
+        <div class="deal-cat">Best Food Combos</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Off the Waffle &#8212; liege + coffee</span><span class="deal-price">$7.00</span></div>
+          <div class="deal-row"><span class="deal-name">Plank Town burger special</span><span class="deal-price">$8.50</span></div>
+          <div class="deal-row"><span class="deal-name">Cornucopia &#8212; breakfast plate</span><span class="deal-price">$9.00</span></div>
+          <div class="deal-row"><span class="deal-name">Track Town Pizza &#8212; slice + drink</span><span class="deal-price">$5.50</span></div>
+          <div class="deal-tip">&#128161; Track Town Pizza is a UO institution &#8212; $5.50 is unbeatable.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127968;</div>
+        <div class="deal-cat">Cheapest Housing</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Shared room near campus</span><span class="deal-price">$550&#8211;750/mo</span></div>
+          <div class="deal-row"><span class="deal-name">4BR house split (Friendly St)</span><span class="deal-price">$600&#8211;800/mo</span></div>
+          <div class="deal-row"><span class="deal-name">Studio apartment (Whiteaker)</span><span class="deal-price">$900/mo</span></div>
+          <div class="deal-tip">&#128161; Eugene is one of the most affordable college towns in the country. Friendly St is the move.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#127866;</div>
+        <div class="deal-cat">Cheapest Bars</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">Max&#8217;s Tavern &#8212; $2 drafts (Mon&#8211;Wed)</span><span class="deal-price">$2.00</span></div>
+          <div class="deal-row"><span class="deal-name">Horsehead &#8212; PBR tall boys</span><span class="deal-price">$3.00</span></div>
+          <div class="deal-row"><span class="deal-name">Luckey&#8217;s Club &#8212; well shots</span><span class="deal-price">$3.50</span></div>
+          <div class="deal-row"><span class="deal-name">McMenamins &#8212; happy hour pints</span><span class="deal-price">$4.00</span></div>
+          <div class="deal-tip">&#128161; $2 drafts at Max&#8217;s on Monday nights &#8212; cheapest bar night in Eugene.</div>
+        </div>
+      </div>
+      <div class="deal-card">
+        <div class="deal-icon">&#128717;</div>
+        <div class="deal-cat">Bulk Alcohol</div>
+        <div class="deal-items">
+          <div class="deal-row"><span class="deal-name">WinCo Eugene &#8212; 30pk Natty</span><span class="deal-price">$16.99</span></div>
+          <div class="deal-row"><span class="deal-name">BiMart &#8212; 1.75L handle spirits</span><span class="deal-price">$14.99</span></div>
+          <div class="deal-row"><span class="deal-name">Costco Eugene &#8212; wine 6-pack</span><span class="deal-price">$39.99</span></div>
+          <div class="deal-tip">&#128161; BiMart is Oregon&#8217;s secret weapon &#8212; $14.99 handles that you won&#8217;t find anywhere else.</div>
+        </div>
+      </div>
+      <div class="deal-card deal-card-savings">
+        <div class="deal-icon">&#128200;</div>
+        <div class="deal-cat">FAWN Savings vs Chase</div>
+        <div class="deal-items">
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Monthly maintenance fee saved</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">Overdraft fee avoided (avg 1&#215;/mo)</span><span class="deal-price deal-green">+$35.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">ATM fee savings (4&#215;/mo)</span><span class="deal-price deal-green">+$12.00</span></div>
+          <div class="deal-row deal-row-highlight"><span class="deal-name">FAWN transaction cost (50&#215;/mo)</span><span class="deal-price deal-red">-$0.50</span></div>
+          <div class="deal-row deal-total"><span class="deal-name">Monthly savings with FAWN</span><span class="deal-price deal-green">$58.50</span></div>
+          <div class="deal-tip deal-tip-green">&#128176; $58.50/mo = $702/year back in your pocket.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;">Prices are community-verified estimates and may vary. Know a better deal? <a href="mailto:alexmarcusgoldsmith@gmail.com" style="color:var(--green)">Submit it.</a></p>
+</section>
+
 <!-- FAQ -->
 <section id="faq">
   <div class="section-label">FAQ</div>
@@ -1136,6 +1503,13 @@ function closeMobileMenu() {
 }
 
 // FAQ accordion
+function switchSchool(school, btn) {
+  document.querySelectorAll('.school-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.school-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + school).classList.add('active');
+  btn.classList.add('active');
+}
+
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
   const isOpen = item.classList.contains('open');
