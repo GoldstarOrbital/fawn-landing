@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Military, Veteran &amp; ROTC Savings | FAWN</title>
+  <meta name="description" content="Real discount programs for veteran students, ROTC cadets, and military academy cadets — plus local savings for West Point, Annapolis, Air Force, Coast Guard, and Merchant Marine academies. Curated by FAWN." />
+  <meta name="theme-color" content="#00c896" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10; --surface: #0e1318; --border: #1e2730;
+      --green: #00c896; --green-dark: #00a87d;
+      --text: #e8edf2; --muted: #6b7a8d;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+    }
+    a { color: inherit; }
+
+    nav {
+      padding: 20px 40px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: var(--green); letter-spacing: -1px; text-decoration: none; }
+    .nav-back { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    .nav-back:hover { color: var(--green); }
+
+    .hero { text-align: center; padding: 72px 24px 40px; max-width: 760px; margin: 0 auto; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,200,150,0.1); border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 100px; padding: 6px 16px; font-size: 0.8rem; color: var(--green); margin-bottom: 24px;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 20px; }
+    h1 span { color: var(--green); }
+    .hero p { color: var(--muted); font-size: 1.02rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 0 24px 100px; }
+
+    .cat-section { margin-bottom: 56px; }
+    .cat-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+    .cat-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+    .cat-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; max-width: 680px; line-height: 1.6; }
+
+    .perk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .perk-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; }
+    .perk-eligibility {
+      display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      background: rgba(0,200,150,0.12); color: var(--green); padding: 3px 9px; border-radius: 100px; margin-bottom: 10px; align-self: flex-start;
+    }
+    .perk-name { font-weight: 700; font-size: 1.0rem; margin-bottom: 6px; }
+    .perk-deal { color: var(--green); font-weight: 700; font-size: 0.86rem; margin-bottom: 10px; }
+    .perk-desc { color: var(--muted); font-size: 0.84rem; line-height: 1.55; flex: 1; margin-bottom: 14px; }
+    .perk-link {
+      display: inline-block; text-align: center; padding: 10px 16px;
+      background: rgba(0,200,150,0.1); border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 8px; color: var(--green); text-decoration: none; font-weight: 600; font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .perk-link:hover { background: rgba(0,200,150,0.18); }
+    .perk-verify { color: var(--muted); font-size: 0.7rem; margin-top: 8px; text-align: center; }
+
+    /* Academy tabs (mirrors campus-deals pattern) */
+    .school-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .school-tab {
+      padding: 10px 20px; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .school-tab:hover { border-color: var(--green); color: var(--text); }
+    .school-tab.active { background: var(--green); color: #000; border-color: var(--green); }
+    .school-panel { display: none; }
+    .school-panel.active { display: block; }
+
+    .deals-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .deal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+    .deal-icon { font-size: 1.4rem; margin-bottom: 10px; }
+    .deal-cat { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .deal-items { display: flex; flex-direction: column; gap: 8px; }
+    .deal-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.82rem; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; }
+    .deal-row:last-of-type { border-bottom: none; }
+    .deal-name { flex: 1; padding-right: 12px; }
+    .deal-price { font-weight: 700; color: var(--text); white-space: nowrap; }
+    .deal-tip { font-size: 0.74rem; color: var(--muted); margin-top: 10px; line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 10px; }
+
+    .alert-box {
+      background: rgba(0,200,150,0.05); border: 1px solid rgba(0,200,150,0.2); border-radius: 12px;
+      padding: 16px 20px; font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 28px;
+    }
+    .alert-box strong { color: var(--text); }
+
+    .disclaimer { max-width: 720px; margin: 40px auto 0; text-align: center; font-size: 0.8rem; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 24px; }
+    .disclaimer a { color: var(--green); text-decoration: none; }
+
+    @media (max-width: 900px) { .perk-grid { grid-template-columns: repeat(2, 1fr); } .deals-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .perk-grid { grid-template-columns: 1fr; } .hero { padding: 48px 20px 28px; } }
+  </style>
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureFlagEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">fawn</a>
+  <a href="index.html" class="nav-back">&#8592; Back to home</a>
+</nav>
+
+<div class="hero">
+  <div class="badge"><div class="badge-dot"></div> Military &amp; Veteran Savings</div>
+  <h1>Your service is worth <span>real discounts.</span></h1>
+  <p>Verified discount programs for veteran students and ROTC cadets, plus local savings near every U.S. service academy. We tag who&#8217;s actually eligible for what &#8212; eligibility rules differ a lot between veteran, active duty, and ROTC status.</p>
+</div>
+
+<main>
+
+  <div class="cat-section">
+    <div class="cat-label">General Programs</div>
+    <div class="cat-title">Military, Veteran &amp; ROTC Discounts</div>
+    <p class="cat-sub">Most retail military discounts require ID.me verification as Active Duty, Veteran, or Reserve/Guard. ROTC cadets are not yet active duty, so eligibility varies by program &#8212; check each one before assuming it applies to you.</p>
+    <div class="perk-grid" id="perks-general"></div>
+  </div>
+
+  <div class="cat-section">
+    <div class="cat-label">Service Academies</div>
+    <div class="cat-title">Academy Cadet Savings</div>
+    <p class="cat-sub">Cadets live in barracks with most costs covered, so "cheapest housing" doesn't apply here. Instead: liberty-weekend spots, travel home, gear, and exchange/commissary savings near each academy.</p>
+
+    <div class="alert-box">
+      <strong>Heads up:</strong> we don't list bars or alcohol deals for academy towns. Alcohol policy at every service academy is strict, class-year-dependent, and governed by your own chain of command &#8212; not something FAWN should be pointing you toward. Know your academy's regs.
+    </div>
+
+    <div class="school-tabs" id="academy-tabs"></div>
+    <div id="academy-panels"></div>
+  </div>
+
+  <p class="disclaimer">
+    FAWN doesn't control these third-party programs or academy-area businesses — terms, prices, and eligibility change without notice. Verify directly before relying on any of these. Know a program or local deal we're missing? <a href="mailto:alexmarcusgoldsmith@gmail.com">Tell us.</a>
+  </p>
+
+</main>
+
+<script>
+const PERKS_GENERAL = [
+  { name: 'ID.me Military Verification', eligibility: 'Veteran / Active Duty', deal: 'Free one-time verification', desc: 'The single most useful step — verifies your status once, then unlocks military discounts at Nike, Apple, Under Armour, Home Depot, and hundreds of other retailers.', url: 'https://www.id.me/military' },
+  { name: 'GovX', eligibility: 'Veteran / Active Duty / ROTC (varies)', deal: 'Discount marketplace', desc: 'Verified military, law enforcement, and ROTC pricing on gear, apparel, and outdoor equipment from major brands.', url: 'https://www.govx.com/' },
+  { name: 'Veteran Online Shopping (Exchange/Commissary)', eligibility: 'Honorably discharged Veteran', deal: 'Tax-free online shopping + base access', desc: 'Since 2017, honorably discharged veterans can shop the Exchange online tax-free, and since 2020 can use base Commissary and Exchange facilities in person — verify via VetVerify.org.', url: 'https://www.vetverify.org/' },
+  { name: 'GI Bill &amp; Yellow Ribbon Program', eligibility: 'Veteran (service-qualified)', deal: 'Tuition + housing benefits', desc: 'Not a discount — the single biggest financial benefit available. The Yellow Ribbon Program can cover tuition gaps at participating private schools beyond standard GI Bill caps.', url: 'https://www.va.gov/education/about-gi-bill-benefits/' },
+  { name: 'Student Veterans of America (SVA)', eligibility: 'Veteran student', deal: 'Free chapter membership', desc: 'Campus chapters, scholarships, and a national network specifically for veterans transitioning into student life.', url: 'https://studentveterans.org/' },
+  { name: 'Mobile Carrier Military Plans', eligibility: 'Active Duty / Veteran (check Reserve/Guard)', deal: 'Discounted monthly plans', desc: 'Verizon, AT&T, and T-Mobile all run military discount plans. Most require active duty, veteran, or Guard/Reserve status — ROTC cadets typically do not qualify until commissioned.', url: 'https://www.verizon.com/military/' },
+  { name: 'Cadet Gear &amp; Uniform Discounts', eligibility: 'ROTC Cadet', deal: 'Varies by retailer', desc: 'Vanguard Industries, USA Patch Co, and several uniform suppliers offer cadet-specific pricing on insignia, boots, and gear not issued by your unit.', url: 'https://www.vanguardmil.com/' },
+  { name: 'National Park Service Annual Pass', eligibility: 'Veteran / Gold Star Family', deal: 'Free annual pass', desc: 'Free "America the Beautiful" annual pass for current military, veterans, and Gold Star families — covers entrance to all national parks.', url: 'https://www.nps.gov/planyourvisit/passes.htm' },
+];
+
+function perkCard(p) {
+  return `<div class="perk-card">
+    <div class="perk-eligibility">${p.eligibility}</div>
+    <div class="perk-name">${p.name}</div>
+    <div class="perk-deal">${p.deal}</div>
+    <div class="perk-desc">${p.desc}</div>
+    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="perk-link">Learn more &#8594;</a>
+    <div class="perk-verify">Verify current eligibility &amp; terms before relying on this</div>
+  </div>`;
+}
+
+document.getElementById('perks-general').innerHTML = PERKS_GENERAL.map(perkCard).join('');
+
+const ACAD_CAT_META = {
+  eats:    { icon: '&#127828;', label: 'Liberty Weekend Eats' },
+  travel:  { icon: '&#9992;',   label: 'Travel Discounts' },
+  gear:    { icon: '&#127895;', label: 'Gear &amp; Uniform Discounts' },
+  exchange:{ icon: '&#128722;', label: 'Commissary &amp; Exchange Savings' },
+};
+
+const ACADEMIES = [
+  { key: 'westpoint', name: 'West Point', categories: {
+    eats: { items: [["Highland Falls Diner &#8212; combo plate",'$10.00'],['West Point Tavern (Highland Falls)','$12.00'],['Schade Stadium concessions','$6.00']], tip: '&#128161; Highland Falls Diner is the classic cadet liberty-weekend spot, walking distance from the gate.' },
+    travel: { items: [['Amtrak from Beacon/Poughkeepsie &#8212; student fare','~15% off'],['Short Line Bus to NYC','$25 round trip'],['Stewart Airport (SWF) parking discount','Varies']], tip: '&#128161; The Short Line Bus from Highland Falls to NYC is the cheapest way to get a weekend away.' },
+    gear: { items: [['West Point Cadet Store &#8212; gear discount w/ ID','Varies'],['Vanguard Industries cadet pricing','Varies'],['USA Patch Co insignia discount','10% off']], tip: '&#128161; The Cadet Store often runs clearance on out-of-season PT gear.' },
+    exchange: { items: [['West Point Commissary','Tax-free groceries'],['West Point Exchange (PX)','Tax-free shopping'],['MWR ticket discounts (movies, ski, events)','Varies']], tip: '&#128161; MWR runs discounted lift tickets for nearby ski areas during winter weekends.' },
+  }},
+  { key: 'usna', name: 'Naval Academy', categories: {
+    eats: { items: [['Chick &amp; Ruth&#8217;s Delly (Annapolis)','$9.00'],['Iron Rooster brunch','$13.00'],['Annapolis City Dock food stalls','$8.00']], tip: '&#128161; Chick &amp; Ruth&#8217;s is the iconic Annapolis liberty spot, a short walk from the Yard.' },
+    travel: { items: [['MTA Commuter Bus to DC/Baltimore','Discounted fare'],['BWI Airport shuttle discount','Varies'],['Amtrak from BWI station','Student fare available']], tip: '&#128161; The commuter bus to DC is the cheapest way to spend a weekend in the city.' },
+    gear: { items: [['USNA Midshipmen Store &#8212; gear discount','Varies'],['GovX Navy-specific gear','Varies'],['Annapolis tailor mid-rate alterations','Discounted for mids']], tip: '&#128161; Local tailors near the Yard often give mids a reduced rate on uniform alterations.' },
+    exchange: { items: [['Naval Academy Commissary','Tax-free groceries'],['NEX (Navy Exchange)','Tax-free shopping'],['MWR Annapolis ticket discounts','Varies']], tip: '&#128161; The NEX runs periodic clearance on cold-weather gear before winter training.' },
+  }},
+  { key: 'usafa', name: 'Air Force Academy', categories: {
+    eats: { items: [['Colorado Springs downtown combo deals','$10.00'],['Garden of the Gods Market &amp; Cafe','$9.00'],['Falcon Stadium concessions','$7.00']], tip: '&#128161; Downtown Colorado Springs has the most liberty-weekend options within a short drive.' },
+    travel: { items: [['Colorado Springs Airport (COS) parking discount','Varies'],['Bustang bus to Denver','$12 one-way'],['Pikes Peak Highway cadet rate','Discounted entry']], tip: '&#128161; The Bustang bus to Denver is the cheapest way to reach DEN for a flight home.' },
+    gear: { items: [['Academy Exchange gear discount','Varies'],['GovX Air Force-specific gear','Varies'],['Local outdoor gear shops cadet discount','10&#8211;15% off']], tip: '&#128161; Colorado Springs has several outdoor retailers that give cadets a standing discount &#8212; ask at checkout.' },
+    exchange: { items: [['USAFA Commissary','Tax-free groceries'],['Base Exchange (BX)','Tax-free shopping'],['MWR ski &amp; event discounts','Varies']], tip: '&#128161; MWR discount lift tickets to nearby resorts are one of the best perks of being stationed in Colorado.' },
+  }},
+  { key: 'uscga', name: 'Coast Guard Academy', categories: {
+    eats: { items: [['New London/Groton combo deals','$9.00'],['Mystic Pizza (short drive)','$11.00'],['Downtown New London cafes','$7.00']], tip: '&#128161; Mystic Pizza is a short drive and worth it for a liberty weekend out.' },
+    travel: { items: [['Amtrak from New London station','Student fare available'],['SEAT bus (local) discount','Reduced fare'],['Block Island ferry cadet rate','Seasonal discount']], tip: '&#128161; New London&#8217;s Amtrak station puts NYC and Boston both within reach for a weekend.' },
+    gear: { items: [['CGA Exchange gear discount','Varies'],['GovX Coast Guard-specific gear','Varies'],['Local marine supply cadet discount','Varies']], tip: '&#128161; Local marine supply shops near the Thames River often extend a quiet discount to cadets.' },
+    exchange: { items: [['Coast Guard Academy Exchange','Tax-free shopping'],['Nearby Naval Submarine Base Exchange access','Tax-free shopping'],['MWR event discounts','Varies']], tip: '&#128161; Cadets can often use the Exchange at the nearby Naval Submarine Base in Groton too.' },
+  }},
+  { key: 'usmma', name: 'Merchant Marine Academy', categories: {
+    eats: { items: [['Great Neck combo deals','$11.00'],['Kings Point Diner','$9.00'],['Port Washington waterfront cafes','$10.00']], tip: '&#128161; Great Neck has more variety than Kings Point itself and is a short ride away.' },
+    travel: { items: [['LIRR from Great Neck/Port Washington','Student fare available'],['LaGuardia (LGA) shuttle discount','Varies'],['NYC day trip via LIRR','~40 min ride']], tip: '&#128161; The LIRR puts Manhattan about 40 minutes away &#8212; one of the best-located academies for a weekend out.' },
+    gear: { items: [['USMMA Exchange gear discount','Varies'],['GovX Merchant Marine-relevant gear','Varies'],['Local nautical supply cadet discount','Varies']], tip: '&#128161; Sea-year gear (boots, rain gear) is worth buying at a discount supplier rather than full retail.' },
+    exchange: { items: [['USMMA Ship&#8217;s Store','Discounted gear &amp; supplies'],['Nearby military installation Exchange access','Tax-free shopping (verify access)'],['MWR-style event discounts','Varies']], tip: '&#128161; Check with your company officer on which nearby installations extend Exchange access to USMMA cadets.' },
+  }},
+];
+
+function dealCard(catKey, data) {
+  const meta = ACAD_CAT_META[catKey];
+  const rows = data.items.map(([name, price]) =>
+    `<div class="deal-row"><span class="deal-name">${name}</span><span class="deal-price">${price}</span></div>`
+  ).join('');
+  return `<div class="deal-card">
+    <div class="deal-icon">${meta.icon}</div>
+    <div class="deal-cat">${meta.label}</div>
+    <div class="deal-items">${rows}<div class="deal-tip">${data.tip}</div></div>
+  </div>`;
+}
+
+function switchAcademy(key, btn) {
+  document.querySelectorAll('#academy-panels .school-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#academy-tabs .school-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + key).classList.add('active');
+  btn.classList.add('active');
+}
+
+function renderAcademies() {
+  const tabsEl = document.getElementById('academy-tabs');
+  const panelsEl = document.getElementById('academy-panels');
+  tabsEl.innerHTML = ACADEMIES.map((a, i) =>
+    `<button class="school-tab${i === 0 ? ' active' : ''}" onclick="switchAcademy('${a.key}',this)">${a.name}</button>`
+  ).join('');
+  panelsEl.innerHTML = ACADEMIES.map((a, i) => {
+    const cards = Object.keys(a.categories).map(catKey => dealCard(catKey, a.categories[catKey])).join('');
+    return `<div class="school-panel${i === 0 ? ' active' : ''}" id="panel-${a.key}"><div class="deals-grid">${cards}</div></div>`;
+  }).join('');
+}
+
+renderAcademies();
+</script>
+
+</body>
+</html>
