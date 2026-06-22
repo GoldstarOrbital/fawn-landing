@@ -383,6 +383,19 @@
 
     .section-sub { font-size: 1.05rem; color: var(--muted); max-width: 560px; line-height: 1.7; }
 
+    /* SCROLL-REVEAL ANIMATION SYSTEM (shared across sections) */
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+    .reveal-group .reveal:nth-child(1) { transition-delay: 0s; }
+    .reveal-group .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .reveal-group .reveal:nth-child(3) { transition-delay: 0.2s; }
+    .reveal-group .reveal:nth-child(4) { transition-delay: 0.3s; }
+    .reveal-group .reveal:nth-child(5) { transition-delay: 0.4s; }
+    .reveal-group .reveal:nth-child(6) { transition-delay: 0.5s; }
+
     /* PROBLEM */
     .problem-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -583,6 +596,52 @@
     .fee-good { font-weight: 700; color: var(--green); }
 
     .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* SAVINGS CALCULATOR */
+    .calc-widget {
+      margin-top: 48px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 36px;
+    }
+    .calc-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+    .calc-sub { color: var(--muted); font-size: 0.88rem; }
+    .calc-body { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 28px; align-items: center; }
+    .calc-label { display: block; font-size: 0.85rem; color: var(--text); margin-bottom: 14px; font-weight: 600; }
+    .calc-label span { color: var(--green); font-weight: 800; }
+    #calc-slider {
+      width: 100%; height: 6px; border-radius: 100px;
+      background: var(--border); outline: none; -webkit-appearance: none; appearance: none;
+      margin-bottom: 20px;
+    }
+    #calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 20px; height: 20px; border-radius: 50%; background: var(--green);
+      cursor: pointer; box-shadow: 0 0 0 4px rgba(0,200,150,0.15);
+    }
+    #calc-slider::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%; background: var(--green);
+      border: none; cursor: pointer; box-shadow: 0 0 0 4px rgba(0,200,150,0.15);
+    }
+    .calc-checkbox-row { font-size: 0.85rem; color: var(--muted); }
+    .calc-checkbox-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .calc-checkbox-row input { width: 16px; height: 16px; accent-color: var(--green); cursor: pointer; }
+
+    .calc-result-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--muted);
+    }
+    .calc-result-fawn { border-bottom: none; padding-top: 16px; font-weight: 700; color: var(--text); }
+    .calc-result-amount { font-size: 1.1rem; font-weight: 800; transition: color 0.2s; }
+    .calc-bad { color: #ff4d4d; }
+    .calc-good { color: var(--green); font-size: 1.3rem; }
+    .calc-savings-banner {
+      margin-top: 18px; background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.25);
+      border-radius: 12px; padding: 14px 18px; font-size: 0.9rem; color: var(--muted); text-align: center;
+    }
+    .calc-savings-banner strong { color: var(--green); font-size: 1.05rem; }
+
+    @media (max-width: 700px) {
+      .calc-body { grid-template-columns: 1fr; gap: 24px; }
+    }
 
     .compare-winner-row td {
       padding-top: 24px; padding-bottom: 4px;
@@ -992,20 +1051,20 @@
   <div class="section-label">The problem</div>
   <div class="section-title">Banks were not built for you.</div>
   <p class="section-sub">The average Gen Z checking account costs $180/year in fees. That&#8217;s not a bug &#8212; it&#8217;s the business model.</p>
-  <div class="problem-grid">
-    <div class="problem-card">
+  <div class="problem-grid reveal-group">
+    <div class="problem-card reveal">
       <div class="problem-stat">$35</div>
       <div class="problem-desc">Overdraft fee charged on a $5 mistake. A 700% penalty on your worst day.</div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <div class="problem-stat">$180</div>
       <div class="problem-desc">Average annual fee burden on a Gen Z checking account. That&#8217;s money you earned.</div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <div class="problem-stat">67%</div>
       <div class="problem-desc">Of Gen Z distrust traditional banks. (Deloitte, 2024.) They&#8217;re right to.</div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <div class="problem-stat">0</div>
       <div class="problem-desc">Neobanks built specifically for individual college students. Until now.</div>
     </div>
@@ -1017,18 +1076,18 @@
   <div class="section-label">How it works</div>
   <div class="section-title">Three steps to better banking.</div>
   <p class="section-sub">No credit check. No minimum deposit. Takes minutes.</p>
-  <div class="steps-grid">
-    <div class="step-card">
+  <div class="steps-grid reveal-group">
+    <div class="step-card reveal">
       <div class="step-number">1</div>
       <h3>Sign up</h3>
       <p>Create your account with just your name, email, and school. No credit check, no Social Security number required to get started.</p>
     </div>
-    <div class="step-card">
+    <div class="step-card reveal">
       <div class="step-number">2</div>
       <h3>Get your account</h3>
       <p>Your FDIC-insured checking account is issued through our banking partner Unit. Funds held at an FDIC-member bank &#8212; protected up to $250K.</p>
     </div>
-    <div class="step-card">
+    <div class="step-card reveal">
       <div class="step-number">3</div>
       <h3>Use it anywhere</h3>
       <p>Send money, receive deposits, and pay for things. Each transaction costs exactly $0.01&#8211;$0.02. That&#8217;s the whole model.</p>
@@ -1152,18 +1211,18 @@
   <div class="section-label">Features</div>
   <div class="section-title">Simple. Safe. Smart.</div>
   <p class="section-sub">Three things we obsessed over so you don&#8217;t have to think about them.</p>
-  <div class="solution-grid">
-    <div class="solution-card">
+  <div class="solution-grid reveal-group">
+    <div class="solution-card reveal">
       <div class="solution-icon">&#9889;</div>
       <h3>Simple pricing</h3>
       <p>One flat fee per transaction: $0.01 to $0.02. That&#8217;s it. No monthly fee, no minimum balance, no overdraft trap. You always know what you&#8217;re paying.</p>
     </div>
-    <div class="solution-card">
+    <div class="solution-card reveal">
       <div class="solution-icon">&#128274;</div>
       <h3>Your money stays yours</h3>
       <p>Deposits are held at an FDIC-insured bank (via our partner Unit). Fully liquid &#8212; withdraw anytime. We never invest your deposits. Our revenue comes from fees, not your balance.</p>
     </div>
-    <div class="solution-card">
+    <div class="solution-card reveal">
       <div class="solution-icon">&#129504;</div>
       <h3>AI-powered context</h3>
       <p>Inflation went up. Interest rates changed. What does it mean for you? FAWN&#8217;s AI news layer explains what&#8217;s happening in the economy in plain English &#8212; not financial jargon.</p>
@@ -1225,6 +1284,39 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="calc-widget reveal" id="calc-widget">
+      <div class="calc-header">
+        <div class="calc-title">Calculate your own savings</div>
+        <p class="calc-sub">Drag the slider to match how you actually bank.</p>
+      </div>
+      <div class="calc-body">
+        <div class="calc-input-col">
+          <label for="calc-slider" class="calc-label">Transactions per month: <span id="calc-txn-display">50</span></label>
+          <input type="range" id="calc-slider" min="5" max="200" value="50" step="5" oninput="updateCalc()">
+          <div class="calc-checkbox-row">
+            <label><input type="checkbox" id="calc-overdraft" checked onchange="updateCalc()"> I&#8217;ve overdrafted at least once this year</label>
+          </div>
+        </div>
+        <div class="calc-result-col">
+          <div class="calc-result-row">
+            <span>Chase Total Checking</span>
+            <span class="calc-result-amount calc-bad" id="calc-chase">$0/yr</span>
+          </div>
+          <div class="calc-result-row">
+            <span>Wells Fargo Everyday</span>
+            <span class="calc-result-amount calc-bad" id="calc-wells">$0/yr</span>
+          </div>
+          <div class="calc-result-row calc-result-fawn">
+            <span>FAWN</span>
+            <span class="calc-result-amount calc-good" id="calc-fawn">$0/yr</span>
+          </div>
+          <div class="calc-savings-banner" id="calc-savings-banner">
+            You&#8217;d save <strong id="calc-savings-amount">$0</strong> a year switching to FAWN.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1233,16 +1325,16 @@
   <div class="section-label">From students</div>
   <div class="section-title">Real people. Real frustration.</div>
   <p class="section-sub">We interviewed students about their banking experience. Here&#8217;s what they told us.</p>
-  <div class="testimonials-grid">
-    <div class="testimonial-card">
+  <div class="testimonials-grid reveal-group">
+    <div class="testimonial-card reveal">
       <div class="testimonial-quote">&#8220;I got hit with a $35 overdraft fee on a $4 coffee. That&#8217;s when I knew I had to find something better.&#8221;</div>
       <div class="testimonial-author">&#8212; Jordan M., University of Michigan, &#8217;26</div>
     </div>
-    <div class="testimonial-card">
+    <div class="testimonial-card reveal">
       <div class="testimonial-quote">&#8220;My bank charges $12 a month just to exist. I&#8217;m a college student &#8212; I don&#8217;t have money to pay to have a bank account.&#8221;</div>
       <div class="testimonial-author">&#8212; Priya K., NYU Stern, &#8217;27</div>
     </div>
-    <div class="testimonial-card">
+    <div class="testimonial-card reveal">
       <div class="testimonial-quote">&#8220;Eight out of ten of my friends have been hit with unexpected fees. We just accept it. FAWN is the first thing that actually made me mad about that.&#8221;</div>
       <div class="testimonial-author">&#8212; Tyler R., UCLA, &#8217;25</div>
     </div>
@@ -1675,6 +1767,43 @@ if (showcasePhone) {
   if (showcaseCallouts) showcaseObserver.observe(showcaseCallouts);
 }
 
+// ── Global scroll-reveal for .reveal elements across the page ────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── Savings calculator ────────────────────────────────────────────────────────
+function fmtMoney(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function updateCalc() {
+  const slider = document.getElementById('calc-slider');
+  const txnPerMonth = parseInt(slider.value, 10);
+  document.getElementById('calc-txn-display').textContent = txnPerMonth;
+
+  const overdrafted = document.getElementById('calc-overdraft').checked;
+
+  const chaseAnnual = 15 * 12 + (overdrafted ? 34 : 0);
+  const wellsAnnual = 10 * 12 + (overdrafted ? 35 : 0);
+  const fawnAnnual = txnPerMonth * 0.01 * 12;
+
+  document.getElementById('calc-chase').textContent = fmtMoney(chaseAnnual) + '/yr';
+  document.getElementById('calc-wells').textContent = fmtMoney(wellsAnnual) + '/yr';
+  document.getElementById('calc-fawn').textContent = fmtMoney(fawnAnnual) + '/yr';
+
+  const savings = chaseAnnual - fawnAnnual;
+  document.getElementById('calc-savings-amount').textContent = fmtMoney(Math.max(savings, 0));
+}
+
+if (document.getElementById('calc-widget')) updateCalc();
+
 // ── Suggest-a-deal modal ────────────────────────────────────────────────────
 const DEALS_API = 'https://web-production-13d5b.up.railway.app';
 
@@ -1981,8 +2110,8 @@ function exitPopupJoin() {
 <footer>
   <div class="footer-logo">fawn</div>
   <div class="footer-links">
-    <a href="/privacy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
     <a href="mailto:alexmarcusgoldsmith@gmail.com">Contact</a>
   </div>
   <div class="footer-legal">
