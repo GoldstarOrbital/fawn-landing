@@ -113,7 +113,7 @@
   <div id="login-view">
     <h2>Member dashboard</h2>
     <p>Enter the email you used at checkout. We'll send you a one-click sign-in link  - no password needed.</p>
-    <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email" />
+    <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email" aria-label="Email address" />
     <button class="btn" id="send-btn" onclick="requestLink()">Send my sign-in link</button>
     <div class="status-msg" id="login-status"></div>
   </div>
@@ -146,6 +146,11 @@
       30-day full refund, no questions asked. Email Alex at
       <a href="mailto:alexmarcusgoldsmith@gmail.com">alexmarcusgoldsmith@gmail.com</a>
       or see <a href="founding-terms.html">terms</a>.
+    </div>
+
+    <div style="margin-top:16px;text-align:center;font-size:0.78rem;color:#555;">
+      <a href="perks.html" style="color:#00c896;text-decoration:none;">Student Perks</a> &middot;
+      <a href="military.html" style="color:#00c896;text-decoration:none;">Military &amp; Veterans</a>
     </div>
 
     <div class="signout"><button onclick="signOut()">Sign out</button></div>

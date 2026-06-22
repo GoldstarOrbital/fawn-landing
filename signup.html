@@ -76,6 +76,10 @@
     /* Spinner */
     .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #000; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 420px) {
+      .row { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -91,23 +95,23 @@
     <!-- Step 1: Personal Info -->
     <div class="pane active" id="pane-1">
       <div class="field">
-        <label>Full legal name</label>
+        <label for="full_name">Full legal name</label>
         <input type="text" id="full_name" placeholder="Jane Smith" autocomplete="name">
       </div>
       <div class="field">
-        <label>Email address</label>
+        <label for="email">Email address</label>
         <input type="email" id="email" placeholder="jane@example.com" autocomplete="email">
       </div>
       <div class="field">
-        <label>Password (8+ characters)</label>
+        <label for="password">Password (8+ characters)</label>
         <input type="password" id="password" placeholder="Create a password" autocomplete="new-password">
       </div>
       <div class="field">
-        <label>Phone number</label>
+        <label for="phone">Phone number</label>
         <input type="tel" id="phone" placeholder="(555) 000-0000" autocomplete="tel">
       </div>
       <div class="field">
-        <label>School</label>
+        <label for="school">School</label>
         <select id="school">
           <option value="">-- Select your school (optional) --</option>
           <option value="berkeley">UC Berkeley</option>
@@ -139,11 +143,11 @@
         Your SSN and date of birth are sent directly to our FDIC-insured banking partner (Unit) for identity verification. FAWN never stores your SSN.
       </div>
       <div class="field">
-        <label>Social Security Number</label>
+        <label for="ssn">Social Security Number</label>
         <input type="text" id="ssn" placeholder="XXX-XX-XXXX" maxlength="11" autocomplete="off" inputmode="numeric">
       </div>
       <div class="field">
-        <label>Date of birth</label>
+        <label for="dob">Date of birth</label>
         <input type="date" id="dob" autocomplete="bday">
       </div>
       <div class="form-error" id="err-2"></div>
@@ -154,16 +158,16 @@
     <!-- Step 3: Address -->
     <div class="pane" id="pane-3">
       <div class="field">
-        <label>Street address</label>
+        <label for="street">Street address</label>
         <input type="text" id="street" placeholder="123 Main St" autocomplete="address-line1">
       </div>
       <div class="field">
-        <label>City</label>
+        <label for="city">City</label>
         <input type="text" id="city" placeholder="San Francisco" autocomplete="address-level2">
       </div>
       <div class="row">
         <div class="field">
-          <label>State</label>
+          <label for="state">State</label>
           <select id="state" autocomplete="address-level1">
             <option value="">-- State --</option>
             <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
@@ -179,7 +183,7 @@
           </select>
         </div>
         <div class="field">
-          <label>ZIP code</label>
+          <label for="postal_code">ZIP code</label>
           <input type="text" id="postal_code" placeholder="94105" maxlength="5" inputmode="numeric" autocomplete="postal-code">
         </div>
       </div>
