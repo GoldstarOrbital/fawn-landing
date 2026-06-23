@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Settings - FAWN</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10;
+      --surface: #0e1318;
+      --surface2: #141b22;
+      --border: #1e2730;
+      --accent: #00c896;
+      --accent-dim: rgba(0,200,150,0.10);
+      --accent-border: rgba(0,200,150,0.25);
+      --text: #e8edf2;
+      --muted: #6b7a8d;
+      --red: #ff4d6d;
+      --green: #00c896;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 28px;
+      background: rgba(8,11,16,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-email { font-size: 0.8rem; color: var(--muted); }
+    .btn-signout {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      font-size: 0.78rem; padding: 6px 14px; border-radius: 8px; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-signout:hover { border-color: var(--muted); color: var(--text); }
+
+    .page { max-width: 640px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .greeting { margin-bottom: 28px; }
+    .greeting h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+    .greeting p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 26px 28px; margin-bottom: 20px;
+    }
+    .card h2 { font-size: 1.0rem; font-weight: 700; margin-bottom: 16px; }
+
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    .readonly-value {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 14px; font-size: 0.9rem; color: var(--text);
+    }
+    select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 14px; color: var(--text); font-size: 0.925rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    select:focus { border-color: var(--accent); }
+
+    .hint { font-size: 0.78rem; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+    .btn { padding: 12px 22px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; transition: opacity 0.2s, transform 0.1s; }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .form-error {
+      background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3);
+      border-radius: 10px; padding: 12px 14px; color: var(--red); font-size: 0.85rem;
+      margin-top: 14px; display: none;
+    }
+    .form-success {
+      background: var(--accent-dim); border: 1px solid var(--accent-border);
+      border-radius: 10px; padding: 12px 14px; color: var(--accent); font-size: 0.85rem;
+      margin-top: 14px; display: none;
+    }
+
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #000; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .back-link { display: inline-block; margin-top: 4px; color: var(--accent); font-size: 0.85rem; text-decoration: none; }
+
+    .state-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px 32px; text-align: center;
+    }
+    .state-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .state-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+    .state-body { color: var(--muted); font-size: 0.9rem; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+
+    .skeleton { background: var(--surface); border-radius: 8px; animation: shimmer 1.4s infinite; }
+    @keyframes shimmer { 0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">fawn</div>
+  <div class="nav-right">
+    <span class="nav-email" id="nav-email"></span>
+    <button class="btn-signout" onclick="signOut()">Sign out</button>
+  </div>
+</nav>
+
+<div class="page" id="page">
+  <!-- Loading state -->
+  <div id="state-loading">
+    <div class="greeting"><div class="skeleton" style="width:160px;height:28px;margin-bottom:8px"></div><div class="skeleton" style="width:220px;height:16px"></div></div>
+    <div class="skeleton" style="height:160px;border-radius:16px"></div>
+  </div>
+
+  <!-- No auth -->
+  <div id="state-noauth" style="display:none">
+    <div class="state-card">
+      <div class="state-icon">&#128274;</div>
+      <div class="state-title">Sign in to view your settings</div>
+      <p class="state-body">You need to be signed in to access your account settings.</p>
+      <a href="login.html" style="display:inline-block;margin-top:24px;background:var(--accent);color:#000;font-weight:700;padding:12px 28px;border-radius:10px;text-decoration:none;">Sign in</a>
+    </div>
+  </div>
+
+  <!-- Active settings -->
+  <div id="state-active" style="display:none">
+    <div class="greeting">
+      <h1>Settings</h1>
+      <p>Manage your FAWN account details.</p>
+    </div>
+
+    <div class="card">
+      <h2>Account</h2>
+      <div class="field">
+        <label>Full name</label>
+        <div class="readonly-value" id="display-name">-</div>
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <div class="readonly-value" id="display-email">-</div>
+      </div>
+      <div class="hint">Name and email updates aren't supported yet. Contact <a href="mailto:alex@getfawn.com" style="color:var(--accent)">alex@getfawn.com</a> if you need a change.</div>
+    </div>
+
+    <div class="card">
+      <h2>School</h2>
+      <div class="field">
+        <label for="school">Your school</label>
+        <select id="school">
+          <option value="">-- Select your school --</option>
+          <option value="berkeley">UC Berkeley</option>
+          <option value="stanford">Stanford</option>
+          <option value="scu">Santa Clara</option>
+          <option value="sjsu">San Jose State</option>
+          <option value="usf">USF</option>
+          <option value="sfstate">SF State</option>
+          <option value="smc">Saint Mary's College</option>
+          <option value="sierra">Sierra College</option>
+          <option value="sacstate">Sacramento State</option>
+          <option value="yubacollege">Yuba College</option>
+          <option value="calpoly">Cal Poly SLO</option>
+          <option value="ucdavis">UC Davis</option>
+          <option value="csumb">CSU Monterey Bay</option>
+          <option value="ucsb">UCSB</option>
+          <option value="ucsc">UC Santa Cruz</option>
+          <option value="uoregon">U of Oregon</option>
+          <option value="oregonstate">Oregon State</option>
+          <option value="unlv">UNLV</option>
+          <option value="unr">Nevada, Reno</option>
+          <option value="other">Other / not listed</option>
+        </select>
+        <div class="hint">Changing your school updates the Campus Savings card on your dashboard to show deals near your campus.</div>
+      </div>
+      <button class="btn btn-primary" id="save-btn" onclick="saveSchool()">Save changes</button>
+      <div class="form-error" id="err"></div>
+      <div class="form-success" id="success"></div>
+    </div>
+
+    <a class="back-link" href="dashboard.html">&#8592; Back to dashboard</a>
+  </div>
+</div>
+
+<script>
+const API = 'https://web-production-13d5b.up.railway.app';
+const TOKEN_KEY = 'fawn_token';
+
+function show(id) {
+  ['state-loading','state-noauth','state-active'].forEach(s => {
+    document.getElementById(s).style.display = s === id ? '' : 'none';
+  });
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function signOut() {
+  localStorage.removeItem(TOKEN_KEY);
+  window.location.href = 'index.html';
+}
+
+function showErr(msg) {
+  const el = document.getElementById('err');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function showSuccess(msg) {
+  const el = document.getElementById('success');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+let currentMe = null;
+
+async function loadSettings() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { show('state-noauth'); return; }
+
+  try {
+    const res = await fetch(API + '/auth/me', { headers: { Authorization: 'Bearer ' + token } });
+    if (res.status === 401 || res.status === 403) { show('state-noauth'); return; }
+    if (!res.ok) { show('state-noauth'); return; }
+
+    const me = await res.json();
+    currentMe = me;
+
+    document.getElementById('nav-email').textContent = me.email || '';
+    document.getElementById('display-name').textContent = me.full_name || 'Not set';
+    document.getElementById('display-email').textContent = me.email || 'Not set';
+
+    const schoolSelect = document.getElementById('school');
+    if (me.school) schoolSelect.value = me.school;
+
+    show('state-active');
+  } catch (e) {
+    console.error('Settings load failed:', e);
+    show('state-noauth');
+  }
+}
+
+async function saveSchool() {
+  showErr('');
+  showSuccess('');
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { show('state-noauth'); return; }
+
+  const school = document.getElementById('school').value;
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Saving...';
+
+  try {
+    const resp = await fetch(API + '/auth/me', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify({ school: school || null }),
+    });
+
+    if (resp.status === 404 || resp.status === 501) {
+      showErr('This feature is still being rolled out. Please try again in a moment.');
+      btn.disabled = false;
+      btn.textContent = 'Save changes';
+      return;
+    }
+
+    if (!resp.ok) {
+      let msg = 'Could not save your school. Please try again.';
+      try {
+        const data = await resp.json();
+        if (data && data.detail) msg = typeof data.detail === 'string' ? data.detail : msg;
+      } catch (_) {}
+      showErr(msg);
+      btn.disabled = false;
+      btn.textContent = 'Save changes';
+      return;
+    }
+
+    showSuccess('Saved! Your Campus Savings dashboard card will now show deals for your school.');
+    btn.disabled = false;
+    btn.textContent = 'Save changes';
+  } catch (e) {
+    console.error('Save school failed:', e);
+    showErr('Network error. Check your connection and try again.');
+    btn.disabled = false;
+    btn.textContent = 'Save changes';
+  }
+}
+
+loadSettings();
+</script>
+</body>
+</html>
+</content>
+</invoke>

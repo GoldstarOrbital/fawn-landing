@@ -1,0 +1,334 @@
+<!--
+  INTERNAL USE ONLY — not meant to be linked from anywhere public.
+  This is Alex's (the founder's) deal-suggestion review panel. It is a static
+  file protected only by an admin key entered at runtime (stored in
+  sessionStorage, never logged, never hardcoded). Do not add a nav link to
+  this page from index.html or any public page.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin - FAWN</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10;
+      --surface: #0e1318;
+      --surface2: #141b22;
+      --border: #1e2730;
+      --accent: #00c896;
+      --accent-dim: rgba(0,200,150,0.10);
+      --accent-border: rgba(0,200,150,0.25);
+      --text: #e8edf2;
+      --muted: #6b7a8d;
+      --red: #ff4d6d;
+      --green: #00c896;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 28px;
+      background: rgba(8,11,16,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+    .nav-logo span { color: var(--muted); font-weight: 600; font-size: 0.95rem; margin-left: 8px; }
+
+    .page { max-width: 800px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; }
+    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 24px; }
+
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    input, select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 14px; color: var(--text); font-size: 0.925rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+
+    .btn { padding: 12px 22px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; transition: opacity 0.2s, transform 0.1s; }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-approve { background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent); }
+    .btn-approve:hover { opacity: 0.85; }
+    .btn-reject { background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3); color: var(--red); }
+    .btn-reject:hover { opacity: 0.85; }
+    .btn-small { font-size: 0.8rem; padding: 8px 16px; }
+
+    .form-error { background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3); border-radius: 10px; padding: 12px 14px; color: var(--red); font-size: 0.85rem; margin-top: 16px; display: none; }
+
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+    .toolbar h2 { font-size: 1.1rem; font-weight: 700; }
+    .filter-select { width: auto; min-width: 160px; }
+
+    .suggestion-list { display: flex; flex-direction: column; gap: 12px; }
+    .suggestion-card {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .suggestion-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+    .suggestion-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 3px 10px; border-radius: 100px; background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+    }
+    .tag.status-pending { color: #ffb400; border-color: rgba(255,180,0,0.3); }
+    .tag.status-approved { color: var(--accent); border-color: var(--accent-border); }
+    .tag.status-rejected { color: var(--red); border-color: rgba(255,77,109,0.3); }
+    .suggestion-text { font-size: 0.92rem; line-height: 1.5; margin-bottom: 10px; }
+    .suggestion-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .submitter { font-size: 0.78rem; color: var(--muted); }
+    .actions { display: flex; gap: 8px; }
+
+    .empty-state {
+      text-align: center; padding: 48px 24px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 14px; color: var(--muted); font-size: 0.9rem;
+    }
+
+    .skeleton { background: var(--surface2); border-radius: 8px; animation: shimmer 1.4s infinite; height: 90px; }
+    @keyframes shimmer { 0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; } }
+
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #000; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">fawn<span>admin</span></div>
+</nav>
+
+<div class="page" id="page">
+  <!-- Key entry state -->
+  <div id="state-keyentry">
+    <div class="card">
+      <h1>Admin access</h1>
+      <p class="subtitle">Enter the admin key to review deal suggestions. This is stored only for this browser tab and clears when you close it.</p>
+      <label for="admin-key">Admin key</label>
+      <input type="password" id="admin-key" placeholder="Enter admin key" autocomplete="off">
+      <div style="margin-top:16px;">
+        <button class="btn btn-primary" id="unlock-btn" onclick="unlock()">Unlock</button>
+      </div>
+      <div class="form-error" id="key-err"></div>
+    </div>
+  </div>
+
+  <!-- Main panel -->
+  <div id="state-panel" style="display:none">
+    <div class="card">
+      <div class="toolbar">
+        <h2>Deal suggestions</h2>
+        <select class="filter-select" id="status-filter" onchange="loadSuggestions()">
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div id="list-container">
+        <div class="suggestion-list">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </div>
+      <div class="form-error" id="list-err"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://web-production-13d5b.up.railway.app';
+const ADMIN_KEY_SESSION_KEY = 'fawn_admin_key';
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function getAdminKey() {
+  return sessionStorage.getItem(ADMIN_KEY_SESSION_KEY) || '';
+}
+
+function showKeyErr(msg) {
+  const el = document.getElementById('key-err');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function showListErr(msg) {
+  const el = document.getElementById('list-err');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+async function unlock() {
+  showKeyErr('');
+  const key = document.getElementById('admin-key').value;
+  if (!key) { showKeyErr('Enter an admin key.'); return; }
+
+  const btn = document.getElementById('unlock-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Checking...';
+
+  sessionStorage.setItem(ADMIN_KEY_SESSION_KEY, key);
+
+  const ok = await loadSuggestions();
+  btn.disabled = false;
+  btn.textContent = 'Unlock';
+
+  if (ok) {
+    document.getElementById('state-keyentry').style.display = 'none';
+    document.getElementById('state-panel').style.display = '';
+  } else {
+    sessionStorage.removeItem(ADMIN_KEY_SESSION_KEY);
+  }
+}
+
+function statusTag(status) {
+  const s = esc(status);
+  return `<span class="tag status-${s}">${s}</span>`;
+}
+
+function renderSuggestions(items) {
+  const container = document.getElementById('list-container');
+  if (!items || items.length === 0) {
+    container.innerHTML = '<div class="empty-state">No suggestions match this filter.</div>';
+    return;
+  }
+  container.innerHTML = '<div class="suggestion-list">' + items.map(item => `
+    <div class="suggestion-card" data-id="${esc(item.id)}">
+      <div class="suggestion-top">
+        <div class="suggestion-meta">
+          <span class="tag">${esc(item.school)}</span>
+          <span class="tag">${esc(item.category)}</span>
+          ${statusTag(item.status)}
+        </div>
+        <span class="submitter">${esc(item.created_at || '')}</span>
+      </div>
+      <div class="suggestion-text">${esc(item.suggestion)}</div>
+      <div class="suggestion-footer">
+        <span class="submitter">${item.submitter_email ? esc(item.submitter_email) : 'Anonymous'}</span>
+        <div class="actions">
+          <button class="btn btn-approve btn-small" onclick="review('${esc(item.id)}', 'approved', this)">Approve</button>
+          <button class="btn btn-reject btn-small" onclick="review('${esc(item.id)}', 'rejected', this)">Reject</button>
+        </div>
+      </div>
+    </div>
+  `).join('') + '</div>';
+}
+
+async function loadSuggestions() {
+  showListErr('');
+  const key = getAdminKey();
+  if (!key) { return false; }
+
+  const filter = document.getElementById('status-filter') ? document.getElementById('status-filter').value : 'pending';
+  const container = document.getElementById('list-container');
+  if (container) {
+    container.innerHTML = '<div class="suggestion-list"><div class="skeleton"></div><div class="skeleton"></div></div>';
+  }
+
+  try {
+    const url = new URL(API + '/deals/suggestions');
+    if (filter && filter !== 'all') url.searchParams.set('status_filter', filter);
+
+    const resp = await fetch(url.toString(), {
+      headers: { 'X-Admin-Key': key },
+    });
+
+    if (resp.status === 403 || resp.status === 401) {
+      showKeyErr('Invalid admin key.');
+      return false;
+    }
+
+    if (resp.status === 404 || resp.status === 501) {
+      showListErr('This endpoint is not available yet. Please try again in a moment.');
+      return false;
+    }
+
+    if (!resp.ok) {
+      showListErr('Could not load suggestions. Please try again.');
+      return false;
+    }
+
+    const data = await resp.json();
+    renderSuggestions(data);
+    return true;
+  } catch (e) {
+    console.error('Load suggestions failed.');
+    showListErr('Network error. Check your connection and try again.');
+    return false;
+  }
+}
+
+async function review(id, newStatus, btn) {
+  const key = getAdminKey();
+  if (!key) return;
+
+  const card = btn.closest('.suggestion-card');
+  const buttons = card.querySelectorAll('button');
+  buttons.forEach(b => b.disabled = true);
+
+  try {
+    const url = new URL(API + '/deals/suggestions/' + encodeURIComponent(id) + '/review');
+    url.searchParams.set('new_status', newStatus);
+
+    const resp = await fetch(url.toString(), {
+      method: 'POST',
+      headers: { 'X-Admin-Key': key },
+    });
+
+    if (resp.status === 403 || resp.status === 401) {
+      showListErr('Invalid admin key.');
+      buttons.forEach(b => b.disabled = false);
+      return;
+    }
+
+    if (!resp.ok) {
+      showListErr('Could not update this suggestion. Please try again.');
+      buttons.forEach(b => b.disabled = false);
+      return;
+    }
+
+    await loadSuggestions();
+  } catch (e) {
+    console.error('Review action failed.');
+    showListErr('Network error. Check your connection and try again.');
+    buttons.forEach(b => b.disabled = false);
+  }
+}
+
+(function init() {
+  const existingKey = getAdminKey();
+  if (existingKey) {
+    loadSuggestions().then(ok => {
+      if (ok) {
+        document.getElementById('state-keyentry').style.display = 'none';
+        document.getElementById('state-panel').style.display = '';
+      } else {
+        sessionStorage.removeItem(ADMIN_KEY_SESSION_KEY);
+      }
+    });
+  }
+  document.getElementById('admin-key').addEventListener('keydown', e => {
+    if (e.key === 'Enter') unlock();
+  });
+})();
+</script>
+</body>
+</html>
+</content>
+</invoke>
