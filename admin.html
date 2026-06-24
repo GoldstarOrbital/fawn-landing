@@ -104,6 +104,12 @@
 
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #000; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+    .stat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+    .stat-card .stat-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .stat-card .stat-value { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+    .stat-breakdown { margin-top: 4px; font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -129,6 +135,17 @@
 
   <!-- Main panel -->
   <div id="state-panel" style="display:none">
+    <div class="card" id="stats-section" style="margin-bottom:20px; display:none">
+      <div class="toolbar">
+        <h2>Overview</h2>
+      </div>
+      <div id="stats-container">
+        <div class="suggestion-list">
+          <div class="skeleton"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="toolbar">
         <h2>Deal suggestions</h2>
@@ -192,8 +209,93 @@ async function unlock() {
   if (ok) {
     document.getElementById('state-keyentry').style.display = 'none';
     document.getElementById('state-panel').style.display = '';
+    loadStats();
   } else {
     sessionStorage.removeItem(ADMIN_KEY_SESSION_KEY);
+  }
+}
+
+function fmtMoney(cents) {
+  const n = (typeof cents === 'number' ? cents : 0) / 100;
+  return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function renderStats(data) {
+  const section = document.getElementById('stats-section');
+  const container = document.getElementById('stats-container');
+  if (!data) {
+    section.style.display = 'none';
+    return;
+  }
+
+  let tierHtml = '';
+  if (data.founding_members_by_tier && typeof data.founding_members_by_tier === 'object') {
+    const entries = Object.entries(data.founding_members_by_tier);
+    if (entries.length) {
+      tierHtml = '<div class="stat-breakdown">' + entries.map(([tier, count]) => `${esc(tier)}: ${esc(count)}`).join(' &middot; ') + '</div>';
+    }
+  }
+
+  let schoolHtml = '';
+  if (data.users_by_school && typeof data.users_by_school === 'object') {
+    const entries = Object.entries(data.users_by_school);
+    if (entries.length) {
+      schoolHtml = '<div class="stat-breakdown">' + entries.map(([school, count]) => `${esc(school)}: ${esc(count)}`).join(' &middot; ') + '</div>';
+    }
+  }
+
+  container.innerHTML = `
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Waitlist</div>
+        <div class="stat-value">${esc(data.waitlist_count)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Founding members</div>
+        <div class="stat-value">${esc(data.founding_members_count)}</div>
+        ${tierHtml}
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total revenue</div>
+        <div class="stat-value">${fmtMoney(data.total_revenue_cents)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Registered users</div>
+        <div class="stat-value">${esc(data.registered_users_count)}</div>
+        ${schoolHtml}
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active accounts</div>
+        <div class="stat-value">${esc(data.users_with_active_account_count)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pending suggestions</div>
+        <div class="stat-value">${esc(data.deal_suggestions_pending_count)}</div>
+      </div>
+    </div>
+  `;
+  section.style.display = '';
+}
+
+async function loadStats() {
+  const key = getAdminKey();
+  if (!key) return;
+
+  try {
+    const resp = await fetch(API + '/admin/stats/overview', {
+      headers: { 'X-Admin-Key': key },
+    });
+
+    if (!resp.ok) {
+      renderStats(null);
+      return;
+    }
+
+    const data = await resp.json();
+    renderStats(data);
+  } catch (e) {
+    console.error('Stats load failed.');
+    renderStats(null);
   }
 }
 
@@ -318,6 +420,7 @@ async function review(id, newStatus, btn) {
       if (ok) {
         document.getElementById('state-keyentry').style.display = 'none';
         document.getElementById('state-panel').style.display = '';
+        loadStats();
       } else {
         sessionStorage.removeItem(ADMIN_KEY_SESSION_KEY);
       }
@@ -330,5 +433,3 @@ async function review(id, newStatus, btn) {
 </script>
 </body>
 </html>
-</content>
-</invoke>

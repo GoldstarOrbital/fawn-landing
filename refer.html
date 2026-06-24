@@ -3,225 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAWN - You're Invited</title>
+<title>Refer a friend - FAWN</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --purple-deep: #1a1040; --purple-mid: #2d1f6e; --purple-accent: #7F77DD;
-    --purple-light: #AFA9EC; --purple-glow: #534AB7; --text-primary: #f0eeff;
-    --text-secondary: #b8b0e8; --text-muted: #7a72b0; --card-bg: rgba(255,255,255,0.06);
-    --card-border: rgba(175,169,236,0.2); --input-bg: rgba(255,255,255,0.08);
-    --input-border: rgba(175,169,236,0.3); --success-text: #5DCAA5;
+    --bg: #080b10;
+    --surface: #0e1318;
+    --surface2: #141b22;
+    --border: #1e2730;
+    --accent: #00c896;
+    --accent-dim: rgba(0,200,150,0.10);
+    --accent-border: rgba(0,200,150,0.25);
+    --text: #e8edf2;
+    --muted: #6b7a8d;
+    --red: #ff4d6d;
+    --green: #00c896;
   }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--purple-deep); color: var(--text-primary); min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
-  .bg-gradient { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(83,74,183,0.5) 0%, transparent 60%), linear-gradient(180deg, #1a1040 0%, #0e0825 100%); z-index: 0; pointer-events: none; }
-  .page { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-  .fawn-logo { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; }
-  .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple-glow), var(--purple-accent)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-  .top-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(127,119,221,0.15); border: 1px solid rgba(127,119,221,0.3); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--purple-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2rem; }
-  .dot { width: 6px; height: 6px; background: var(--purple-accent); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .invite-banner { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 1.25rem; margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 12px; }
-  .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--purple-glow), var(--purple-accent)); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; color: #fff; flex-shrink: 0; }
-  .invite-text p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
-  .invite-text strong { color: var(--text-primary); font-weight: 600; }
-  .position-tag { display: inline-block; background: rgba(127,119,221,0.2); border: 1px solid rgba(127,119,221,0.35); border-radius: 8px; padding: 3px 10px; font-size: 12px; color: var(--purple-light); margin-top: 6px; font-weight: 500; }
-  h1 { font-size: clamp(2rem, 8vw, 2.75rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1rem; }
-  h1 span { background: linear-gradient(135deg, #fff 0%, var(--purple-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .subheadline { font-size: 1.0625rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.7; }
-  .fee-highlight { display: inline-block; background: rgba(127,119,221,0.18); border: 1px solid rgba(127,119,221,0.35); border-radius: 10px; padding: 2px 10px; color: var(--purple-light); font-weight: 600; }
-  .form-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 1.75rem 1.5rem; margin-bottom: 1.75rem; }
-  .form-card h2 { font-size: 1.125rem; font-weight: 600; margin-bottom: 1.25rem; }
-  .field { margin-bottom: 12px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-  .field input { width: 100%; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 12px; padding: 13px 14px; font-size: 15px; color: var(--text-primary); outline: none; transition: border-color 0.2s; }
-  .field input::placeholder { color: var(--text-muted); }
-  .field input:focus { border-color: var(--purple-accent); }
-  .btn-join { width: 100%; padding: 16px; border-radius: 14px; border: none; background: linear-gradient(135deg, var(--purple-glow) 0%, var(--purple-accent) 100%); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 4px; transition: opacity 0.2s; }
-  .btn-join:hover { opacity: 0.9; }
-  .btn-join:disabled { opacity: 0.55; cursor: not-allowed; }
-  .fine-print { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 10px; }
-  .error-msg { background: rgba(226,75,74,0.12); border: 1px solid rgba(226,75,74,0.3); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #F09595; margin-top: 12px; display: none; }
-  .success-state { display: none; text-align: center; padding: 0.5rem 0; }
-  .success-icon { width: 64px; height: 64px; background: rgba(29,158,117,0.15); border: 1px solid rgba(29,158,117,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 28px; }
-  .success-state h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .success-state p { font-size: 15px; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
-  .position-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(83,74,183,0.25); border: 1px solid rgba(127,119,221,0.4); border-radius: 100px; padding: 8px 20px; font-size: 15px; font-weight: 600; color: var(--purple-light); margin-bottom: 1.5rem; }
-  .position-num { font-size: 22px; font-weight: 700; color: #fff; }
-  .share-section { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; text-align: left; }
-  .share-section p { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-  .share-link-row { display: flex; gap: 8px; }
-  .share-link-input { flex: 1; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--text-secondary); outline: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .btn-copy { padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(127,119,221,0.4); background: rgba(127,119,221,0.15); color: var(--purple-light); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
-  .btn-copy.copied { color: var(--success-text); }
-  .social-proof { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 14px; }
-  .avatars-stack { display: flex; flex-shrink: 0; }
-  .mini-av { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--purple-deep); margin-right: -10px; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; color: #fff; }
-  .mini-av:last-child { margin-right: 0; }
-  .proof-text { font-size: 14px; color: var(--text-secondary); }
-  .proof-text strong { color: var(--text-primary); font-weight: 600; }
-  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
-  .feat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 1rem; }
-  .feat-icon { font-size: 22px; margin-bottom: 8px; }
-  .feat-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-  .feat-card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
-  .trust-bar { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; padding: 1rem 0; }
-  .fdic-badge { background: rgba(99,153,34,0.12); border: 1px solid rgba(99,153,34,0.3); border-radius: 8px; padding: 3px 10px; font-size: 11px; font-weight: 700; color: #97C459; }
-  .unit-badge { background: rgba(55,138,221,0.12); border: 1px solid rgba(55,138,221,0.3); border-radius: 8px; padding: 3px 10px; font-size: 11px; font-weight: 600; color: #85B7EB; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+  }
 
-  @media (max-width: 360px) {
-    .field-row { grid-template-columns: 1fr; }
-    .features-grid { grid-template-columns: 1fr; }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px;
+    background: rgba(8,11,16,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-size: 1.2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+
+  .page { max-width: 640px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .greeting { margin-bottom: 28px; }
+  .greeting h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+  .greeting p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px 32px; margin-bottom: 20px; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .stat-tile .label { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .stat-tile .value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; }
+
+  .code-label { font-size: 0.75rem; color: var(--accent); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .code-box {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px; margin-bottom: 16px;
+  }
+  .code-value { font-size: 1.6rem; font-weight: 800; letter-spacing: 0.08em; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .btn { padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border: none; transition: opacity 0.2s, transform 0.1s; white-space: nowrap; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary.copied { background: var(--accent); opacity: 0.85; }
+
+  .share-link-row { display: flex; gap: 8px; }
+  .share-link-input {
+    flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; font-size: 0.85rem; color: var(--muted); outline: none;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .fine-print { font-size: 0.8rem; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+
+  .state-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 48px 32px; text-align: center;
+  }
+  .state-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .state-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+  .state-body { color: var(--muted); font-size: 0.9rem; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+
+  .skeleton { background: var(--surface2); border-radius: 8px; animation: shimmer 1.4s infinite; }
+  @keyframes shimmer { 0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; } }
+
+  .error-msg { background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3); border-radius: 10px; padding: 12px 14px; color: var(--red); font-size: 0.85rem; margin-top: 16px; display: none; }
+
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .code-box { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
-<div class="bg-gradient"></div>
-<div class="page">
-  <div class="fawn-logo"><div class="logo-icon"></div> FAWN</div>
-  <div class="top-badge"><div class="dot"></div> Waitlist now open</div>
 
-  <div id="invite-banner" class="invite-banner" style="display:none;">
-    <div class="avatar" id="referrer-avatar">?</div>
-    <div class="invite-text">
-      <p><strong id="referrer-name">Your friend</strong> invited you to FAWN</p>
-      <span class="position-tag" id="referrer-position-tag" style="display:none;"></span>
+<nav>
+  <div class="nav-logo">fawn</div>
+</nav>
+
+<div class="page" id="page">
+  <!-- Loading state -->
+  <div id="state-loading">
+    <div class="greeting"><div class="skeleton" style="width:200px;height:28px;margin-bottom:8px"></div><div class="skeleton" style="width:140px;height:16px"></div></div>
+    <div class="card" style="min-height:140px"><div class="skeleton" style="width:100%;height:80px;border-radius:14px"></div></div>
+  </div>
+
+  <!-- No auth -->
+  <div id="state-noauth" style="display:none">
+    <div class="state-card">
+      <div class="state-icon">&#127873;</div>
+      <div class="state-title">Sign up to get your referral link</div>
+      <p class="state-body">Create a FAWN account to get your own referral code and start inviting friends.</p>
+      <a href="signup.html" style="display:inline-block;margin-top:24px;background:var(--accent);color:#000;font-weight:700;padding:12px 28px;border-radius:10px;text-decoration:none;">Open an account</a>
+      <br>
+      <a href="login.html" style="display:inline-block;margin-top:12px;color:var(--accent);font-size:0.85rem;">Already have one? Sign in</a>
     </div>
   </div>
 
-  <h1 id="headline">Banking that<br><span>works for students</span></h1>
-  <p class="subheadline">Pay <span class="fee-highlight">$0.01 per swipe</span> - and nothing else. No monthly fees. No minimums. No nonsense.</p>
+  <!-- Active referral view -->
+  <div id="state-active" style="display:none">
+    <div class="greeting">
+      <h1>Refer a friend</h1>
+      <p>Share your code and grow FAWN together.</p>
+    </div>
 
-  <div class="form-card">
-    <h2>Join the waitlist</h2>
-    <div id="form-area">
-      <div class="field-row">
-        <div class="field"><label for="first-name">First name</label><input type="text" id="first-name" placeholder="Alex" autocomplete="given-name"></div>
-        <div class="field"><label for="last-name">Last name</label><input type="text" id="last-name" placeholder="Smith" autocomplete="family-name"></div>
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="label">Friends referred</div>
+        <div class="value" id="referral-count">0</div>
       </div>
-      <div class="field"><label for="email">Email address</label><input type="email" id="email" placeholder="you@university.edu" autocomplete="email"></div>
-      <button class="btn-join" id="join-btn" onclick="handleJoin()">Claim my spot -></button>
-      <p class="fine-print">No credit card. No monthly fee. Ever.</p>
+      <div class="stat-tile">
+        <div class="label">Your code</div>
+        <div class="value" id="referral-code-mini" style="font-family:'SF Mono','Fira Code',monospace;font-size:1.1rem;">-----</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="code-label">Your referral code</div>
+      <div class="code-box">
+        <div class="code-value" id="code-value">-----</div>
+        <button class="btn btn-primary" id="copy-code-btn" onclick="copyCode()">Copy code</button>
+      </div>
+
+      <div class="code-label">Shareable link</div>
+      <div class="share-link-row">
+        <input class="share-link-input" type="text" id="share-link-input" readonly>
+        <button class="btn btn-primary" id="copy-link-btn" onclick="copyLink()">Copy</button>
+      </div>
+
+      <p class="fine-print">Share your link with friends. When they sign up with your code, you both get credit.</p>
       <div class="error-msg" id="error-msg"></div>
     </div>
-    <div class="success-state" id="success-state">
-      <div class="success-icon">&#10003;</div>
-      <h2>You're on the list!</h2>
-      <p id="success-msg">We'll let you know when FAWN launches.</p>
-      <div class="position-pill" id="position-pill" style="display:none;">You're <span class="position-num" id="user-position">#-</span> on the waitlist</div>
-      <div class="share-section">
-        <p>Share your link - move up the list</p>
-        <div class="share-link-row">
-          <input class="share-link-input" type="text" id="share-link-input" readonly>
-          <button class="btn-copy" id="copy-btn" onclick="copyLink()">Copy</button>
-        </div>
-      </div>
-      <p class="fine-print" style="margin-top:8px;">Each friend you refer moves you up.</p>
-    </div>
-  </div>
-
-  <div class="social-proof">
-    <div class="avatars-stack">
-      <div class="mini-av" style="background:#534AB7;">JK</div>
-      <div class="mini-av" style="background:#7F77DD;">RM</div>
-      <div class="mini-av" style="background:#3C3489;">TS</div>
-      <div class="mini-av" style="background:#AFA9EC;color:#26215C;">AP</div>
-    </div>
-    <p class="proof-text"><strong>500+ students</strong> are already done paying bank fees.</p>
-  </div>
-
-  <div class="features-grid">
-    <div class="feat-card"><div class="feat-icon"></div><h3>$0.01 per swipe</h3><p>One cent per transaction, nothing more.</p></div>
-    <div class="feat-card"><div class="feat-icon"></div><h3>FDIC-insured</h3><p>Your money protected up to $250,000.</p></div>
-    <div class="feat-card"><div class="feat-icon"></div><h3>No overdraft fees</h3><p>Transaction declines cleanly. No penalty.</p></div>
-    <div class="feat-card"><div class="feat-icon"></div><h3>Built for college</h3><p>Split rent, pay dining, manage your budget.</p></div>
-  </div>
-
-  <div class="trust-bar">
-    <span class="fdic-badge">&#10003; FDIC Insured</span>
-    <span class="unit-badge">Powered by Unit</span>
   </div>
 </div>
 
 <script>
-(function() {
-  var params = new URLSearchParams(window.location.search);
-  var refCode = params.get('ref') || '';
-  var referrerName = params.get('name') || '';
-  if (refCode) {
-    document.getElementById('invite-banner').style.display = 'flex';
-    var initials = '?', displayName = 'Your friend';
-    if (referrerName) {
-      var parts = referrerName.trim().split(' ');
-      initials = ((parts[0]||'')[0]||'') + ((parts[1]||'')[0]||(parts[0]||'')[1]||'');
-      initials = initials.toUpperCase() || '?';
-      displayName = parts[0] || 'Your friend';
-    }
-    document.getElementById('referrer-avatar').textContent = initials;
-    document.getElementById('referrer-name').textContent = displayName;
-    var posParam = params.get('pos');
-    if (posParam) {
-      var posTag = document.getElementById('referrer-position-tag');
-      posTag.textContent = "They're #" + posParam + " - join and skip ahead";
-      posTag.style.display = 'inline-block';
-    }
-    document.getElementById('headline').innerHTML = displayName + ' thinks<br><span>you\'ll love FAWN</span>';
-  }
-})();
+const API = 'https://web-production-13d5b.up.railway.app';
+const TOKEN_KEY = 'fawn_token';
 
-function handleJoin() {
-  var firstName = document.getElementById('first-name').value.trim();
-  var email = document.getElementById('email').value.trim();
-  var errEl = document.getElementById('error-msg');
-  errEl.style.display = 'none';
-  if (!firstName) { errEl.textContent = 'Please enter your first name.'; errEl.style.display = 'block'; return; }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email.'; errEl.style.display = 'block'; return; }
-  var btn = document.getElementById('join-btn');
-  btn.disabled = true; btn.textContent = 'Joining...';
-  var params = new URLSearchParams(window.location.search);
-  var payload = { email: email };
-  if (firstName) payload.first_name = firstName;
-  var refCode = params.get('ref');
-  if (refCode) payload.referral_code = refCode;
-  fetch('https://web-production-13d5b.up.railway.app/waitlist/join', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-  }).then(function(r) { return r.json().then(function(d) { return {ok:r.ok,data:d}; }); })
-  .then(function(result) {
-    btn.disabled = false; btn.textContent = 'Claim my spot ->';
-    if (!result.ok) { var msg = result.data.detail || 'Something went wrong.'; if (typeof msg === 'object') msg = JSON.stringify(msg); errEl.textContent = msg; errEl.style.display = 'block'; return; }
-    showSuccess(result.data, firstName);
-  }).catch(function() { btn.disabled = false; btn.textContent = 'Claim my spot ->'; errEl.textContent = 'Connection error. Try again.'; errEl.style.display = 'block'; });
+function show(id) {
+  ['state-loading', 'state-noauth', 'state-active'].forEach(function(s) {
+    document.getElementById(s).style.display = s === id ? '' : 'none';
+  });
 }
 
-function showSuccess(data, firstName) {
-  document.getElementById('form-area').style.display = 'none';
-  document.getElementById('success-state').style.display = 'block';
-  var position = data.position || data.waitlist_position || null;
-  var myCode = data.referral_code || data.code || '';
-  if (position) {
-    document.getElementById('user-position').textContent = '#' + position;
-    document.getElementById('position-pill').style.display = 'inline-flex';
-    document.getElementById('success-msg').textContent = "You're #" + position + ", " + firstName + ". Share your link to move up.";
-  }
-  var shareUrl = 'https://goldstarorbital.github.io/fawn-landing?ref=' + (myCode || 'FAWN');
-  document.getElementById('share-link-input').value = shareUrl;
-  window.__shareUrl = shareUrl;
+function showError(msg) {
+  var el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
 }
 
-function copyLink() {
-  var url = document.getElementById('share-link-input').value;
-  var btn = document.getElementById('copy-btn');
-  navigator.clipboard.writeText(url).then(function() {
-    btn.textContent = 'Copied!'; btn.classList.add('copied');
-    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+var currentCode = '';
+var currentShareUrl = '';
+
+function copyCode() {
+  if (!currentCode) return;
+  var btn = document.getElementById('copy-code-btn');
+  navigator.clipboard.writeText(currentCode).then(function() {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy code'; btn.classList.remove('copied'); }, 2000);
   }).catch(function() {
-    document.getElementById('share-link-input').select();
+    var input = document.getElementById('share-link-input');
+    input.select();
     document.execCommand('copy');
   });
 }
 
-document.getElementById('email').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleJoin(); });
+function copyLink() {
+  if (!currentShareUrl) return;
+  var btn = document.getElementById('copy-link-btn');
+  navigator.clipboard.writeText(currentShareUrl).then(function() {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }).catch(function() {
+    var input = document.getElementById('share-link-input');
+    input.select();
+    document.execCommand('copy');
+  });
+}
+
+async function loadReferral() {
+  var token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { show('state-noauth'); return; }
+
+  try {
+    var res = await fetch(API + '/referral/code', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+
+    if (res.status === 401 || res.status === 403) { show('state-noauth'); return; }
+
+    if (!res.ok) {
+      show('state-active');
+      showError('Could not load your referral code. Please try again later.');
+      return;
+    }
+
+    var data = await res.json();
+    currentCode = data.code || '';
+    var shareUrl = 'https://goldstarorbital.github.io/fawn-landing/signup.html?ref=' + encodeURIComponent(currentCode);
+    currentShareUrl = shareUrl;
+
+    document.getElementById('code-value').textContent = currentCode || '-----';
+    document.getElementById('referral-code-mini').textContent = currentCode || '-----';
+    document.getElementById('share-link-input').value = shareUrl;
+    document.getElementById('referral-count').textContent = (typeof data.referrals === 'number') ? data.referrals : 0;
+
+    show('state-active');
+  } catch (e) {
+    console.error('Referral load failed:', e);
+    show('state-active');
+    showError('Network error. Check your connection and try again.');
+  }
+}
+
+loadReferral();
 </script>
 </body>
 </html>
