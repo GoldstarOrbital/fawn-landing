@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Savings — Local Deals for Your School | FAWN</title>
+  <meta name="description" content="Real, verified local deals for your campus — gas, food, coffee, housing, bars, bulk alcohol, and coupons across 19+ West Coast schools. Updated regularly by the FAWN community." />
+  <meta name="theme-color" content="#00c896" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10; --surface: #0e1318; --border: #1e2730;
+      --green: #00c896; --green-dark: #00a87d;
+      --text: #e8edf2; --muted: #6b7a8d;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+    }
+    a { color: inherit; }
+
+    nav {
+      padding: 20px 40px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: var(--green); letter-spacing: -1px; text-decoration: none; }
+    .nav-back { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    .nav-back:hover { color: var(--green); }
+
+    .hero { text-align: center; padding: 64px 24px 36px; max-width: 760px; margin: 0 auto; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,200,150,0.1); border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 100px; padding: 6px 16px; font-size: 0.8rem; color: var(--green); margin-bottom: 24px;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 18px; }
+    h1 span { color: var(--green); }
+    .hero p { color: var(--muted); font-size: 1.02rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 0 24px 100px; }
+
+    /* COLLEGE SAVINGS HUB */
+    .school-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 32px; justify-content: center;
+    }
+    .school-tab {
+      padding: 10px 22px;
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .school-tab:hover { border-color: var(--green); color: var(--text); }
+    .school-tab.active { background: var(--green); color: #000; border-color: var(--green); }
+
+    .school-panel { display: none; }
+    .school-panel.active { display: block; }
+
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .deal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+    }
+    .deal-card-savings {
+      border-color: rgba(0,200,150,0.3);
+      background: rgba(0,200,150,0.04);
+    }
+    .deal-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .deal-cat {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--green); margin-bottom: 16px;
+    }
+    .deal-items { display: flex; flex-direction: column; gap: 8px; }
+    .deal-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 0.82rem; color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px;
+    }
+    .deal-row:last-of-type { border-bottom: none; }
+    .deal-row-highlight { color: var(--text); }
+    .deal-name { flex: 1; padding-right: 12px; }
+    .deal-price { font-weight: 700; color: var(--text); white-space: nowrap; }
+    .deal-green { color: var(--green) !important; }
+    .deal-red { color: #ff6b6b !important; }
+    .deal-total {
+      border-top: 1px solid var(--border) !important;
+      border-bottom: none !important;
+      padding-top: 10px !important; margin-top: 4px;
+      font-weight: 700; font-size: 0.88rem !important;
+    }
+    .deal-tip {
+      font-size: 0.74rem; color: var(--muted);
+      margin-top: 10px; line-height: 1.5;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 10px;
+    }
+    .deal-tip-green { color: rgba(0,200,150,0.8) !important; }
+
+    @media (max-width: 900px) { .deals-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      .deals-grid { grid-template-columns: 1fr; }
+      .school-tab { font-size: 0.8rem; padding: 8px 16px; }
+      /* Many schools wrap into a tall ragged block on narrow screens -
+         switch to a single scrollable row instead */
+      .school-tabs {
+        flex-wrap: nowrap; justify-content: flex-start;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px; margin-left: -24px; margin-right: -24px;
+        padding-left: 24px; padding-right: 24px;
+        scrollbar-width: thin;
+      }
+    }
+
+    /* TOMORROW'S PICKS */
+    .deal-card-tomorrow {
+      border-color: rgba(0,200,150,0.35);
+      background: linear-gradient(135deg, rgba(0,200,150,0.08) 0%, rgba(0,200,150,0.02) 100%);
+    }
+    .deal-card-tomorrow .deal-cat { color: var(--green); }
+    .tomorrow-badge {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      background: rgba(0,200,150,0.15); color: var(--green);
+      padding: 3px 8px; border-radius: 100px; margin-bottom: 10px;
+    }
+
+    /* SUGGEST A DEAL MODAL */
+    .suggest-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .suggest-modal-overlay.open { display: flex; }
+    .suggest-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; max-width: 440px; width: 100%;
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .suggest-modal h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .suggest-modal > p { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .suggest-modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; color: var(--muted);
+      font-size: 1.4rem; cursor: pointer; line-height: 1;
+    }
+    .suggest-field { margin-bottom: 14px; }
+    .suggest-field label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 6px; }
+    .suggest-field select, .suggest-field input, .suggest-field textarea {
+      width: 100%; padding: 10px 12px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 0.9rem; font-family: inherit; outline: none;
+    }
+    .suggest-field select:focus, .suggest-field input:focus, .suggest-field textarea:focus { border-color: var(--green); }
+    .suggest-field textarea { resize: vertical; min-height: 80px; }
+    .suggest-submit {
+      width: 100%; padding: 12px; background: var(--green); color: #000;
+      font-weight: 700; font-size: 0.9rem; border: none; border-radius: 8px;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .suggest-submit:hover { opacity: 0.88; }
+    .suggest-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .suggest-status { font-size: 0.8rem; color: var(--muted); margin-top: 12px; text-align: center; min-height: 1.2em; }
+  </style>
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureFlagEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">fawn</a>
+  <a href="index.html" class="nav-back">&#8592; Back to home</a>
+</nav>
+
+<div class="hero">
+  <div class="badge"><div class="badge-dot"></div> Campus Savings</div>
+  <h1>Every <span>buck</span> counts.</h1>
+  <p>Real local deals within 15 miles of your campus — gas, food, coffee, housing, bars, bulk alcohol, and coupons. Updated regularly by the FAWN community.</p>
+</div>
+
+<main>
+
+<div class="school-tabs" id="school-tabs"></div>
+<div id="school-panels"></div>
+
+<p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;">Gas prices verified via GasBuddy at time of writing; everything else is community-verified estimates, refreshed daily. Prices change &#8212; always double-check before driving across town for a deal. Know a better deal? <button onclick="openSuggestModal()" style="background:none;border:none;color:var(--green);cursor:pointer;font-size:0.78rem;text-decoration:underline;padding:0;">Submit it.</button> &middot; Got an .edu email? <a href="perks.html" style="color:var(--green)">See your software &amp; subscription discounts &#8594;</a></p>
+
+</main>
+
+<!-- SUGGEST A DEAL MODAL -->
+<div class="suggest-modal-overlay" id="suggest-modal-overlay" onclick="closeSuggestModal(event)">
+  <div class="suggest-modal" onclick="event.stopPropagation()">
+    <button class="suggest-modal-close" onclick="closeSuggestModal()" aria-label="Close">&#215;</button>
+    <h3>Know a better deal?</h3>
+    <p>Tell us what we&#8217;re missing. We review every submission before it goes live.</p>
+    <div class="suggest-field">
+      <label for="suggest-school">School</label>
+      <select id="suggest-school">
+        <option value="berkeley">UC Berkeley</option>
+        <option value="stanford">Stanford</option>
+        <option value="scu">Santa Clara</option>
+        <option value="sjsu">San Jose State</option>
+        <option value="usf">USF</option>
+        <option value="sfstate">SF State</option>
+        <option value="smc">Saint Mary&#8217;s College</option>
+        <option value="sierra">Sierra College</option>
+        <option value="sacstate">Sacramento State</option>
+        <option value="yubacollege">Yuba College</option>
+        <option value="calpoly">Cal Poly SLO</option>
+        <option value="ucdavis">UC Davis</option>
+        <option value="csumb">CSU Monterey Bay</option>
+        <option value="ucsb">UCSB</option>
+        <option value="ucsc">UC Santa Cruz</option>
+        <option value="uoregon">U of Oregon</option>
+        <option value="oregonstate">Oregon State</option>
+        <option value="unlv">UNLV</option>
+        <option value="unr">Nevada, Reno</option>
+        <option value="ucla">UCLA</option>
+        <option value="ucsd">UC San Diego</option>
+        <option value="sdsu">San Diego State</option>
+        <option value="uci">UC Irvine</option>
+        <option value="ucr">UC Riverside</option>
+        <option value="ucmerced">UC Merced</option>
+        <option value="csulb">Cal State Long Beach</option>
+        <option value="csuf">Cal State Fullerton</option>
+        <option value="fresnostate">Fresno State</option>
+        <option value="chicostate">Chico State</option>
+        <option value="humboldt">Cal Poly Humboldt</option>
+        <option value="uw">University of Washington</option>
+        <option value="seattleu">Seattle University</option>
+        <option value="wsu">Washington State</option>
+        <option value="wwu">Western Washington</option>
+        <option value="psu">Portland State</option>
+      </select>
+    </div>
+    <div class="suggest-field">
+      <label for="suggest-category">Category</label>
+      <select id="suggest-category">
+        <option value="gas">Gas</option>
+        <option value="food">Food Combos</option>
+        <option value="coffee">Coffee &amp; Study Spots</option>
+        <option value="housing">Housing</option>
+        <option value="bars">Bars</option>
+        <option value="bulk">Bulk Alcohol</option>
+        <option value="coupons">Coupons &amp; Codes</option>
+      </select>
+    </div>
+    <div class="suggest-field">
+      <label for="suggest-text">The deal</label>
+      <textarea id="suggest-text" maxlength="500" placeholder="e.g. Boba Guys on College Ave does $4 drinks for students with ID on Wednesdays"></textarea>
+    </div>
+    <div class="suggest-field">
+      <label for="suggest-email">Your email (optional)</label>
+      <input type="email" id="suggest-email" placeholder="so we can credit you / follow up" />
+    </div>
+    <button class="suggest-submit" id="suggest-submit-btn" onclick="submitSuggestion()">Submit deal</button>
+    <div class="suggest-status" id="suggest-status"></div>
+  </div>
+</div>
+
+<script>
+const CAT_META = {
+  gas:     { icon: '&#9981;',   label: 'Cheapest Gas' },
+  food:    { icon: '&#127828;', label: 'Best Food Combos' },
+  coffee:  { icon: '&#9749;',   label: 'Coffee &amp; Study Spots' },
+  housing: { icon: '&#127968;', label: 'Cheapest Housing' },
+  bars:    { icon: '&#127866;', label: 'Cheapest Bars' },
+  bulk:    { icon: '&#128717;', label: 'Bulk Alcohol' },
+  coupons: { icon: '&#127915;', label: 'Coupons &amp; Codes' },
+};
+
+const SAVINGS_CARD = {
+  icon: '&#128200;', label: 'FAWN Savings vs Chase',
+  rows: [
+    ['Monthly maintenance fee saved', '+$12.00', 'green'],
+    ['Overdraft fee avoided (avg 1&#215;/mo)', '+$35.00', 'green'],
+    ['ATM fee savings (4&#215;/mo)', '+$12.00', 'green'],
+    ['FAWN transaction cost (50&#215;/mo)', '-$0.50', 'red'],
+  ],
+  total: ['Monthly savings with FAWN', '$58.50'],
+  tip: '&#128176; $58.50/mo = $702/year back in your pocket.',
+};
+
+const SCHOOLS = [
+  { key: 'berkeley', name: 'UC Berkeley', categories: {
+    gas: { items: [['Costco Richmond','$5.17/gal'],['Arco &amp; ampm, San Pablo Ave (Richmond)','$5.29/gal'],['Chevron, W Cutting Blvd (Richmond)','$5.69/gal']], tip: '&#128161; Verified via GasBuddy. Costco requires membership &#8212; split with 3 friends and it pays for itself in 2 fill-ups.' },
+    food: { items: [["Top Dog (Telegraph) &#8212; dog + drink",'$5.50'],['Chipotle student bowl (no guac)','$8.25'],['Cheeseboard Pizza slice + lemonade','$7.00'],["Gypsy's Trattoria pasta special",'$9.50']], tip: "&#128161; Top Dog cash only &#8212; FAWN&#8217;s $0.01 fee beats the ATM every time." },
+    coffee: { items: [['Strada Coffee &#8212; drip','$3.25'],['Cafe Milano &#8212; latte','$4.50'],["Brewed Awakening &#8212; study seats + $2 drip",'$2.00']], tip: '&#128161; Brewed Awakening is open latest and rarely full during finals.' },
+    housing: { items: [['Albany shared room (BART)','$800&#8211;950/mo'],['El Cerrito 3BR split','$900&#8211;1100/mo'],['Piedmont Ave studio','$1,300/mo']], tip: '&#128161; Albany &amp; El Cerrito are 15 min by BART &#8212; cheapest options near campus.' },
+    bars: { items: [["Kip&#8217;s Bar &#8212; draft beers",'$3.00'],['The Albatross &#8212; well drinks','$4.00'],['Triple Rock Brewery pints','$5.50'],['Spats on Shattuck &#8212; happy hour','$4.50']], tip: "&#128161; Kip&#8217;s runs $3 drafts on weeknights until 9 PM." },
+    bulk: { items: [['Costco Richmond &#8212; 30pk Coors','$22.99'],['BevMo Emeryville &#8212; 5 Cent Sale','Buy 1 get 1 &#162;'],['Total Wine Emeryville &#8212; house wine','$5.99/btl']], tip: "&#128161; BevMo&#8217;s 5&#162; sale stacks on wine &#8212; best deal in the East Bay." },
+    coupons: { items: [['Cal Student Store &#8212; 10% off w/ Cal 1 Card','10% off'],['AMC Berkeley &#8212; student Tuesdays','$8 tickets'],['Underground Printing &#8212; .edu email','15% off first order']], tip: '&#128161; Stack with UNiDAYS/Student Beans &#8212; see Student Perks tab for verified online codes.' },
+  }},
+  { key: 'stanford', name: 'Stanford', categories: {
+    gas: { items: [['Diamond Gas &amp; Mart, E Evelyn Ave (Mtn View)','$5.39/gal'],['Great Gas, Grant Rd (Mtn View)','$5.45/gal'],['Rotten Robbie, N Whisman Rd (Mtn View)','$5.49/gal']], tip: '&#128161; Verified via GasBuddy. Diamond Gas is the cheapest within 5 miles of campus.' },
+    food: { items: [['Tresidder Union daily special','$7.50'],['Coupa Caf&#233; empanada + coffee','$8.00'],['Tacos El Grullense (Redwood City)','$3.50/taco'],['Chipotle University Ave','$9.25']], tip: '&#128161; Tacos El Grullense in Redwood City = best $10 meal near campus.' },
+    coffee: { items: [['Coupa Caf&#233; &#8212; cortado','$4.25'],['Peet&#8217;s on University Ave','$3.75'],['Red Rock Coffee (Mountain View)','$3.50']], tip: '&#128161; Red Rock Coffee has the most open seats for studying off-campus.' },
+    housing: { items: [['East Palo Alto shared room','$1,100&#8211;1,400/mo'],['Redwood City 3BR split','$1,200&#8211;1,500/mo'],['Menlo Park studio','$1,800/mo']], tip: '&#128161; East Palo Alto is 10 min by bike &#8212; biggest savings near Stanford.' },
+    bars: { items: [["Antonio&#8217;s Nut House &#8212; pints",'$4.00'],['The Rose &amp; Crown &#8212; happy hour','$5.00'],['Old Pro &#8212; pitchers','$14.00'],["Nola&#8217;s &#8212; well drinks",'$6.00']], tip: "&#128161; Antonio&#8217;s is the cheapest bar in Palo Alto &#8212; cash preferred." },
+    bulk: { items: [['Total Wine Sunnyvale &#8212; 30pk','$21.99'],['BevMo Mountain View','Buy 1 get 1 &#162;'],['Costco Mountain View &#8212; wine','$6.99/btl']], tip: '&#128161; Total Wine Sunnyvale has the best selection and price on the Peninsula.' },
+    coupons: { items: [['Stanford Bookstore &#8212; 10% off w/ ID','10% off'],['Caltrain Go Pass discount for students','Up to 50% off'],['CinéArts Palo Alto student rate','$10 tickets']], tip: '&#128161; Caltrain student discount alone can save $40+/month if you commute.' },
+  }},
+  { key: 'scu', name: 'Santa Clara', categories: {
+    gas: { items: [['Costco, Automation Pkwy (San Jose)','$4.99/gal'],['Diamond Gas &amp; Mart (Mtn View)','$5.39/gal'],['Excel Gas &amp; Mart, W Evelyn Ave (Sunnyvale)','$5.09/gal']], tip: '&#128161; Verified via GasBuddy. The San Jose Costco is about 10 minutes away and worth the membership.' },
+    food: { items: [['Benson Center lunch special','$7.00'],['Chipotle on El Camino','$8.75'],["Lee&#8217;s Sandwiches (Westfield)",'$5.50'],['In-N-Out double double combo','$7.45']], tip: '&#128161; In-N-Out is a 5 min drive &#8212; best calorie-per-dollar on this list.' },
+    coffee: { items: [['Caffino Coffee House','$3.75'],["Frankie, Johnnie &amp; Luigi's &#8212; espresso",'$3.00'],['Chromatic Coffee (San Jose)','$4.50']], tip: '&#128161; Caffino has the most reliable wifi and outlets near campus.' },
+    housing: { items: [['Sunnyvale shared room','$1,000&#8211;1,300/mo'],['Santa Clara 3BR house split','$900&#8211;1,200/mo'],['San Jose (near light rail) room','$850&#8211;1,100/mo']], tip: '&#128161; San Jose near the light rail is the cheapest option &#8212; 20 min to campus.' },
+    bars: { items: [['Mission City Bar &#8212; well drinks','$4.00'],['The Hut &#8212; pitchers','$12.00'],['Gordon Biersch SJ &#8212; happy hour','$5.00'],["Johnny V&#8217;s &#8212; draft pints",'$4.50']], tip: '&#128161; Mission City Bar is the go-to for cheap drinks near SCU.' },
+    bulk: { items: [['Total Wine Sunnyvale &#8212; 30pk','$21.99'],['Costco Mountain View &#8212; vodka','$19.99/1.75L'],['BevMo Santa Clara &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Costco Kirkland vodka is legitimately good &#8212; same distillery as Grey Goose.' },
+    coupons: { items: [['SCU Bookstore &#8212; 10% off w/ Bronco Card','10% off'],['VTA student Eco Pass','Discounted unlimited rides'],['Century Theatres student rate','$9 tickets']], tip: '&#128161; The VTA Eco Pass through SCU is often near-free &#8212; check with student services.' },
+  }},
+  { key: 'sjsu', name: 'San Jose State', categories: {
+    gas: { items: [['Costco, S Evergreen Loop (San Jose)','$4.95/gal'],['Poppy, 290 Keyes St (downtown SJ)','$5.15/gal'],['ARCO, Snell Ave (San Jose)','$5.11/gal']], tip: '&#128161; Verified via GasBuddy. Poppy on Keyes St is the closest cheap option to downtown SJSU.' },
+    food: { items: [['Tofu House lunch special','$9.00'],['La Victoria Taqueria burrito','$6.50'],['Spartan food court combo','$7.00']], tip: '&#128161; La Victoria&#8217;s burrito is genuinely a full meal for under $7.' },
+    coffee: { items: [['Caffe Frascati &#8212; latte','$4.00'],["Roy&#8217;s Station &#8212; drip",'$3.50'],['Chromatic Coffee &#8212; oat latte','$4.50']], tip: "&#128161; Roy&#8217;s Station is a 10-min walk but has the cheapest pour-over downtown." },
+    housing: { items: [['Shared room downtown SJ','$900&#8211;1,200/mo'],['Room near light rail','$800&#8211;1,000/mo'],['Studio near campus','$1,500/mo']], tip: '&#128161; Light rail access cuts your commute cost and opens up cheaper rooms further out.' },
+    bars: { items: [['Caravan Lounge &#8212; well drinks','$4.00'],['Singlebarrel &#8212; happy hour','$5.00'],["O&#8217;Flaherty&#8217;s &#8212; PBR",'$3.00']], tip: '&#128161; Singlebarrel&#8217;s happy hour runs until 7 PM most weekdays.' },
+    bulk: { items: [['BevMo San Jose &#8212; 5 Cent Sale','Buy 1 get 1 &#162;'],['Total Wine Almaden &#8212; 30pk','$21.99'],["Costco San Jose &#8212; Tito's",'$24.99/1.75L']], tip: '&#128161; Almaden Total Wine restocks the 30-pack deal weekly &#8212; check Thursdays.' },
+    coupons: { items: [['SJSU Spartan Bookstore &#8212; 15% off supplies w/ ID','15% off'],['AMC Eastridge student Tuesday','$8 tickets'],['VTA student discount pass','Discounted fare']], tip: '&#128161; Show your Tower Card at the Spartan Bookstore for the supply discount &#8212; often unadvertised.' },
+  }},
+  { key: 'usf', name: 'USF', categories: {
+    gas: { items: [['Costco, El Camino Real (South SF)','$5.19/gal']], tip: '&#128161; Verified via GasBuddy. SF itself rarely has stations under $5.50 &#8212; the South SF Costco is the closest real discount, worth the drive if you have a membership.' },
+    food: { items: [["Howard's Caf&#233; &#8212; lunch combo",'$9.00'],['Pasta da Pulcinella lunch special','$12.00'],['Anda Piroshki','$5.00']], tip: '&#128161; Anda Piroshki on Fulton is the best $5 meal within walking distance.' },
+    coffee: { items: [['Trouble Coffee &#8212; drip + toast','$7.00'],['Andytown Coffee &#8212; oat latte','$5.50'],['Simple Pleasures Caf&#233;','$3.75']], tip: '&#128161; Simple Pleasures has live jazz and the cheapest cup in the Richmond.' },
+    housing: { items: [['Inner Richmond shared room','$1,300&#8211;1,600/mo'],['Outer Sunset room','$1,100&#8211;1,400/mo'],['Daly City studio','$1,700/mo']], tip: '&#128161; Outer Sunset is a longer Muni ride but consistently the cheapest SF option near USF.' },
+    bars: { items: [["Trad'r Sam's &#8212; tiki drinks",'$6.00'],["Mauna Loa &#8212; happy hour",'$5.00'],['Beach Chalet &#8212; pints w/ ocean view','$7.00']], tip: '&#128161; Mauna Loa&#8217;s happy hour is the best value-to-vibe ratio near campus.' },
+    bulk: { items: [['BevMo Stonestown','Buy 1 get 1 &#162;'],['Cost Plus World Market &#8212; wine','$7.99/btl'],['Costco Daly City &#8212; run','$24.99/1.75L']], tip: '&#128161; Nearest Total Wine is in Daly City &#8212; worth the BART ride for a group buy.' },
+    coupons: { items: [['USF Bookstore &#8212; 10% off w/ USF ID','10% off'],['Clipper Card student discount on Muni','Reduced fare'],['AMC Stonestown student Tuesday','$8 tickets']], tip: '&#128161; The Muni student discount through Clipper adds up fast if you commute daily.' },
+  }},
+  { key: 'sfstate', name: 'SF State', categories: {
+    gas: { items: [['Costco, El Camino Real (South SF, closest Costco)','$5.19/gal']], tip: '&#128161; Verified via GasBuddy. South SF Costco is a quick drive and worth it if you have a membership &#8212; SF gas itself runs well above $5.50.' },
+    food: { items: [['Pinecrest Diner combo','$11.00'],['Imperial Garden lunch special','$9.50'],['Stonestown food court combo','$8.00']], tip: '&#128161; Imperial Garden&#8217;s lunch special is the best value sit-down meal near campus.' },
+    coffee: { items: [["Devil's Teeth Baking Co &#8212; coffee + pastry",'$6.50'],['Andytown Coffee Roasters','$5.00'],['Trouble Coffee','$7.00']], tip: "&#128161; Devil's Teeth gets crowded weekends &#8212; go on a weekday morning." },
+    housing: { items: [['Parkside shared room','$1,100&#8211;1,400/mo'],['Ingleside room','$1,000&#8211;1,300/mo'],['Daly City studio','$1,600/mo']], tip: '&#128161; Parkside and Ingleside are both walkable to campus and cheaper than the Sunset.' },
+    bars: { items: [['Riptide Tavern &#8212; pints','$5.00'],['Holy Land &#8212; drinks + falafel','$4.00'],['Pacific Cocktail Haven (splurge night)','$14.00']], tip: '&#128161; Riptide is the classic SF State after-class spot &#8212; cheap and close.' },
+    bulk: { items: [['BevMo Daly City','Buy 1 get 1 &#162;'],['Costco Daly City &#8212; wine 6-pack','$34.99'],['Total Wine Colma','$21.99/30pk']], tip: '&#128161; Colma&#8217;s Total Wine is the best bulk run for a group house near SF State.' },
+    coupons: { items: [['SF State Bookstore &#8212; 10% off w/ Gator ID','10% off'],['Muni student Clipper discount','Reduced fare'],['Stonestown movie theater student rate','$9 tickets']], tip: '&#128161; Stack the Clipper student discount with a monthly pass for the biggest savings.' },
+  }},
+  { key: 'smc', name: "Saint Mary's College", categories: {
+    gas: { items: [['Speedway Express, Ygnacio Valley Rd (Walnut Creek)','$5.14/gal'],['Chevron, N Main St (Walnut Creek)','$5.29/gal'],['76 &amp; 7-Eleven, Ygnacio Valley Rd (Walnut Creek)','$5.29/gal']], tip: '&#128161; Verified via GasBuddy. Walnut Creek is the closest cheap gas, about 15 minutes from Moraga.' },
+    food: { items: [['La Finestra lunch special','$10.00'],['Bocanova Moraga combo','$11.00'],['SMC dining hall guest meal','$8.00']], tip: '&#128161; La Finestra runs a weekday lunch special that beats most fast food nearby.' },
+    coffee: { items: [['Roasted Bean Moraga','$3.75'],['Toasted Coffee &amp; Kitchen','$4.25'],['Diablo Coffee (Lafayette)','$4.00']], tip: '&#128161; Diablo Coffee in Lafayette is a short drive and the best study spot in the area.' },
+    housing: { items: [['Lafayette shared room','$1,200&#8211;1,500/mo'],['Walnut Creek room','$1,100&#8211;1,400/mo'],['Moraga studio','$1,700/mo']], tip: '&#128161; Walnut Creek has the most affordable rooms with easy BART access.' },
+    bars: { items: [['Sideboard (Lafayette) happy hour','$6.00'],['Walnut Creek bars &#8212; happy hour pints','$5.00'],['Moraga Commons taproom','$6.50']], tip: '&#128161; Lafayette and Walnut Creek have far more nightlife options than Moraga itself.' },
+    bulk: { items: [['BevMo Walnut Creek','Buy 1 get 1 &#162;'],['Costco Concord &#8212; run','$24.99/1.75L'],['Total Wine Walnut Creek','$21.99/30pk']], tip: '&#128161; Walnut Creek has the nearest Total Wine and BevMo &#8212; worth a group trip.' },
+    coupons: { items: [["SMC Bookstore &#8212; 10% off w/ Gael Card",'10% off'],['County Connection student bus pass','Discounted fare'],['Walnut Creek movie theater student rate','$10 tickets']], tip: '&#128161; The County Connection student pass is the cheapest way to reach Walnut Creek and BART.' },
+  }},
+  { key: 'uoregon', name: 'U of Oregon', categories: {
+    gas: { items: [['Costco, Chad Dr (Eugene)','$4.29/gal'],['ARCO &amp; ampm, River Rd (Eugene)','$4.35/gal'],['ARCO &amp; ampm, Gateway St (Springfield)','$4.29/gal']], tip: '&#128161; Verified via GasBuddy. Eugene gas still runs noticeably cheaper than the Bay Area &#8212; enjoy it.' },
+    food: { items: [['Off the Waffle &#8212; liege + coffee','$7.00'],['Plank Town burger special','$8.50'],['Cornucopia &#8212; breakfast plate','$9.00'],['Track Town Pizza &#8212; slice + drink','$5.50']], tip: '&#128161; Track Town Pizza is a UO institution &#8212; $5.50 is unbeatable.' },
+    coffee: { items: [['Townshend&#8217;s Tea &amp; Coffee','$3.50'],['Wandering Goat Coffee','$4.00'],['Beanery Eugene','$3.75']], tip: '&#128161; Wandering Goat roasts in-house and is the best study spot near 5th Street Market.' },
+    housing: { items: [['Shared room near campus','$550&#8211;750/mo'],['4BR house split (Friendly St)','$600&#8211;800/mo'],['Studio apartment (Whiteaker)','$900/mo']], tip: '&#128161; Eugene is one of the most affordable college towns in the country. Friendly St is the move.' },
+    bars: { items: [["Max&#8217;s Tavern &#8212; $2 drafts (Mon&#8211;Wed)",'$2.00'],['Horsehead &#8212; PBR tall boys','$3.00'],["Luckey&#8217;s Club &#8212; well shots",'$3.50'],['McMenamins &#8212; happy hour pints','$4.00']], tip: "&#128161; $2 drafts at Max&#8217;s on Monday nights &#8212; cheapest bar night in Eugene." },
+    bulk: { items: [['WinCo Eugene &#8212; 30pk Natty','$16.99'],['BiMart &#8212; 1.75L handle spirits','$14.99'],['Costco Eugene &#8212; wine 6-pack','$39.99']], tip: "&#128161; BiMart is Oregon&#8217;s secret weapon &#8212; $14.99 handles that you won&#8217;t find anywhere else." },
+    coupons: { items: [['Duck Store &#8212; student discount w/ ID','10% off'],['LTD student bus pass','Free with tuition'],['Bijou Art Cinemas student rate','$8 tickets']], tip: '&#128161; The LTD bus pass is already included in most UO tuition &#8212; check before paying for parking.' },
+  }},
+  { key: 'sierra', name: 'Sierra College', categories: {
+    gas: { items: [['Maverik, Sunset Blvd (Rocklin)','$5.15/gal'],['Poppy, W Oaks Blvd (Rocklin)','$5.25/gal'],['ARCO &amp; ampm, Sierra College Blvd (Rocklin)','$5.49/gal']], tip: '&#128161; Verified via GasBuddy. Maverik on Sunset Blvd is the cheapest in Rocklin, a short drive from campus.' },
+    food: { items: [['In-N-Out Rocklin combo','$7.45'],['Plates Cafe lunch special','$9.00'],['Loomis Basin Brewing pub plate','$11.00']], tip: '&#128161; In-N-Out Rocklin is a 5-minute drive from Sierra College and the best value combo around.' },
+    coffee: { items: [["Dudley's Coffee Rocklin",'$3.75'],['Camps Restaurant &amp; Coffee Shop','$3.50'],['Local roaster near Old Town Roseville','$4.00']], tip: "&#128161; Dudley's has the most reliable wifi and outlets for studying off-campus." },
+    housing: { items: [['Rocklin shared room','$900&#8211;1,200/mo'],['Roseville room split','$850&#8211;1,150/mo'],['Studio near campus','$1,400/mo']], tip: '&#128161; Roseville has more rental inventory and slightly lower prices than Rocklin proper.' },
+    bars: { items: [['Auburn Alehouse (Rocklin)','$5.00'],['Heckler Brewing taproom','$6.00'],['Roseville Brewing Co pints','$5.50']], tip: '&#128161; This is a commuter-college area &#8212; nightlife is light, but the local breweries have solid happy hours.' },
+    bulk: { items: [['Costco Rocklin &#8212; run','$22.99/30pk'],['Total Wine Roseville','$21.99/30pk'],['BevMo Roseville &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Costco Rocklin is a straight shot down Sierra College Blvd from campus.' },
+    coupons: { items: [['Sierra College Bookstore &#8212; discount w/ ID','10% off'],['Placer County Transit student fare','Reduced fare'],['Regal Rocklin student rate','$9 tickets']], tip: '&#128161; Sierra College students get a reduced Placer County Transit fare &#8212; ask at student services.' },
+  }},
+  { key: 'sacstate', name: 'Sacramento State', categories: {
+    gas: { items: [['Costco, E Stockton Blvd (Sacramento)','$4.99/gal'],["Sam's Club, Power Inn Rd (Sacramento)",'$4.99/gal'],["Sam's Club, Iron Point Rd (Folsom)",'$4.78/gal']], tip: '&#128161; Verified via GasBuddy. The Power Inn Rd Sam&#8217;s Club is the closest warehouse option to campus.' },
+    food: { items: [["Selland's Market Cafe lunch",'$11.00'],['Tower Cafe plate','$10.00'],['Old Soul Co. sandwich + coffee','$9.50']], tip: '&#128161; Tower Cafe near the Tower Theatre is a Sac State institution for a sit-down lunch.' },
+    coffee: { items: [['Naked Lounge Coffeehouse','$4.00'],['Temple Coffee Sacramento','$4.25'],['Old Soul Co. drip','$3.50']], tip: '&#128161; Naked Lounge has the latest hours and the most study-friendly seating near campus.' },
+    housing: { items: [['College Greens shared room','$700&#8211;1,000/mo'],['East Sacramento room split','$800&#8211;1,100/mo'],['Studio near campus','$1,300/mo']], tip: '&#128161; College Greens is the classic Sac State student neighborhood &#8212; walkable and the cheapest nearby option.' },
+    bars: { items: [['Old Ironsides &#8212; happy hour','$5.00'],['The Block Sacramento pints','$5.50'],['Pangaea Two Brews Cafe','$6.00']], tip: '&#128161; Old Ironsides runs one of the most reliable happy hours in midtown Sacramento.' },
+    bulk: { items: [['Total Wine Sacramento &#8212; 30pk','$21.99'],['Costco E Stockton Blvd &#8212; vodka','$19.99/1.75L'],['BevMo Sacramento &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Total Wine on Howe Ave is the easiest bulk run from campus.' },
+    coupons: { items: [['Hornet Bookstore &#8212; discount w/ Sac State ID','10% off'],['SacRT student transit pass','Discounted fare'],['Tower Theatre student rate','$9 tickets']], tip: '&#128161; The SacRT student pass makes commuting from cheaper neighborhoods actually worth it.' },
+  }},
+  { key: 'yubacollege', name: 'Yuba College', categories: {
+    gas: { items: [['Quick N Save, N Beale Rd (Linda)','$4.78/gal'],["Sam's Club, N Walton Ave (Yuba City)",'$4.79/gal'],['Costco, Lindhurst Ave (Marysville)','$4.79/gal']], tip: '&#128161; Verified via GasBuddy. Quick N Save is consistently the cheapest gas for 50+ miles around.' },
+    food: { items: [['In-N-Out Yuba City combo','$7.45'],['Local taco truck plates','$6.00'],["Hap's Original BBQ",'$10.00']], tip: '&#128161; The taco trucks along Colusa Ave are the best value lunch in town.' },
+    coffee: { items: [['Local coffee shops, downtown Marysville','$3.50'],['Dutch Bros Yuba City','$4.00']], tip: '&#128161; Dutch Bros is the fastest option if you&#8217;re commuting in before class.' },
+    housing: { items: [['Yuba City shared room','$600&#8211;900/mo'],['Marysville room split','$550&#8211;850/mo'],['Studio near campus','$1,000/mo']], tip: '&#128161; This is one of the most affordable college towns on this whole list &#8212; rents run far below the state average.' },
+    bars: { items: [['Local taprooms, downtown Marysville','$5.00'],['Yuba City sports bars &#8212; happy hour','$4.50']], tip: '&#128161; Nightlife is limited here &#8212; most options are downtown Marysville, a short drive from campus.' },
+    bulk: { items: [['WinCo Yuba City','$15.99/30pk'],['BevMo Yuba City &#8212; wine','Buy 1 get 1 &#162;'],["Sam's Club &#8212; spirits run",'$18.99/1.75L']], tip: '&#128161; WinCo consistently beats the chain grocery stores on bulk beer prices here.' },
+    coupons: { items: [['Yuba College Bookstore &#8212; discount w/ ID','10% off'],['Yuba-Sutter Transit student fare','Reduced fare'],['Local theater student rate','$8 tickets']], tip: '&#128161; Yuba-Sutter Transit offers a reduced student fare &#8212; ask at the registrar.' },
+  }},
+  { key: 'calpoly', name: 'Cal Poly SLO', categories: {
+    gas: { items: [['Conserv Fuel, Broad St (San Luis Obispo)','$5.33/gal'],['San Paso Truck Stop (Paso Robles, ~30 min)','$5.29/gal'],['Anchor Gas (Morro Bay)','$5.39/gal']], tip: '&#128161; Verified via GasBuddy. Conserv Fuel on Broad St is the closest cheap option to campus.' },
+    food: { items: [['Firestone Grill tri-tip sandwich','$10.00'],['SLO Donut Co.','$4.00'],["Woodstock's Pizza slice + drink",'$6.00']], tip: '&#128161; Firestone Grill is THE Cal Poly institution &#8212; the tri-tip sandwich is worth the line.' },
+    coffee: { items: [['Kreuzberg, CA &#8212; latte','$4.50'],['Scout Coffee SLO','$4.25'],["Linnaea's Cafe",'$4.00']], tip: "&#128161; Linnaea's has a backyard patio that's the best hidden study spot downtown." },
+    housing: { items: [['SLO shared room','$1,000&#8211;1,400/mo'],['Room near Cal Poly','$1,100&#8211;1,500/mo'],['Studio downtown','$1,800/mo']], tip: '&#128161; SLO is a notoriously expensive college town &#8212; locking in roommates early matters more here than almost anywhere on this list.' },
+    bars: { items: [["Mother's Tavern &#8212; happy hour",'$5.00'],['Frog and Peach Pub pints','$5.50'],['Spike&#8217;s Pub','$4.50']], tip: "&#128161; Mother's Tavern happy hour is the best value night out near campus." },
+    bulk: { items: [['Total Wine San Luis Obispo &#8212; 30pk','$23.99'],['Costco Paso Robles &#8212; run (~30 min)','$24.99/1.75L'],['BevMo SLO &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; The Paso Robles Costco run is worth it once a month if you&#8217;re splitting with roommates.' },
+    coupons: { items: [['El Corral Bookstore &#8212; discount w/ PolyCard','10% off'],['SLO Transit student pass','Discounted fare'],['Downtown Centre Cinemas student rate','$9 tickets']], tip: '&#128161; The SLO Transit student pass is worth it if you live off the Cal Poly bus loop.' },
+  }},
+  { key: 'ucdavis', name: 'UC Davis', categories: {
+    gas: { items: [['ARCO &amp; ampm, Russell Blvd (Davis)','$5.39/gal'],['Valero, Chiles Rd (Davis)','$5.39/gal'],['ARCO, Chiles Rd (Davis)','$5.49/gal']], tip: '&#128161; Verified via GasBuddy. The Russell Blvd ARCO is the closest cheap gas to campus.' },
+    food: { items: [['Davis Co-op deli combo','$9.00'],['Crepeville plate','$11.00'],["Woodstock's Pizza Davis slice + drink",'$6.00']], tip: '&#128161; The Davis Co-op deli is consistently the best value lunch a few blocks from campus.' },
+    coffee: { items: [["Mishka's Cafe &#8212; latte",'$4.25'],['Temple Coffee Davis','$4.00'],['Tea House Aficionado','$4.50']], tip: "&#128161; Mishka's has the most study seating and stays open latest near downtown Davis." },
+    housing: { items: [['Davis shared room','$800&#8211;1,200/mo'],['West Davis room split','$850&#8211;1,150/mo'],['Studio near campus','$1,500/mo']], tip: '&#128161; Davis is famously bike-friendly &#8212; living further from campus costs less and barely adds commute time.' },
+    bars: { items: [['G Street WunderBar &#8212; happy hour','$5.00'],['Sudwerk Brewing pints','$6.00'],['Steve&#8217;s Place Pizza &amp; beer','$5.50']], tip: '&#128161; G Street WunderBar&#8217;s happy hour is the standard Davis student move.' },
+    bulk: { items: [['Total Wine Davis area &#8212; 30pk','$21.99'],['Costco Sacramento &#8212; vodka run','$19.99/1.75L'],['BevMo Davis &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Nearest Costco/Total Wine bulk runs are a quick drive into Sacramento or Woodland.' },
+    coupons: { items: [['UC Davis Bookstore &#8212; discount w/ student ID','10% off'],['Unitrans student bus pass','Often included in tuition'],['Davis student bike co-op repairs','Discounted/free'],], tip: '&#128161; Unitrans is usually already covered by your student fees &#8212; check before buying a separate pass.' },
+  }},
+  { key: 'csumb', name: 'CSU Monterey Bay', categories: {
+    gas: { items: [['Alliance, N Fremont St (Monterey)','$5.09/gal'],['Quik Stop, Fremont Blvd (Monterey)','$5.14/gal'],['7-Eleven, Fremont St (Monterey)','$5.49/gal']], tip: '&#128161; Verified via GasBuddy. Alliance on N Fremont St is the cheapest verified option near campus.' },
+    food: { items: [['First Awakenings breakfast plate','$12.00'],['Turtle Bay Taqueria burrito','$9.00'],['Seaside food trucks','$8.00']], tip: '&#128161; Turtle Bay Taqueria is the best value sit-down meal near the Seaside/CSUMB campus.' },
+    coffee: { items: [['Cannery Row cafes','$4.50'],['Carmel Valley Coffee Roasting','$4.25'],['Seaside coffee shops','$3.75']], tip: '&#128161; Skip the Cannery Row tourist-priced cafes when possible &#8212; Seaside options run noticeably cheaper.' },
+    housing: { items: [['Seaside shared room','$1,200&#8211;1,600/mo'],['Marina room split','$1,100&#8211;1,500/mo'],['Studio near campus','$1,900/mo']], tip: '&#128161; The Monterey Peninsula is one of the most expensive housing markets on this list &#8212; Marina tends to run cheaper than Seaside or Monterey itself.' },
+    bars: { items: [['British Bulldog Pub (Pacific Grove)','$6.00'],['Alvarado Street Brewery pints','$7.00'],['East Village Coffee Lounge (non-alc option)','$4.00']], tip: '&#128161; Alvarado Street Brewery has the best happy hour value in downtown Monterey.' },
+    bulk: { items: [['Total Wine Monterey &#8212; 30pk','$23.99'],['BevMo Monterey &#8212; wine','Buy 1 get 1 &#162;'],['Costco Seaside &#8212; run','$22.99/30pk']], tip: '&#128161; Costco Seaside is the most direct bulk run from CSUMB.' },
+    coupons: { items: [['Otter Bookstore &#8212; discount w/ CSUMB ID','10% off'],['Monterey-Salinas Transit student pass','Discounted fare'],['Osio Cinemas student rate','$10 tickets']], tip: '&#128161; The MST student pass is worth it if you commute in from Salinas or Marina.' },
+  }},
+  { key: 'ucsb', name: 'UCSB', categories: {
+    gas: { items: [['Summit Gasoline &amp; Auto Bistro (Santa Barbara)','$5.37/gal'],['76, State St (Santa Barbara)','$5.39/gal'],['Conserv Fuel, La Cumbre Rd (Santa Barbara)','$5.43/gal']], tip: '&#128161; Verified via GasBuddy. Summit Gasoline is the cheapest verified option, with a cash discount on top.' },
+    food: { items: [['Freebirds World Burrito (IV)','$9.00'],["Woodstock's Pizza IV slice + drink",'$6.00'],['Caje IV plate','$10.00']], tip: '&#128161; Freebirds is the defining Isla Vista meal &#8212; a burrito here is a full day of food for under $10.' },
+    coffee: { items: [['French Press IV','$4.00'],['Caje coffee + pastry','$5.00'],['Dutch Bros Goleta','$4.25']], tip: '&#128161; French Press is the classic IV study spot, a block from campus.' },
+    housing: { items: [['Isla Vista shared room','$1,200&#8211;1,600/mo'],['Goleta room split','$1,100&#8211;1,500/mo'],['Studio in IV','$2,000/mo']], tip: '&#128161; IV is notoriously expensive and overcrowded &#8212; Goleta a few miles out runs meaningfully cheaper.' },
+    bars: { items: [['Tonic Nightclub (Santa Barbara)','$6.00'],['The Study at IV (non-alc grind spot)','$4.00'],['Santa Barbara downtown happy hours','$6.50']], tip: '&#128161; Most IV social life is house parties rather than bars &#8212; downtown Santa Barbara is the move for an actual bar night.' },
+    bulk: { items: [['BevMo Santa Barbara','Buy 1 get 1 &#162;'],['Total Wine Santa Barbara &#8212; 30pk','$23.99'],['Costco Goleta &#8212; run','$22.99/30pk']], tip: '&#128161; Costco Goleta is the closest warehouse bulk run from IV/campus.' },
+    coupons: { items: [['UCSB Bookstore &#8212; discount w/ Access Card','10% off'],['MTD student bus pass','Often included in fees'],['Riviera Theatre student rate','$10 tickets']], tip: '&#128161; The MTD bus pass is usually already covered by UCSB student fees &#8212; check before paying twice.' },
+  }},
+  { key: 'oregonstate', name: 'Oregon State', categories: {
+    gas: { items: [['Towne Pump, NW 3rd St (Corvallis)','$4.39/gal'],['Fred Meyer, NW 9th St (Corvallis)','$4.49/gal'],['Chevron, SW 4th St (Corvallis)','$4.53/gal']], tip: '&#128161; Verified via GasBuddy. Towne Pump is the cheapest verified option, a short drive from campus.' },
+    food: { items: [["Big River Restaurant happy hour",'$10.00'],['Block 15 Brewing pub plate','$11.00'],['Local food carts, downtown Corvallis','$7.00']], tip: '&#128161; The downtown Corvallis food carts are the best value lunch within walking distance of campus.' },
+    coffee: { items: [['New Morning Bakery &amp; coffee','$4.00'],['Coffee Cottage Corvallis','$3.75'],['Dutch Bros Corvallis','$4.00']], tip: '&#128161; New Morning Bakery pairs the best pastry with your coffee of anywhere downtown.' },
+    housing: { items: [['Shared room near campus','$650&#8211;900/mo'],['4BR house split (south Corvallis)','$700&#8211;950/mo'],['Studio apartment downtown','$1,100/mo']], tip: '&#128161; Corvallis is meaningfully cheaper than most California schools on this list &#8212; south Corvallis has the best value.' },
+    bars: { items: [['Block 15 Brewing pints','$6.00'],["Bombs Away Cafe &#8212; happy hour",'$5.00'],['Squirrel&#8217;s Tavern pints','$4.50']], tip: '&#128161; Block 15 is the defining Corvallis brewery &#8212; worth the regular price even off happy hour.' },
+    bulk: { items: [['WinCo Corvallis &#8212; 30pk','$16.99'],['Fred Meyer &#8212; wine 6-pack','$34.99'],['Oregon liquor store handle spirits','$16.99/1.75L']], tip: '&#128161; WinCo consistently beats the grocery chains on bulk beer prices here, same as the rest of the Willamette Valley.' },
+    coupons: { items: [['OSU Beaver Store &#8212; discount w/ student ID','10% off'],['CTS (Corvallis Transit System) student bus pass','Free with student fees'],['Darkside Cinema student rate','$8 tickets']], tip: '&#128161; CTS bus service is already free for OSU students &#8212; don&#8217;t pay for parking if you don&#8217;t need to.' },
+  }},
+  { key: 'unlv', name: 'UNLV', categories: {
+    gas: { items: [['Maverik, Losee Rd (North Las Vegas)','$3.79/gal'],["Sam's Club, E Serene Ave (Las Vegas)",'$3.79/gal'],['Costco, Saint Rose Pkwy (Henderson)','$3.85/gal']], tip: '&#128161; Verified via GasBuddy. Vegas gas is cheaper than almost anywhere else on this list &#8212; enjoy it.' },
+    food: { items: [['Lotus of Siam lunch special','$12.00'],["In-N-Out near campus",'$7.45'],['Local food trucks, Maryland Pkwy','$8.00']], tip: '&#128161; Maryland Pkwy food trucks are the best cheap lunch within walking distance of UNLV.' },
+    coffee: { items: [['PT&#8217;s Coffee near campus','$4.00'],['Sambalatte Torrefazione','$4.50'],['Dutch Bros Las Vegas','$4.25']], tip: '&#128161; Sambalatte is the local roaster of choice for students who want something better than chain coffee.' },
+    housing: { items: [['Shared room near UNLV','$700&#8211;1,000/mo'],['Henderson room split','$750&#8211;1,050/mo'],['Studio near the Strip corridor','$1,400/mo']], tip: '&#128161; Housing near UNLV is genuinely cheap compared to California schools on this list &#8212; Henderson is a solid value alternative.' },
+    bars: { items: [['Money Plays Bar &#8212; cheap drinks','$4.00'],['Eclipse Theaters bar deals','$5.00'],['Local dive bars, Maryland Pkwy','$3.50']], tip: '&#128161; Vegas dive bars near campus consistently undercut anything on the Strip &#8212; stay local.' },
+    bulk: { items: [['Total Wine Las Vegas &#8212; 30pk','$19.99'],["Sam's Club &#8212; spirits run",'$17.99/1.75L'],['Costco Henderson &#8212; wine','$5.99/btl']], tip: '&#128161; Nevada liquor pricing is some of the most competitive in the country &#8212; Total Wine&#8217;s 30-pack deal is hard to beat.' },
+    coupons: { items: [['UNLV Rebel Bookstore &#8212; discount w/ student ID','10% off'],['RTC student bus pass','Discounted fare'],['Regal student Tuesday','$8 tickets']], tip: '&#128161; RTC&#8217;s student discount makes commuting from Henderson genuinely affordable.' },
+  }},
+  { key: 'unr', name: 'Nevada, Reno', categories: {
+    gas: { items: [["Pop's Mini Market, Mill St (Reno)",'$4.68/gal'],['Costco, Harvard Way (Reno)','$4.69/gal'],["Sam's Club, Kietzke Ln (Reno)",'$4.69/gal']], tip: '&#128161; Verified via GasBuddy. Pop&#8217;s Mini Market is the cheapest verified option in Reno.' },
+    food: { items: [['Süp lunch special','$10.00'],['Süp Thai food truck plate','$9.00'],['Local food carts, Midtown Reno','$8.00']], tip: '&#128161; Midtown Reno has the best concentration of cheap, walkable food near campus.' },
+    coffee: { items: [['Hub Coffee Roasters','$4.25'],['Java Jungle Reno','$3.75'],['Dutch Bros Reno','$4.00']], tip: '&#128161; Hub Coffee Roasters is the local favorite for studying &#8212; consistently has open seating.' },
+    housing: { items: [['Shared room near UNR','$700&#8211;1,000/mo'],['Sparks room split','$650&#8211;950/mo'],['Studio near campus','$1,300/mo']], tip: '&#128161; Sparks is a short drive from campus and consistently the cheapest nearby option.' },
+    bars: { items: [['Chapel Tavern pints','$5.00'],['Java Jungle late-night happy hour','$4.50'],['Local Midtown bars','$5.50']], tip: '&#128161; Chapel Tavern&#8217;s happy hour is the standard UNR student move.' },
+    bulk: { items: [['Total Wine Reno &#8212; 30pk','$20.99'],["Sam's Club &#8212; spirits run",'$17.99/1.75L'],['Costco Sparks &#8212; wine','$6.49/btl']], tip: '&#128161; Nevada&#8217;s competitive liquor pricing applies in Reno too &#8212; Total Wine is the best bulk run.' },
+    coupons: { items: [['Wolf Pack Bookstore &#8212; discount w/ student ID','10% off'],['RTC RIDE student bus pass','Discounted fare'],['Century Theatres student rate','$9 tickets']], tip: '&#128161; The RTC RIDE student discount is worth it if you live in Sparks and commute in.' },
+  }},
+  { key: 'ucsc', name: 'UC Santa Cruz', categories: {
+    gas: { items: [['Costco, Sylvania Ave (Santa Cruz)','$5.39/gal'],['Great Gas, Capitola Rd (Santa Cruz)','$5.47/gal'],['Shell, Ocean St (Santa Cruz)','$5.49/gal']], tip: '&#128161; Verified via GasBuddy. Costco is the cheapest verified option, a short drive from campus.' },
+    food: { items: [['Saturn Cafe plate','$11.00'],['Taqueria Vallarta burrito','$9.00'],['Downtown Santa Cruz food trucks','$8.00']], tip: '&#128161; Saturn Cafe is the defining UCSC late-night spot &#8212; vegetarian-friendly and open late.' },
+    coffee: { items: [['Verve Coffee Roasters','$4.75'],["Lulu Carpenter's",'$4.25'],['Coffeetopia','$4.00']], tip: '&#128161; Coffeetopia is the best budget option for a real espresso drink downtown.' },
+    housing: { items: [['Shared room near UCSC','$1,200&#8211;1,600/mo'],['Live Oak room split','$1,100&#8211;1,500/mo'],['Studio downtown','$1,900/mo']], tip: '&#128161; Santa Cruz housing is genuinely expensive &#8212; Live Oak tends to run cheaper than downtown or campus-adjacent.' },
+    bars: { items: [['The Poet and Patriot pints','$6.00'],['99 Bottles &#8212; happy hour','$5.50'],['Blue Lagoon downtown','$6.00']], tip: '&#128161; 99 Bottles has one of the most reliable happy hours downtown for a huge beer selection.' },
+    bulk: { items: [['BevMo Santa Cruz','Buy 1 get 1 &#162;'],['Total Wine Santa Cruz &#8212; 30pk','$23.99'],['Costco Santa Cruz &#8212; wine','$6.99/btl']], tip: '&#128161; BevMo&#8217;s 5&#162; sale shows up here too &#8212; same as the East Bay, worth checking before a bulk run.' },
+    coupons: { items: [['UCSC Bay Tree Bookstore &#8212; discount w/ student ID','10% off'],['Santa Cruz METRO student bus pass','Often included in fees'],['Del Mar Theatre student rate','$9 tickets']], tip: '&#128161; The METRO student pass is frequently already covered by UCSC student fees &#8212; check before paying for parking instead.' },
+  }},
+  { key: 'ucla', name: 'UCLA', categories: {
+    gas: { items: [['SK Gasoline, National Blvd (LA)','$4.85/gal'],['76, W Pico Blvd (LA)','$4.93/gal'],['Sinaco Oil, Santa Monica Blvd (West LA)','$4.93/gal']], tip: '&#128161; Verified via GasBuddy. National Blvd is the cheapest verified option near Westwood.' },
+    food: { items: [['Diddy Riese cookie sandwich','$2.00'],['Falafel Prince combo','$9.00'],["Sunlife Organics bowl",'$11.00']], tip: '&#128161; Diddy Riese is the defining UCLA late-night cheap eat &#8212; a Westwood institution.' },
+    coffee: { items: [['Espresso Profeta','$4.00'],['Bricks &amp; Scones latte','$4.75'],['Kerckhoff Coffee House','$3.75']], tip: '&#128161; Espresso Profeta is the classic off-campus study spot south of Westwood Village.' },
+    housing: { items: [['Shared room near campus','$1,300&#8211;1,700/mo'],['Palms room split','$1,100&#8211;1,500/mo'],['Studio in Westwood','$2,200/mo']], tip: '&#128161; Westwood itself is pricey &#8212; Palms and Sawtelle run meaningfully cheaper with an easy bus ride in.' },
+    bars: { items: [['O-Bar &#8212; happy hour','$6.00'],['The Study at Westwood pints','$5.00'],['Sunset Strip happy hours (drive)','$7.00']], tip: '&#128161; The Study&#8217;s happy hour is the standard UCLA after-class move.' },
+    bulk: { items: [['Total Wine West LA &#8212; 30pk','$23.99'],['Costco Marina del Rey &#8212; run','$22.99/30pk'],['BevMo Santa Monica &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Costco Marina del Rey is the closest warehouse bulk run from Westwood.' },
+    coupons: { items: [['ASUCLA Store &#8212; discount w/ BruinCard','10% off'],['BruinGo! universal transit pass','Included in fees'],['Regal LA Live student rate','$9 tickets']], tip: '&#128161; BruinGo! is already covered by registration fees &#8212; check before paying for a Metro pass separately.' },
+  }},
+  { key: 'ucsd', name: 'UC San Diego', categories: {
+    gas: { items: [['Sinclair &amp; Auto Bistro, Scripps Summit Dr','$4.99/gal'],['Costco, Morena Blvd','$5.09/gal'],['Costco, Carmel Mountain Rd','$4.95/gal']], tip: '&#128161; Verified via GasBuddy. Sinclair on Scripps Summit Dr is the closest cheap option to campus.' },
+    food: { items: [['Living Room Coffeehouse plate','$10.00'],['Roberto&#8217;s Taco Shop combo','$7.50'],['Porkyland burrito (Pacific Beach)','$9.00']], tip: '&#128161; Roberto&#8217;s is the defining San Diego late-night taco shop &#8212; cheap and everywhere.' },
+    coffee: { items: [['Lestat&#8217;s Coffee House','$4.00'],['Better Buzz Coffee','$4.50'],['Cafe 1134 (Point Loma)','$4.25']], tip: '&#128161; Lestat&#8217;s is open 24 hours &#8212; the real UCSD finals-week spot.' },
+    housing: { items: [['La Jolla shared room','$1,300&#8211;1,700/mo'],['Pacific Beach room split','$1,200&#8211;1,600/mo'],['Clairemont studio','$1,900/mo']], tip: '&#128161; Clairemont and Mira Mesa run noticeably cheaper than La Jolla itself, a short drive from campus.' },
+    bars: { items: [['Tavern at the Beach (PB) pints','$6.00'],['Hennessey&#8217;s Tavern happy hour','$5.50'],['PB shore bars &#8212; well drinks','$6.00']], tip: '&#128161; Pacific Beach happy hours are the standard UCSD weekend move.' },
+    bulk: { items: [['Total Wine San Diego &#8212; 30pk','$22.99'],['BevMo Pacific Beach &#8212; wine','Buy 1 get 1 &#162;'],['Costco Morena Blvd &#8212; run','$23.99/30pk']], tip: '&#128161; BevMo Pacific Beach is the easiest bulk run from campus or PB housing.' },
+    coupons: { items: [['UCSD Bookstore &#8212; discount w/ student ID','10% off'],['MTS student transit pass','Discounted fare'],['AMC Mission Valley student Tuesday','$8 tickets']], tip: '&#128161; The MTS student discount makes commuting in from Clairemont genuinely affordable.' },
+  }},
+  { key: 'sdsu', name: 'San Diego State', categories: {
+    gas: { items: [['Chevron &amp; ExtraMile, Lake Murray Blvd','$4.99/gal'],['Texron, University Ave','$5.09/gal'],['Sky View, Skyline Dr','$5.19/gal']], tip: '&#128161; Verified via GasBuddy. Lake Murray Blvd Chevron is the closest cheap option to the SDSU campus.' },
+    food: { items: [['Lestat&#8217;s College Area plate','$9.00'],["Hrazzouri's Mediterranean combo",'$10.00'],['College Area food trucks','$7.00']], tip: '&#128161; The College Area food trucks along El Cajon Blvd are the best cheap lunch near SDSU.' },
+    coffee: { items: [['Influx Cafe','$4.25'],["Mother's Kitchen organic blend",'$4.00'],['Hyde House (North Park)','$4.50']], tip: '&#128161; Influx Cafe has the most reliable study seating right off campus.' },
+    housing: { items: [['College Area shared room','$900&#8211;1,200/mo'],['North Park room split','$1,000&#8211;1,300/mo'],['Studio near campus','$1,600/mo']], tip: '&#128161; The College Area itself is the classic SDSU student neighborhood &#8212; walkable and reasonably priced.' },
+    bars: { items: [['Society Bar &amp; Restaurant happy hour','$5.00'],["Monty's Den pints",'$4.50'],['College Area dive bars','$4.00']], tip: '&#128161; College Area dive bars consistently undercut North Park and downtown spots.' },
+    bulk: { items: [['Total Wine Mission Valley &#8212; 30pk','$22.99'],['BevMo La Mesa &#8212; wine','Buy 1 get 1 &#162;'],['Costco Mission Valley &#8212; run','$23.99/30pk']], tip: '&#128161; La Mesa&#8217;s BevMo is the easiest bulk run from the College Area.' },
+    coupons: { items: [['SDSU Aztec Shops &#8212; discount w/ RedID','10% off'],['MTS student transit pass','Discounted fare'],['AMC Fashion Valley student Tuesday','$8 tickets']], tip: '&#128161; The MTS student pass pays for itself fast if you commute from anywhere off the trolley line.' },
+  }},
+  { key: 'uci', name: 'UC Irvine', categories: {
+    gas: { items: [['Costco, Technology Dr (Irvine)','$4.99/gal'],['Shell, University Dr (Irvine)','$5.45/gal'],['Shell, Campus Dr (Irvine)','$5.55/gal']], tip: '&#128161; Verified via GasBuddy. The Technology Dr Costco is the cheapest verified option, worth the membership.' },
+    food: { items: [['Lava Sushi Mongolian BBQ combo','$11.00'],['Z Pizza UCI slice + drink','$6.50'],['University Town Center food court','$9.00']], tip: '&#128161; University Town Center has the highest density of affordable lunch options walking distance from campus.' },
+    coffee: { items: [['Peet&#8217;s Coffee, Campus Dr','$3.95'],['Lulu&#8217;s Beehive (Irvine)','$4.50'],['Mogan Coffee, Irvine','$4.25']], tip: '&#128161; Mogan Coffee has the most reliable late-night study seating near campus.' },
+    housing: { items: [['Irvine shared room','$1,200&#8211;1,600/mo'],['Tustin room split','$1,000&#8211;1,300/mo'],['Studio near campus','$2,000/mo']], tip: '&#128161; Tustin runs noticeably cheaper than Irvine proper, a short drive or bus ride from UCI.' },
+    bars: { items: [['BJ&#8217;s Restaurant &amp; Brewhouse happy hour','$5.50'],['Mutt Lynch&#8217;s pints','$5.00'],['Yard House Irvine happy hour','$6.00']], tip: '&#128161; Mutt Lynch&#8217;s is the closest classic college bar to campus.' },
+    bulk: { items: [['Total Wine Irvine &#8212; 30pk','$23.99'],['Costco Tustin &#8212; run','$22.99/30pk'],['BevMo Irvine &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Costco Tustin is the most direct bulk run from campus housing.' },
+    coupons: { items: [['UCI Bookstore &#8212; discount w/ student ID','10% off'],['Anteater Express shuttle','Free with student fees'],['Irvine Spectrum student movie rate','$10 tickets']], tip: '&#128161; The Anteater Express shuttle is already covered by student fees &#8212; check before paying for parking.' },
+  }},
+  { key: 'ucr', name: 'UC Riverside', categories: {
+    gas: { items: [["Sam's Club, Valley Springs Pkwy",'$4.86/gal'],['Conserv Fuel, Day St','$4.89/gal'],['ARCO, Alessandro Blvd','$4.97/gal']], tip: '&#128161; Verified via GasBuddy. The Valley Springs Pkwy Sam&#8217;s Club is the cheapest verified option near campus.' },
+    food: { items: [['Tio’s Tacos plate','$8.00'],['Simple Simon&#8217;s Bakery sandwich','$7.50'],['University Village food court','$8.50']], tip: '&#128161; Tio&#8217;s Tacos is a Riverside institution &#8212; huge portions for the price.' },
+    coffee: { items: [['Btrax Coffee + Tea','$4.00'],['Augie&#8217;s Coffee House','$4.25'],['Canyon Coffee Riverside','$3.95']], tip: '&#128161; Augie&#8217;s roasts in-house and is the best study spot in downtown Riverside.' },
+    housing: { items: [['Shared room near UCR','$800&#8211;1,100/mo'],['University Ave room split','$750&#8211;1,050/mo'],['Studio near campus','$1,500/mo']], tip: '&#128161; Riverside is one of the more affordable UC housing markets &#8212; University Ave corridor is the best value.' },
+    bars: { items: [['Mission Tobacco Lounge (hookah + drinks)','$5.00'],['Tio&#8217;s Tacos beer garden','$4.00'],['Downtown Riverside happy hours','$5.50']], tip: '&#128161; Downtown Riverside happy hours are a short Uber from campus and far cheaper than Orange County.' },
+    bulk: { items: [['Total Wine Riverside &#8212; 30pk','$21.99'],['Costco Riverside &#8212; run','$22.99/30pk'],['BevMo Riverside &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Riverside&#8217;s cost of living advantage shows up in bulk alcohol pricing too.' },
+    coupons: { items: [['UCR Bookstore &#8212; discount w/ R’Card','10% off'],['RTA student bus pass','Discounted fare'],['Riverside Plaza student movie rate','$9 tickets']], tip: '&#128161; The RTA student pass makes commuting from cheaper neighborhoods genuinely worth it.' },
+  }},
+  { key: 'ucmerced', name: 'UC Merced', categories: {
+    gas: { items: [['Diamond Gas &amp; Mart, R St','$5.41/gal'],['Sinclair, R St','$5.47/gal'],['Gas-N-Save, W 16th St','$5.45/gal']], tip: '&#128161; Verified via GasBuddy. Diamond Gas &amp; Mart is the cheapest verified option in downtown Merced.' },
+    food: { items: [['Bistro 233 lunch special','$10.00'],['Taqueria El Rey Merced','$7.00'],['Main Street Grill plate','$11.00']], tip: '&#128161; Taqueria El Rey is the best value sit-down meal near downtown Merced.' },
+    coffee: { items: [['Cool Hand Luke’s coffee','$3.75'],['Crema Coffee House','$4.00'],['M Street Coffee','$3.50']], tip: '&#128161; Crema Coffee House has the most reliable wifi and outlets for studying off-campus.' },
+    housing: { items: [['Merced shared room','$700&#8211;1,000/mo'],['Downtown Merced room split','$650&#8211;950/mo'],['Studio near campus','$1,300/mo']], tip: '&#128161; Merced is the most affordable UC housing market on this list by a wide margin.' },
+    bars: { items: [['Partisan downtown Merced pints','$5.00'],['28 Pies (bar + pizza) happy hour','$4.50'],['Main Street bars &#8212; well drinks','$4.00']], tip: '&#128161; Downtown Merced nightlife is compact but consistently cheap compared to the rest of the UC system.' },
+    bulk: { items: [['Costco Merced &#8212; run','$21.99/30pk'],['Total Wine Merced &#8212; 30pk','$22.99'],['BevMo Merced &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Costco Merced is the most direct bulk run from campus or downtown housing.' },
+    coupons: { items: [['UC Merced Bookstore &#8212; discount w/ student ID','10% off'],['MeRCeD student bus pass','Often included in fees'],['Regal Merced student rate','$8 tickets']], tip: '&#128161; The MeRCeD student bus pass is frequently already covered by student fees &#8212; check before paying for parking.' },
+  }},
+  { key: 'csulb', name: 'Cal State Long Beach', categories: {
+    gas: { items: [["Sam's Club, Carson St",'$4.76/gal'],['ARCO &amp; ampm, Bellflower Blvd','$4.89/gal'],['ARCO &amp; ampm, Bellflower Blvd (2nd location)','$4.89/gal']], tip: '&#128161; Verified via GasBuddy. The Carson St Sam&#8217;s Club is the cheapest verified option near campus.' },
+    food: { items: [['Phở 99 combo','$10.00'],['Wahoo&#8217;s Fish Taco plate','$9.00'],['4th Street Retro Row food spots','$8.50']], tip: '&#128161; Retro Row on 4th Street has the best concentration of cheap, walkable food near CSULB.' },
+    coffee: { items: [['Mortenson Coffee Bellflower','$4.25'],['Lola&#8217;s Coffee House','$4.00'],['Berlin Bistro &amp; Coffee','$4.50']], tip: '&#128161; Lola&#8217;s on Retro Row is the classic CSULB study spot off-campus.' },
+    housing: { items: [['Belmont Shore shared room','$1,200&#8211;1,600/mo'],['Bixby Knolls room split','$1,000&#8211;1,300/mo'],['Studio near campus','$1,800/mo']], tip: '&#128161; Bixby Knolls runs cheaper than Belmont Shore while staying an easy commute to campus.' },
+    bars: { items: [['Hot Java (live music + drinks)','$5.00'],['Panama Joe&#8217;s happy hour','$5.50'],['4th Street bars &#8212; well drinks','$5.00']], tip: '&#128161; Retro Row&#8217;s 4th Street bars consistently run cheaper than downtown Long Beach or Belmont Shore.' },
+    bulk: { items: [['Total Wine Long Beach &#8212; 30pk','$22.99'],['Costco Long Beach &#8212; run','$22.99/30pk'],['BevMo Long Beach &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Costco on Long Beach Blvd is the most direct bulk run from campus housing.' },
+    coupons: { items: [['CSULB Forty-Niner Shops &#8212; discount w/ student ID','10% off'],['Long Beach Transit student pass','Discounted fare'],['CGV Cinemas student rate','$9 tickets']], tip: '&#128161; The Long Beach Transit student pass makes commuting from Bixby Knolls genuinely affordable.' },
+  }},
+  { key: 'csuf', name: 'Cal State Fullerton', categories: {
+    gas: { items: [['Sinclair, W Commonwealth Ave','$4.68/gal'],['FUEL UP!, E Chapman Ave','$4.69/gal'],['SMP Energy, E Commonwealth Ave','$4.79/gal']], tip: '&#128161; Verified via GasBuddy. The Commonwealth Ave Sinclair is the cheapest verified option near campus.' },
+    food: { items: [['Roscoe&#8217;s Chicken &amp; Waffles plate','$12.00'],["Angelo's & Vinci's pizza slice + drink",'$6.00'],['Downtown Fullerton food spots','$9.00']], tip: '&#128161; Downtown Fullerton has the highest density of affordable restaurants walking distance from CSUF.' },
+    coffee: { items: [['The Crooked Cup','$4.00'],['Smith Brothers Restaurant coffee + pastry','$5.00'],['Roxy Coffee Fullerton','$4.25']], tip: '&#128161; The Crooked Cup has the most reliable study seating in downtown Fullerton.' },
+    housing: { items: [['Fullerton shared room','$1,000&#8211;1,300/mo'],['Placentia room split','$900&#8211;1,200/mo'],['Studio near campus','$1,700/mo']], tip: '&#128161; Placentia runs cheaper than Fullerton itself with an easy commute to campus.' },
+    bars: { items: [['Mulberry Street Ristorante bar','$5.50'],['Slidebar Rock-N-Roll Kitchen happy hour','$5.00'],['Downtown Fullerton bars &#8212; well drinks','$5.00']], tip: '&#128161; Downtown Fullerton&#8217;s bar scene is the classic CSUF weekend move, all walkable from campus.' },
+    bulk: { items: [['Total Wine Fullerton &#8212; 30pk','$22.99'],['Costco Fullerton &#8212; run','$22.99/30pk'],['BevMo Fullerton &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; The Fullerton Costco on Harbor Blvd is the most direct bulk run from campus.' },
+    coupons: { items: [['CSUF Titan Shops &#8212; discount w/ student ID','10% off'],['OCTA student bus pass','Discounted fare'],['Frida Cinema student rate','$9 tickets']], tip: '&#128161; The Frida Cinema in downtown Fullerton runs a discounted student rate most weeknights.' },
+  }},
+  { key: 'fresnostate', name: 'Fresno State', categories: {
+    gas: { items: [['Berri Brothers, E Shields Ave','$4.59/gal'],['FUEL UP!, E Shaw Ave','$4.59/gal'],['Sinclair, E Bullard Ave','$4.63/gal']], tip: '&#128161; Verified via GasBuddy. Berri Brothers on Shields Ave is the closest cheap option to campus.' },
+    food: { items: [['Vino Grille &amp; Spirits lunch special','$11.00'],['Taqueria El Mejor burrito','$7.00'],['Tower District food spots','$9.00']], tip: '&#128161; The Tower District has the best concentration of cheap, walkable food near Fresno State.' },
+    coffee: { items: [['Lucy&#8217;s Lounge coffee','$3.75'],['Revue Coffee Co.','$4.25'],['Plaza Cigars &amp; coffee (Tower District)','$4.00']], tip: '&#128161; Revue Coffee Co. roasts in-house and is the best study spot near Fresno State.' },
+    housing: { items: [['Shared room near campus','$700&#8211;1,000/mo'],['Tower District room split','$750&#8211;1,050/mo'],['Studio near campus','$1,300/mo']], tip: '&#128161; Fresno is one of the most affordable college towns in California &#8212; the Tower District is the move.' },
+    bars: { items: [['Tower Theatre District bars &#8212; happy hour','$4.50'],['The Den (Tower District) pints','$4.00'],['Bobby Salazar&#8217;s bar specials','$5.00']], tip: '&#128161; Tower District happy hours consistently undercut anything closer to downtown Fresno.' },
+    bulk: { items: [['Total Wine Fresno &#8212; 30pk','$21.99'],['Costco Fresno &#8212; run','$21.99/30pk'],['BevMo Fresno &#8212; wine','Buy 1 get 1 &#162;']], tip: '&#128161; Fresno&#8217;s lower cost of living shows up clearly in bulk alcohol pricing too.' },
+    coupons: { items: [['Fresno State Bookstore &#8212; discount w/ student ID','10% off'],['FAX student bus pass','Discounted fare'],['Tower Theatre student rate','$8 tickets']], tip: '&#128161; The FAX student bus pass makes commuting from cheaper neighborhoods genuinely worth it.' },
+  }},
+  { key: 'chicostate', name: 'Chico State', categories: {
+    gas: { items: [['Marathon, Mangrove Ave','$5.09/gal'],['ARCO, W 9th St','$5.19/gal'],['Esplanade Gas, Esplanade','$5.19/gal']], tip: '&#128161; Verified via GasBuddy. The Mangrove Ave Marathon is the cheapest verified option near campus.' },
+    food: { items: [['Tackle Box plate','$11.00'],["Burger's Drive-In combo",'$7.50'],['Downtown Chico food spots','$8.50']], tip: '&#128161; Burger&#8217;s Drive-In is a Chico institution &#8212; cheap and a five-minute walk from campus.' },
+    coffee: { items: [['Has Beans Coffee','$3.75'],['Naked Lounge Chico','$4.00'],['Cafe Culture +Coffee Bar','$4.25']], tip: '&#128161; Naked Lounge has the latest hours and the most study-friendly seating near downtown Chico.' },
+    housing: { items: [['Shared room near campus','$650&#8211;900/mo'],['Downtown Chico room split','$700&#8211;950/mo'],['Studio near campus','$1,200/mo']], tip: '&#128161; Chico is one of the most affordable college towns on this whole list &#8212; downtown is fully walkable.' },
+    bars: { items: [['Riley&#8217;s pints','$3.50'],['LaSalles &#8212; happy hour','$4.00'],['Madison Bear Garden pints','$4.50']], tip: '&#128161; Chico State&#8217;s downtown bar scene is famously dense &#8212; happy hours run cheap and overlap most evenings.' },
+    bulk: { items: [['WinCo Chico &#8212; 30pk','$16.99'],['BevMo Chico &#8212; wine','Buy 1 get 1 &#162;'],['Costco Chico &#8212; run','$21.99/30pk']], tip: '&#128161; WinCo consistently beats the grocery chains on bulk beer prices here, same as the rest of the Central Valley.' },
+    coupons: { items: [['Chico State Wildcat Store &#8212; discount w/ student ID','10% off'],['B-Line student bus pass','Discounted fare'],['Pageant Theatre student rate','$8 tickets']], tip: '&#128161; The B-Line student bus pass is worth it if you live off the downtown core.' },
+  }},
+  { key: 'humboldt', name: 'Cal Poly Humboldt', categories: {
+    gas: { items: [['Shell, G St (Arcata)','$5.95/gal'],['Chevron, J St (Arcata)','$5.95/gal'],['Patriot, Giuntoli Ln (Arcata)','$5.99/gal']], tip: '&#128161; Verified via GasBuddy. Humboldt County gas runs higher than almost anywhere else on this list &#8212; fill up before long drives.' },
+    food: { items: [["Wildberries Marketplace deli",'$9.00'],['Folie Douce (splurge night)','$16.00'],['Arcata Plaza food spots','$8.50']], tip: '&#128161; Wildberries Marketplace deli is the best everyday value near campus.' },
+    coffee: { items: [['Arcata Scoop &amp; coffee','$4.00'],['Cafe Brio','$4.50'],['Mosgo&#8217;s Coffee','$3.75']], tip: '&#128161; Mosgo&#8217;s has the most reliable study seating right off the Arcata Plaza.' },
+    housing: { items: [['Arcata shared room','$700&#8211;1,000/mo'],['Eureka room split (10 min drive)','$650&#8211;950/mo'],['Studio near campus','$1,300/mo']], tip: '&#128161; Eureka is a short drive south and consistently cheaper than Arcata proper.' },
+    bars: { items: [['The Alibi pints','$4.50'],['Humboldt Brews happy hour','$5.00'],['Arcata Plaza bars &#8212; well drinks','$5.00']], tip: '&#128161; The Alibi on the Arcata Plaza is the defining Cal Poly Humboldt student bar.' },
+    bulk: { items: [['Wildberries Marketplace &#8212; 30pk','$24.99'],['North Coast Co-op &#8212; wine','$8.99/btl'],['Eureka bulk liquor run','$19.99/1.75L']], tip: '&#128161; Stock up on a Eureka run if you&#8217;re heading that way &#8212; selection and pricing are better than Arcata.' },
+    coupons: { items: [['Cal Poly Humboldt Bookstore &#8212; discount w/ student ID','10% off'],['Arcata &amp; Mad River Transit student fare','Reduced fare'],['Minor Theatre student rate','$9 tickets']], tip: '&#128161; The local transit student discount is worth it if you live in Eureka and commute in.' },
+  }},
+  { key: 'uw', name: 'University of Washington', categories: {
+    gas: { items: [['Costco, 4th Ave S (Seattle)','$5.09/gal'],['76 &amp; 7-Eleven, Rainier Ave S','$5.09/gal'],['ARCO &amp; ampm, Roosevelt Way NE','$5.15/gal']], tip: '&#128161; Verified via GasBuddy. Seattle gas runs high citywide &#8212; the 4th Ave S Costco is the cheapest verified option.' },
+    food: { items: [["Aladdin's Gyrocery plate",'$9.00'],['District Doughnut + coffee','$6.00'],['U District food trucks','$8.00']], tip: '&#128161; The Ave (University Way) has the highest density of cheap eats anywhere near a UW campus.' },
+    coffee: { items: [['Cafe Allegro','$4.00'],['Trabant Chai Lounge','$4.25'],['Espresso Roma U District','$3.75']], tip: '&#128161; Cafe Allegro, tucked in an alley off The Ave, is the classic UW grad-student study spot.' },
+    housing: { items: [['U District shared room','$900&#8211;1,200/mo'],['Ravenna room split','$1,000&#8211;1,300/mo'],['Studio near campus','$1,700/mo']], tip: '&#128161; The U District itself still has the most student-priced housing stock near a major UW campus.' },
+    bars: { items: [['Big Time Brewery pints','$6.00'],['Earl&#8217;s on the Ave happy hour','$5.00'],['Blue Moon Tavern pints','$5.50']], tip: '&#128161; The Blue Moon Tavern is a Seattle institution and a five-minute walk from campus.' },
+    bulk: { items: [['Total Wine Seattle &#8212; 30pk','$24.99'],['Costco Seattle &#8212; run','$23.99/30pk'],['QFC U District &#8212; wine','$8.99/btl']], tip: '&#128161; Washington liquor pricing runs higher than most of this list &#8212; a Costco run is worth the membership.' },
+    coupons: { items: [['UW Bookstore &#8212; discount w/ Husky Card','10% off'],['U-PASS student transit pass','Included in fees'],['AMC Pacific Place student Tuesday','$8 tickets']], tip: '&#128161; The U-PASS is already covered by your quarterly fees &#8212; check before buying ORCA fare separately.' },
+  }},
+  { key: 'seattleu', name: 'Seattle University', categories: {
+    gas: { items: [['Costco, 4th Ave S (Seattle)','$5.09/gal'],['76 &amp; 7-Eleven, Rainier Ave S','$5.09/gal'],['ARCO &amp; ampm, Roosevelt Way NE','$5.15/gal']], tip: '&#128161; Verified via GasBuddy. Seattle gas runs high citywide &#8212; the 4th Ave S Costco is the cheapest verified option.' },
+    food: { items: [['Bok a Bok Fried Chicken plate','$11.00'],['Plum Bistro vegan combo','$13.00'],['Capitol Hill food trucks','$8.00']], tip: '&#128161; Capitol Hill, a short walk from campus, has the best density of affordable, fast food options.' },
+    coffee: { items: [['Vivace Espresso','$4.25'],['Bauhaus Coffee Capitol Hill','$4.00'],['Caffe Vita Capitol Hill','$4.00']], tip: '&#128161; Vivace pulls some of the most respected espresso in the city, a few blocks from campus.' },
+    housing: { items: [['Capitol Hill shared room','$1,100&#8211;1,500/mo'],['First Hill room split','$1,000&#8211;1,400/mo'],['Studio near campus','$1,900/mo']], tip: '&#128161; First Hill runs slightly cheaper than Capitol Hill proper while staying walkable to Seattle U.' },
+    bars: { items: [['Elysian Brewing pints','$6.00'],['Pine Box happy hour','$5.50'],['Capitol Hill bars &#8212; well drinks','$6.00']], tip: '&#128161; Capitol Hill&#8217;s bar scene is dense and walkable &#8212; the classic Seattle U weekend move.' },
+    bulk: { items: [['Total Wine Seattle &#8212; 30pk','$24.99'],['Costco Seattle &#8212; run','$23.99/30pk'],['QFC Capitol Hill &#8212; wine','$8.99/btl']], tip: '&#128161; Washington liquor pricing runs higher than most of this list &#8212; a Costco run is worth the membership.' },
+    coupons: { items: [['Seattle U Bookstore &#8212; discount w/ student ID','10% off'],['U-PASS student transit pass','Included in fees'],['AMC Pacific Place student Tuesday','$8 tickets']], tip: '&#128161; The U-PASS is already covered by your quarterly fees &#8212; check before buying ORCA fare separately.' },
+  }},
+  { key: 'wsu', name: 'Washington State', categories: {
+    gas: { items: [['Safeway, SE Bishop Blvd (Pullman)','$5.29/gal'],['Texaco, S Grand Ave (Pullman)','$5.49/gal']], tip: '&#128161; Verified via GasBuddy. Safeway on Bishop Blvd is the cheapest verified option in Pullman.' },
+    food: { items: [['Cougar Country Drive-In combo','$8.00'],['South Fork Java House plate','$10.00'],['Downtown Pullman food spots','$8.50']], tip: '&#128161; Cougar Country Drive-In is a WSU institution &#8212; cheap, fast, and a Pullman tradition.' },
+    coffee: { items: [['South Fork Java House','$4.00'],['Ferdinand&#8217;s Ice Cream Shoppe (campus)','$3.50'],['One World Cafe Pullman','$4.25']], tip: '&#128161; South Fork Java House has the most reliable study seating in downtown Pullman.' },
+    housing: { items: [['Pullman shared room','$550&#8211;800/mo'],['Downtown Pullman room split','$600&#8211;850/mo'],['Studio near campus','$1,000/mo']], tip: '&#128161; Pullman is one of the most affordable college towns on this entire list.' },
+    bars: { items: [["My Office Bar & Grill pints",'$4.00'],['Black Cypress (Cougar Country) happy hour','$4.50'],['Downtown Pullman bars &#8212; well drinks','$4.00']], tip: '&#128161; Downtown Pullman bars run consistently cheap &#8212; this is a classic Pac-12 college town bar scene.' },
+    bulk: { items: [['Walmart Pullman &#8212; 30pk','$17.99'],['Grocery Outlet Pullman &#8212; wine','$6.99/btl'],['Costco Spokane (45 min) &#8212; run','$21.99/30pk']], tip: '&#128161; A Costco run to Spokane once a month is worth it if you&#8217;re splitting with roommates.' },
+    coupons: { items: [['WSU Bookie &#8212; discount w/ Cougar Card','10% off'],['Pullman Transit student fare','Reduced fare'],['Audian Theatre student rate','$7 tickets']], tip: '&#128161; Pullman Transit is often free or heavily discounted for WSU students &#8212; check before driving everywhere.' },
+  }},
+  { key: 'wwu', name: 'Western Washington', categories: {
+    gas: { items: [['Costco, Arctic Ave (Bellingham)','$4.39/gal'],['Shell, Guide Meridian St (Bellingham)','$4.39/gal'],['Sinclair, E Sunset Dr (Bellingham)','$4.99/gal']], tip: '&#128161; Verified via GasBuddy. Bellingham gas runs noticeably cheaper than Seattle &#8212; the Arctic Ave Costco is the best deal.' },
+    food: { items: [["Old Town Cafe plate",'$11.00'],['Mallard Ice Cream + coffee','$6.00'],['Fairhaven food spots','$9.00']], tip: '&#128161; Historic Fairhaven, a short bus ride from campus, has the best concentration of affordable sit-down food.' },
+    coffee: { items: [['Woods Coffee','$4.00'],['Tony&#8217;s Coffee Bellingham','$4.25'],['Camber Coffee','$4.00']], tip: '&#128161; Woods Coffee is a Bellingham original and the most common WWU study spot.' },
+    housing: { items: [['Sehome shared room','$800&#8211;1,100/mo'],['Fairhaven room split','$850&#8211;1,150/mo'],['Studio near campus','$1,500/mo']], tip: '&#128161; Sehome, right next to campus, still has reasonably priced shared housing for a coastal Washington town.' },
+    bars: { items: [['Boundary Bay Brewery pints','$6.00'],['The Royal happy hour','$5.00'],['Downtown Bellingham bars &#8212; well drinks','$5.50']], tip: '&#128161; Boundary Bay Brewery is the defining WWU brewery &#8212; worth it even off happy hour.' },
+    bulk: { items: [['Costco Bellingham &#8212; run','$21.99/30pk'],['Grocery Outlet Bellingham &#8212; wine','$6.99/btl'],['Total Wine Bellingham &#8212; 30pk','$22.99']], tip: '&#128161; Costco Bellingham is a straight shot from campus and the best bulk deal in town.' },
+    coupons: { items: [['WWU Bookstore &#8212; discount w/ student ID','10% off'],['Whatcom Transit Authority student pass','Often included in fees'],['Pickford Film Center student rate','$9 tickets']], tip: '&#128161; The WTA bus pass is frequently already covered by WWU student fees &#8212; check before paying for parking.' },
+  }},
+  { key: 'psu', name: 'Portland State', categories: {
+    gas: { items: [['ARCO, SE Belmont St (Portland)','$4.25/gal'],['Astro, SE Powell Blvd (Portland)','$4.34/gal'],['Astro, SE Cesar Chavez Blvd (Portland)','$4.39/gal']], tip: '&#128161; Verified via GasBuddy. The SE Belmont St ARCO is the cheapest verified option near downtown Portland.' },
+    food: { items: [['Food cart pods, SW 5th Ave','$8.00'],['Stumptown bagel + coffee','$7.00'],["Tom's Restaurant downtown plate",'$10.00']], tip: '&#128161; Portland&#8217;s downtown food cart pods are a five-minute walk from PSU and unbeatable for the price.' },
+    coffee: { items: [['Stumptown Coffee Roasters','$4.25'],['Either/Or coffee','$4.00'],['Cafe Velo PSU','$3.75']], tip: '&#128161; Cafe Velo, right on the PSU campus, is the easiest and cheapest study coffee option.' },
+    housing: { items: [['Downtown Portland shared room','$900&#8211;1,200/mo'],['SE Portland room split','$800&#8211;1,100/mo'],['Studio near campus','$1,500/mo']], tip: '&#128161; SE Portland runs cheaper than downtown while staying an easy MAX or bike ride to PSU.' },
+    bars: { items: [['Rogue Eastside Pub happy hour','$5.00'],['Lucky Labrador Brewing pints','$5.50'],['Downtown Portland bars &#8212; well drinks','$5.00']], tip: '&#128161; Lucky Labrador Brewing is a Portland staple and consistently runs cheaper than downtown chain bars.' },
+    bulk: { items: [['Oregon liquor store handle spirits','$16.99/1.75L'],['Fred Meyer Portland &#8212; wine 6-pack','$32.99'],['WinCo Portland &#8212; 30pk','$17.99']], tip: '&#128161; Oregon has no sales tax and competitive state liquor pricing &#8212; it shows up clearly here.' },
+    coupons: { items: [['PSU Bookstore &#8212; discount w/ student ID','10% off'],['TriMet student transit pass','Often included in fees'],['Hollywood Theatre student rate','$8 tickets']], tip: '&#128161; The TriMet student pass is frequently already covered by PSU fees &#8212; check before buying a separate one.' },
+  }},
+];
+
+function dealCard(catKey, data) {
+  const meta = CAT_META[catKey];
+  const rows = data.items.map(([name, price]) =>
+    `<div class="deal-row"><span class="deal-name">${name}</span><span class="deal-price">${price}</span></div>`
+  ).join('');
+  return `<div class="deal-card">
+    <div class="deal-icon">${meta.icon}</div>
+    <div class="deal-cat">${meta.label}</div>
+    <div class="deal-items">${rows}<div class="deal-tip">${data.tip}</div></div>
+  </div>`;
+}
+
+function savingsCard() {
+  const rows = SAVINGS_CARD.rows.map(([name, price, cls]) =>
+    `<div class="deal-row deal-row-highlight"><span class="deal-name">${name}</span><span class="deal-price deal-${cls}">${price}</span></div>`
+  ).join('');
+  return `<div class="deal-card deal-card-savings">
+    <div class="deal-icon">${SAVINGS_CARD.icon}</div>
+    <div class="deal-cat">${SAVINGS_CARD.label}</div>
+    <div class="deal-items">${rows}
+      <div class="deal-row deal-total"><span class="deal-name">${SAVINGS_CARD.total[0]}</span><span class="deal-price deal-green">${SAVINGS_CARD.total[1]}</span></div>
+      <div class="deal-tip deal-tip-green">${SAVINGS_CARD.tip}</div>
+    </div>
+  </div>`;
+}
+
+// Seeds the daily rotation off TOMORROW's date so picks change once every 24h
+// and are the same for every visitor on a given day (no server needed).
+function dayOfYearSeed(offsetDays) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const start = new Date(d.getFullYear(), 0, 0);
+  return Math.floor((d - start) / 86400000);
+}
+
+function tomorrowLabel() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toLocaleDateString('en-US', { weekday: 'long' });
+}
+
+function tomorrowPicksCard(school) {
+  const seed = dayOfYearSeed(1);
+  const pickCats = ['food', 'bars', 'coupons'].filter(c => school.categories[c]);
+  const picks = pickCats.map(catKey => {
+    const items = school.categories[catKey].items;
+    const item = items[seed % items.length];
+    return { catLabel: CAT_META[catKey].label, name: item[0], price: item[1] };
+  });
+  const rows = picks.map(p =>
+    `<div class="deal-row"><span class="deal-name">${p.name} <span style="color:var(--muted);font-size:0.7rem;">(${p.catLabel})</span></span><span class="deal-price">${p.price}</span></div>`
+  ).join('');
+  return `<div class="deal-card deal-card-tomorrow">
+    <div class="tomorrow-badge">Refreshes daily</div>
+    <div class="deal-icon">&#128302;</div>
+    <div class="deal-cat">Key Picks for ${tomorrowLabel()}</div>
+    <div class="deal-items">${rows}<div class="deal-tip">&#128161; Rotates automatically each day &#8212; check back tomorrow for new picks.</div></div>
+  </div>`;
+}
+
+function switchSchool(school, btn) {
+  document.querySelectorAll('.school-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.school-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + school).classList.add('active');
+  btn.classList.add('active');
+}
+
+function renderSchools() {
+  const tabsEl = document.getElementById('school-tabs');
+  const panelsEl = document.getElementById('school-panels');
+  tabsEl.innerHTML = SCHOOLS.map((s, i) =>
+    `<button class="school-tab${i === 0 ? ' active' : ''}" onclick="switchSchool('${s.key}',this)">${s.name}</button>`
+  ).join('');
+  panelsEl.innerHTML = SCHOOLS.map((s, i) => {
+    const cards = tomorrowPicksCard(s) +
+      Object.keys(s.categories).map(catKey => dealCard(catKey, s.categories[catKey])).join('') +
+      savingsCard();
+    return `<div class="school-panel${i === 0 ? ' active' : ''}" id="panel-${s.key}"><div class="deals-grid">${cards}</div></div>`;
+  }).join('');
+}
+
+renderSchools();
+
+// ── Suggest-a-deal modal ────────────────────────────────────────────────────
+const DEALS_API = 'https://web-production-13d5b.up.railway.app';
+
+function openSuggestModal() {
+  document.getElementById('suggest-modal-overlay').classList.add('open');
+}
+
+function closeSuggestModal(e) {
+  if (e && e.target !== document.getElementById('suggest-modal-overlay')) return;
+  document.getElementById('suggest-modal-overlay').classList.remove('open');
+  document.getElementById('suggest-status').textContent = '';
+}
+
+async function submitSuggestion() {
+  const school = document.getElementById('suggest-school').value;
+  const category = document.getElementById('suggest-category').value;
+  const suggestion = document.getElementById('suggest-text').value.trim();
+  const submitter_email = document.getElementById('suggest-email').value.trim() || null;
+  const statusEl = document.getElementById('suggest-status');
+  const btn = document.getElementById('suggest-submit-btn');
+
+  if (!suggestion) {
+    statusEl.textContent = 'Tell us what the deal actually is.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  statusEl.textContent = '';
+
+  try {
+    const r = await fetch(`${DEALS_API}/deals/suggest`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ school, category, suggestion, submitter_email }),
+    });
+    if (r.ok) {
+      statusEl.textContent = 'Thanks! We review every submission before it goes live.';
+      document.getElementById('suggest-text').value = '';
+      document.getElementById('suggest-email').value = '';
+      setTimeout(() => closeSuggestModal(), 2000);
+    } else {
+      const err = await r.json().catch(() => ({}));
+      statusEl.textContent = err.detail ? String(err.detail) : 'Something went wrong. Try again.';
+    }
+  } catch (e) {
+    statusEl.textContent = 'Network error — please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Submit deal';
+  }
+}
+</script>
+
+</body>
+</html>
