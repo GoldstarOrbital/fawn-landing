@@ -96,13 +96,16 @@
     /* PRICING CARDS */
     .pricing {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
-      max-width: 680px;
+      max-width: 1000px;
       margin: 0 auto 60px;
       padding: 0 24px;
     }
 
+    @media (max-width: 860px) {
+      .pricing { grid-template-columns: 1fr 1fr; max-width: 680px; }
+    }
     @media (max-width: 560px) {
       .pricing { grid-template-columns: 1fr; }
     }
@@ -355,6 +358,23 @@
     </ul>
     <a href="https://buy.stripe.com/00w3cu5gk2rrdwX5zMdUY01" class="plan-cta" target="_blank" id="founder-cta" onclick="posthog&&posthog.capture('cta_click',{tier:'inner_circle',price:97})">
       Become a Founding Member  - $97
+    </a>
+  </div>
+
+  <!-- Dev Sprint -->
+  <div class="plan">
+    <div class="plan-name">Dev Sprint</div>
+    <div class="plan-price">$300 <span>one-time</span></div>
+    <div class="plan-desc">Everything in Inner Circle + a dedicated dev sprint on your feature request. For the people who want to help build this, not just use it.</div>
+    <ul class="plan-features">
+      <li>Free FAWN Premium  - forever</li>
+      <li>$25 account credit when you open</li>
+      <li>Dedicated dev sprint on your feature request</li>
+      <li>Your name in the product credits</li>
+      <li>Direct line to Alex (founder)</li>
+    </ul>
+    <a href="https://buy.stripe.com/bJe9AS1042rrfF53rEdUY03" class="plan-cta" target="_blank" id="devsprint-cta" onclick="posthog&&posthog.capture('cta_click',{tier:'dev_sprint',price:300})">
+      Claim Dev Sprint  - $300
     </a>
   </div>
 </section>
