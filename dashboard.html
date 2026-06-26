@@ -192,6 +192,176 @@
       .balance-right { text-align: left; }
       .account-grid { grid-template-columns: 1fr; }
     }
+
+    /* ===== P2P ===== */
+    .p2p-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 24px 28px; margin-bottom: 20px;
+    }
+    .p2p-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 4px; flex-wrap: wrap; gap: 10px;
+    }
+    .p2p-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+    .p2p-handle-badge {
+      font-size: 0.78rem; color: var(--accent); font-weight: 600;
+      background: var(--accent-dim); border: 1px solid var(--accent-border);
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .p2p-sub { color: var(--muted); font-size: 0.82rem; margin-top: 2px; margin-bottom: 18px; }
+
+    /* claim handle */
+    .p2p-claim-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .p2p-claim-row input {
+      flex: 1; min-width: 160px; padding: 12px 14px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text); font-size: 0.92rem; font-family: inherit; outline: none;
+    }
+    .p2p-claim-row input:focus { border-color: var(--accent); }
+    .p2p-claim-prefix {
+      display: flex; align-items: center; padding: 0 4px 0 14px;
+      background: var(--bg); border: 1px solid var(--border); border-right: none;
+      border-radius: 10px 0 0 10px; color: var(--muted); font-size: 0.92rem;
+    }
+    .p2p-claim-input-wrap { display: flex; flex: 1; min-width: 160px; }
+    .p2p-claim-input-wrap input { border-radius: 0 10px 10px 0; }
+
+    .btn-p2p {
+      background: var(--accent); color: #000; font-weight: 700;
+      font-size: 0.88rem; padding: 12px 22px; border: none; border-radius: 10px;
+      cursor: pointer; transition: opacity 0.15s; white-space: nowrap;
+    }
+    .btn-p2p:hover { opacity: 0.88; }
+    .btn-p2p:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-p2p.secondary {
+      background: var(--surface2); color: var(--text); border: 1px solid var(--border);
+    }
+    .btn-p2p.danger { background: var(--red); color: #fff; }
+    .btn-p2p.small { padding: 7px 14px; font-size: 0.78rem; border-radius: 8px; }
+
+    .p2p-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 6px; }
+    .p2p-action-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      border-radius: 12px; padding: 14px 8px; text-align: center; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s; font-size: 0.78rem; font-weight: 600;
+    }
+    .p2p-action-btn:hover { border-color: var(--accent-border); background: var(--accent-dim); }
+    .p2p-action-icon { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+    @media (max-width: 600px) { .p2p-actions { grid-template-columns: repeat(2, 1fr); } }
+
+    .p2p-error { color: var(--red); font-size: 0.82rem; margin-top: 10px; line-height: 1.4; }
+    .p2p-hint { color: var(--muted); font-size: 0.76rem; margin-top: 8px; line-height: 1.4; }
+
+    /* feed */
+    .p2p-feed-item {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      background: var(--surface2); border: 1px solid var(--border);
+      margin-bottom: 8px; flex-wrap: wrap;
+    }
+    .p2p-feed-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .p2p-feed-icon {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      background: var(--surface); display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+    }
+    .p2p-feed-desc { font-size: 0.9rem; font-weight: 600; }
+    .p2p-feed-meta { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .p2p-feed-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .p2p-feed-amt { font-size: 0.95rem; font-weight: 700; }
+    .p2p-feed-amt.credit { color: var(--green); }
+    .p2p-feed-amt.debit { color: var(--text); }
+    .p2p-status-pill {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 3px 9px; border-radius: 100px;
+    }
+    .p2p-status-pill.completed { background: rgba(0,200,150,0.12); color: var(--green); }
+    .p2p-status-pill.pending, .p2p-status-pill.requires_step_up, .p2p-status-pill.fulfilling { background: rgba(255,180,0,0.1); color: #ffb400; }
+    .p2p-status-pill.requested { background: rgba(255,180,0,0.1); color: #ffb400; }
+    .p2p-status-pill.failed, .p2p-status-pill.declined, .p2p-status-pill.disputed { background: rgba(255,77,109,0.12); color: var(--red); }
+    .p2p-status-pill.expired { background: var(--surface); color: var(--muted); }
+
+    /* modal overlay (matches suggest-modal pattern) */
+    .p2p-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .p2p-modal-overlay.open { display: flex; }
+    .p2p-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; max-width: 440px; width: 100%;
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .p2p-modal h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .p2p-modal > p.p2p-modal-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .p2p-modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; color: var(--muted);
+      font-size: 1.4rem; cursor: pointer; line-height: 1;
+    }
+    .p2p-field { margin-bottom: 14px; }
+    .p2p-field label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 6px; }
+    .p2p-field input, .p2p-field textarea {
+      width: 100%; padding: 10px 12px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 0.9rem; font-family: inherit; outline: none;
+    }
+    .p2p-field input:focus, .p2p-field textarea:focus { border-color: var(--accent); }
+    .p2p-field textarea { resize: vertical; min-height: 70px; }
+    .p2p-field-row { display: flex; gap: 10px; }
+    .p2p-field-row .p2p-field { flex: 1; }
+    .p2p-recipient-row {
+      display: flex; gap: 8px; margin-bottom: 8px; align-items: center;
+    }
+    .p2p-recipient-row input { flex: 1; }
+    .p2p-recipient-remove {
+      background: none; border: none; color: var(--muted); font-size: 1.1rem;
+      cursor: pointer; padding: 4px 8px; flex-shrink: 0;
+    }
+    .p2p-recipient-remove:hover { color: var(--red); }
+    .p2p-add-recipient {
+      background: none; border: 1px dashed var(--border); color: var(--accent);
+      font-size: 0.82rem; padding: 8px; border-radius: 8px; cursor: pointer;
+      width: 100%; margin-bottom: 14px;
+    }
+    .p2p-add-recipient:hover { border-color: var(--accent-border); }
+
+    .p2p-lookup-result { font-size: 0.82rem; margin-top: -4px; margin-bottom: 14px; min-height: 1.2em; }
+    .p2p-lookup-result.found { color: var(--accent); }
+    .p2p-lookup-result.notfound { color: var(--muted); }
+
+    .p2p-confirm-amount {
+      text-align: center; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em;
+      margin: 8px 0 4px;
+    }
+    .p2p-confirm-to { text-align: center; color: var(--muted); font-size: 0.92rem; margin-bottom: 18px; }
+    .p2p-confirm-warning {
+      background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3);
+      color: var(--red); border-radius: 10px; padding: 12px 14px;
+      font-size: 0.84rem; line-height: 1.5; margin-bottom: 16px; font-weight: 600;
+    }
+    .p2p-confirm-stepup {
+      background: rgba(255,180,0,0.1); border: 1px solid rgba(255,180,0,0.3);
+      color: #ffb400; border-radius: 10px; padding: 12px 14px;
+      font-size: 0.84rem; line-height: 1.5; margin-bottom: 16px; font-weight: 600;
+    }
+    .p2p-confirm-irreversible {
+      text-align: center; color: var(--muted); font-size: 0.78rem; margin-bottom: 16px;
+    }
+    .p2p-modal-status { font-size: 0.8rem; color: var(--muted); margin-top: 12px; text-align: center; min-height: 1.2em; }
+    .p2p-modal-status.error { color: var(--red); }
+    .p2p-modal-status.success { color: var(--accent); }
+
+    .p2p-result-icon { text-align: center; font-size: 2.6rem; margin-bottom: 6px; }
+    .p2p-result-title { text-align: center; font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .p2p-result-body { text-align: center; color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 18px; }
+
+    .p2p-soon-badge {
+      display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; background: var(--surface2); color: var(--muted);
+      padding: 3px 8px; border-radius: 100px; margin-left: 6px; vertical-align: middle;
+    }
   </style>
 </head>
 <body>
@@ -257,6 +427,46 @@
       </div>
     </div>
 
+    <!-- P2P PAYMENTS -->
+    <div class="p2p-card" id="p2p-card">
+
+      <!-- claim handle prompt -->
+      <div id="p2p-claim-state" style="display:none">
+        <div class="p2p-head"><div class="p2p-title">Send &amp; request money</div></div>
+        <div class="p2p-sub">Claim your @handle to start sending money to friends on FAWN, splitting bills, and requesting payments.</div>
+        <div class="p2p-claim-row">
+          <div class="p2p-claim-input-wrap">
+            <span class="p2p-claim-prefix">@</span>
+            <input type="text" id="p2p-claim-input" placeholder="yourhandle" maxlength="20" autocomplete="off">
+          </div>
+          <button class="btn-p2p" id="p2p-claim-btn" onclick="claimHandle()">Claim handle</button>
+        </div>
+        <div class="p2p-hint">3-20 characters. Lowercase letters, numbers, and underscores only.</div>
+        <div class="p2p-error" id="p2p-claim-error"></div>
+      </div>
+
+      <!-- active p2p state -->
+      <div id="p2p-active-state" style="display:none">
+        <div class="p2p-head">
+          <div class="p2p-title">Send &amp; request money</div>
+          <div class="p2p-handle-badge" id="p2p-my-handle">@you</div>
+        </div>
+        <div class="p2p-sub">Pay friends on FAWN instantly &#8212; no fees.</div>
+
+        <div class="p2p-actions">
+          <div class="p2p-action-btn" onclick="openSendModal()"><span class="p2p-action-icon">&#8599;</span>Send</div>
+          <div class="p2p-action-btn" onclick="openRequestModal()"><span class="p2p-action-icon">&#8601;</span>Request</div>
+          <div class="p2p-action-btn" onclick="openSplitModal()"><span class="p2p-action-icon">&#128203;</span>Split a bill</div>
+          <div class="p2p-action-btn" onclick="openExternalModal()"><span class="p2p-action-icon">&#127974;</span>External bank<span class="p2p-soon-badge">Soon</span></div>
+        </div>
+
+        <div class="section-header" style="margin-top:22px">
+          <div class="section-title">P2P activity</div>
+        </div>
+        <div id="p2p-feed-list"></div>
+      </div>
+    </div>
+
     <div class="account-grid">
       <div class="account-tile">
         <div class="label">Routing number</div>
@@ -298,6 +508,136 @@
       Deposits held by Unit's FDIC-member bank partner - insured up to $250,000 per depositor.<br>
       FAWN does not invest or lend your deposits. Fully liquid, withdraw anytime.
     </div>
+  </div>
+</div>
+
+<!-- SEND MODAL -->
+<div class="p2p-modal-overlay" id="p2p-send-overlay" onclick="closeP2pModal(event,'p2p-send-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'p2p-send-overlay')" aria-label="Close">&#215;</button>
+
+    <div id="p2p-send-step-form">
+      <h3>Send money</h3>
+      <p class="p2p-modal-sub">Send instantly to any FAWN user.</p>
+      <div class="p2p-field">
+        <label for="p2p-send-handle">To @handle</label>
+        <input type="text" id="p2p-send-handle" placeholder="friendhandle" autocomplete="off" oninput="lookupHandleDebounced('p2p-send-handle','p2p-send-lookup')">
+        <div class="p2p-lookup-result" id="p2p-send-lookup"></div>
+      </div>
+      <div class="p2p-field">
+        <label for="p2p-send-amount">Amount</label>
+        <input type="number" id="p2p-send-amount" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+      </div>
+      <div class="p2p-field">
+        <label for="p2p-send-note">Note (optional)</label>
+        <input type="text" id="p2p-send-note" placeholder="e.g. dinner last night" maxlength="140">
+      </div>
+      <button class="btn-p2p" style="width:100%" id="p2p-send-continue-btn" onclick="createSend()">Continue</button>
+      <div class="p2p-modal-status" id="p2p-send-status"></div>
+    </div>
+
+    <div id="p2p-send-step-confirm" style="display:none"></div>
+    <div id="p2p-send-step-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- REQUEST MODAL -->
+<div class="p2p-modal-overlay" id="p2p-request-overlay" onclick="closeP2pModal(event,'p2p-request-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'p2p-request-overlay')" aria-label="Close">&#215;</button>
+
+    <div id="p2p-request-step-form">
+      <h3>Request money</h3>
+      <p class="p2p-modal-sub">Ask another FAWN user to send you money.</p>
+      <div class="p2p-field">
+        <label for="p2p-request-handle">From @handle</label>
+        <input type="text" id="p2p-request-handle" placeholder="friendhandle" autocomplete="off" oninput="lookupHandleDebounced('p2p-request-handle','p2p-request-lookup')">
+        <div class="p2p-lookup-result" id="p2p-request-lookup"></div>
+      </div>
+      <div class="p2p-field">
+        <label for="p2p-request-amount">Amount</label>
+        <input type="number" id="p2p-request-amount" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+      </div>
+      <div class="p2p-field">
+        <label for="p2p-request-note">Note (optional)</label>
+        <input type="text" id="p2p-request-note" placeholder="e.g. my half of the uber" maxlength="140">
+      </div>
+      <button class="btn-p2p" style="width:100%" id="p2p-request-submit-btn" onclick="createRequest()">Send request</button>
+      <div class="p2p-modal-status" id="p2p-request-status"></div>
+    </div>
+
+    <div id="p2p-request-step-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- SPLIT MODAL -->
+<div class="p2p-modal-overlay" id="p2p-split-overlay" onclick="closeP2pModal(event,'p2p-split-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'p2p-split-overlay')" aria-label="Close">&#215;</button>
+
+    <div id="p2p-split-step-form">
+      <h3>Split a bill</h3>
+      <p class="p2p-modal-sub">We'll send a request to each person for their share. Any leftover cent goes to the first person.</p>
+      <div class="p2p-field">
+        <label for="p2p-split-amount">Total amount</label>
+        <input type="number" id="p2p-split-amount" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+      </div>
+      <label style="display:block;font-size:0.78rem;color:var(--muted);margin-bottom:6px;">Split with</label>
+      <div id="p2p-split-recipients">
+        <div class="p2p-recipient-row">
+          <input type="text" placeholder="@handle" autocomplete="off">
+          <button class="p2p-recipient-remove" onclick="removeSplitRow(this)" aria-label="Remove">&#215;</button>
+        </div>
+      </div>
+      <button class="p2p-add-recipient" onclick="addSplitRow()">+ Add another person</button>
+      <div class="p2p-field">
+        <label for="p2p-split-note">Note (optional)</label>
+        <input type="text" id="p2p-split-note" placeholder="e.g. pizza night" maxlength="140">
+      </div>
+      <div class="p2p-hint" id="p2p-split-preview"></div>
+      <button class="btn-p2p" style="width:100%;margin-top:10px" id="p2p-split-submit-btn" onclick="createSplit()">Send requests</button>
+      <div class="p2p-modal-status" id="p2p-split-status"></div>
+    </div>
+
+    <div id="p2p-split-step-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- PAY INCOMING REQUEST MODAL -->
+<div class="p2p-modal-overlay" id="p2p-pay-overlay" onclick="closeP2pModal(event,'p2p-pay-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'p2p-pay-overlay')" aria-label="Close">&#215;</button>
+    <div id="p2p-pay-step-confirm"></div>
+    <div id="p2p-pay-step-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- DISPUTE MODAL -->
+<div class="p2p-modal-overlay" id="p2p-dispute-overlay" onclick="closeP2pModal(event,'p2p-dispute-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'p2p-dispute-overlay')" aria-label="Close">&#215;</button>
+    <div id="p2p-dispute-step-form">
+      <h3>Report a problem</h3>
+      <p class="p2p-modal-sub">Tell us what went wrong with this transfer. Our team will review it.</p>
+      <div class="p2p-field">
+        <label for="p2p-dispute-reason">What happened? (10+ characters)</label>
+        <textarea id="p2p-dispute-reason" maxlength="500" placeholder="e.g. I never agreed to this charge / sent to the wrong person"></textarea>
+      </div>
+      <button class="btn-p2p danger" style="width:100%" id="p2p-dispute-submit-btn" onclick="submitDispute()">Submit report</button>
+      <div class="p2p-modal-status" id="p2p-dispute-status"></div>
+    </div>
+    <div id="p2p-dispute-step-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- EXTERNAL BANK (COMING SOON) MODAL -->
+<div class="p2p-modal-overlay" id="p2p-external-overlay" onclick="closeP2pModal(event,'p2p-external-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'p2p-external-overlay')" aria-label="Close">&#215;</button>
+    <div class="p2p-result-icon">&#127974;</div>
+    <div class="p2p-result-title">Sending to external banks &#8212; coming soon</div>
+    <div class="p2p-result-body">Right now FAWN-to-FAWN transfers are instant and free. Sending money to accounts at other banks isn't available yet, but it's on the way. For now, ask your friend to claim a FAWN @handle to get paid instantly.</div>
+    <button class="btn-p2p secondary" style="width:100%" onclick="closeP2pModal(null,'p2p-external-overlay')">Got it</button>
   </div>
 </div>
 
@@ -432,6 +772,7 @@ async function loadDashboard() {
     renderTransactions(dash.transactions || []);
     loadCampusSavings(me.school);
     show('state-active');
+    loadP2p();
 
   } catch (e) {
     console.error('Dashboard load failed:', e);
@@ -470,6 +811,634 @@ async function loadCampusSavings(school) {
   } catch (e) {
     console.error('Campus savings load failed:', e);
     document.getElementById('campus-savings-noschool').style.display = '';
+  }
+}
+
+// ============================================================
+// P2P PAYMENTS
+// ============================================================
+let myHandle = null;
+let p2pTransfers = [];
+let lookupTimers = {};
+
+function authHeaders(json) {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const h = { Authorization: 'Bearer ' + token };
+  if (json) h['Content-Type'] = 'application/json';
+  return h;
+}
+
+function dollarsToCents(val) {
+  const n = parseFloat(val);
+  if (isNaN(n) || n <= 0) return null;
+  return Math.round(n * 100);
+}
+
+function stripHandle(h) {
+  return String(h || '').trim().replace(/^@/, '').toLowerCase();
+}
+
+async function loadP2p() {
+  try {
+    const r = await fetch(API + '/p2p/handles/me', { headers: authHeaders() });
+    if (!r.ok) { document.getElementById('p2p-card').style.display = 'none'; return; }
+    const data = await r.json();
+    myHandle = data.handle || null;
+
+    if (!myHandle) {
+      document.getElementById('p2p-claim-state').style.display = '';
+      document.getElementById('p2p-active-state').style.display = 'none';
+    } else {
+      document.getElementById('p2p-claim-state').style.display = 'none';
+      document.getElementById('p2p-active-state').style.display = '';
+      document.getElementById('p2p-my-handle').textContent = '@' + myHandle;
+      loadP2pFeed();
+    }
+  } catch (e) {
+    console.error('P2P load failed:', e);
+    document.getElementById('p2p-card').style.display = 'none';
+  }
+}
+
+async function claimHandle() {
+  const input = document.getElementById('p2p-claim-input');
+  const errEl = document.getElementById('p2p-claim-error');
+  const btn = document.getElementById('p2p-claim-btn');
+  const handle = stripHandle(input.value);
+  errEl.textContent = '';
+
+  if (!/^[a-z0-9_]{3,20}$/.test(handle)) {
+    errEl.textContent = 'Handle must be 3-20 characters: lowercase letters, numbers, and underscores only.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Claiming...';
+  try {
+    const r = await fetch(API + '/p2p/handles', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ handle }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (r.ok) {
+      myHandle = data.handle || handle;
+      document.getElementById('p2p-claim-state').style.display = 'none';
+      document.getElementById('p2p-active-state').style.display = '';
+      document.getElementById('p2p-my-handle').textContent = '@' + myHandle;
+      loadP2pFeed();
+    } else {
+      errEl.textContent = data.detail || 'Could not claim that handle. Try another.';
+    }
+  } catch (e) {
+    errEl.textContent = 'Network error. Please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Claim handle';
+  }
+}
+
+async function loadP2pFeed() {
+  const list = document.getElementById('p2p-feed-list');
+  try {
+    const r = await fetch(API + '/p2p/transfers', { headers: authHeaders() });
+    if (!r.ok) { list.innerHTML = '<div class="empty-state">Could not load your P2P activity.</div>'; return; }
+    const data = await r.json();
+    p2pTransfers = data.transfers || [];
+    renderP2pFeed();
+  } catch (e) {
+    console.error('P2P feed load failed:', e);
+    list.innerHTML = '<div class="empty-state">Could not load your P2P activity.</div>';
+  }
+}
+
+function p2pIcon(direction) {
+  if (direction === 'sent') return '&#8599;';
+  if (direction === 'received') return '&#8601;';
+  if (direction === 'request_outgoing') return '&#128203;';
+  if (direction === 'request_incoming') return '&#128203;';
+  return '&#8644;';
+}
+
+function p2pDesc(t) {
+  const who = '@' + (t.counterparty_handle || 'unknown');
+  if (t.direction === 'sent') return 'Sent to ' + who;
+  if (t.direction === 'received') return 'Received from ' + who;
+  if (t.direction === 'request_outgoing') return 'Requested from ' + who;
+  if (t.direction === 'request_incoming') return who + ' is requesting';
+  return who;
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  } catch (e) { return ''; }
+}
+
+function renderP2pFeed() {
+  const list = document.getElementById('p2p-feed-list');
+  if (!p2pTransfers.length) {
+    list.innerHTML = '<div class="empty-state">No transfers yet &#8212; send your first payment to a friend on FAWN.</div>';
+    return;
+  }
+  list.innerHTML = p2pTransfers.map(t => {
+    const isCredit = t.direction === 'received';
+    const amtStr = (isCredit ? '+' : (t.direction === 'sent' ? '-' : '')) + fmt(t.amount_cents / 100);
+    const actions = [];
+    if (t.direction === 'request_incoming' && t.status === 'requested') {
+      actions.push(`<button class="btn-p2p small" onclick="openPayRequest('${t.id}')">Pay</button>`);
+    }
+    if (t.status === 'completed' && (t.direction === 'sent' || t.direction === 'received')) {
+      actions.push(`<button class="btn-p2p secondary small" onclick="openDisputeModal('${t.id}')">Report</button>`);
+    }
+    const warningHtml = t.warning ? `<div class="p2p-feed-meta" style="color:var(--red)">&#9888; ${esc(t.warning)}</div>` : '';
+    return `
+      <div class="p2p-feed-item">
+        <div class="p2p-feed-left">
+          <div class="p2p-feed-icon">${p2pIcon(t.direction)}</div>
+          <div>
+            <div class="p2p-feed-desc">${esc(p2pDesc(t))}</div>
+            <div class="p2p-feed-meta">${t.note ? esc(t.note) + ' &middot; ' : ''}${formatDate(t.created_at)}</div>
+            ${warningHtml}
+          </div>
+        </div>
+        <div class="p2p-feed-right">
+          <span class="p2p-status-pill ${esc(t.status)}">${esc((t.status||'').replace('_',' '))}</span>
+          <span class="p2p-feed-amt ${isCredit ? 'credit' : 'debit'}">${amtStr}</span>
+          ${actions.join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Modal open/close ────────────────────────────────────────
+function closeP2pModal(e, id) {
+  if (e && e.target !== document.getElementById(id)) return;
+  document.getElementById(id).classList.remove('open');
+}
+
+function openModalById(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+function openExternalModal() { openModalById('p2p-external-overlay'); }
+
+// ── Handle lookup ────────────────────────────────────────────
+function lookupHandleDebounced(inputId, resultId) {
+  clearTimeout(lookupTimers[inputId]);
+  lookupTimers[inputId] = setTimeout(() => doLookup(inputId, resultId), 400);
+}
+
+async function doLookup(inputId, resultId) {
+  const handle = stripHandle(document.getElementById(inputId).value);
+  const resultEl = document.getElementById(resultId);
+  resultEl.className = 'p2p-lookup-result';
+  resultEl.textContent = '';
+  if (handle.length < 3) return;
+  try {
+    const r = await fetch(API + '/p2p/handles/lookup?handle=' + encodeURIComponent(handle), { headers: authHeaders() });
+    if (!r.ok) return;
+    const data = await r.json();
+    if (data.claimable) {
+      resultEl.className = 'p2p-lookup-result notfound';
+      resultEl.textContent = 'No FAWN user found at @' + handle + '.';
+    } else {
+      resultEl.className = 'p2p-lookup-result found';
+      resultEl.textContent = 'Sending to ' + (data.display_name || ('@' + handle)) + '.';
+    }
+  } catch (e) { /* ignore */ }
+}
+
+// ── SEND FLOW ────────────────────────────────────────────────
+let pendingSendKey = null;
+
+function resetSendModal() {
+  document.getElementById('p2p-send-step-form').style.display = '';
+  document.getElementById('p2p-send-step-confirm').style.display = 'none';
+  document.getElementById('p2p-send-step-result').style.display = 'none';
+  document.getElementById('p2p-send-handle').value = '';
+  document.getElementById('p2p-send-amount').value = '';
+  document.getElementById('p2p-send-note').value = '';
+  document.getElementById('p2p-send-lookup').textContent = '';
+  document.getElementById('p2p-send-status').textContent = '';
+  document.getElementById('p2p-send-status').className = 'p2p-modal-status';
+  pendingSendKey = null;
+}
+
+function openSendModal() {
+  resetSendModal();
+  openModalById('p2p-send-overlay');
+}
+
+async function createSend() {
+  const handle = stripHandle(document.getElementById('p2p-send-handle').value);
+  const cents = dollarsToCents(document.getElementById('p2p-send-amount').value);
+  const note = document.getElementById('p2p-send-note').value.trim();
+  const statusEl = document.getElementById('p2p-send-status');
+  const btn = document.getElementById('p2p-send-continue-btn');
+
+  statusEl.textContent = ''; statusEl.className = 'p2p-modal-status';
+  if (!/^[a-z0-9_]{3,20}$/.test(handle)) { statusEl.textContent = 'Enter a valid @handle.'; statusEl.className = 'p2p-modal-status error'; return; }
+  if (!cents) { statusEl.textContent = 'Enter a valid amount.'; statusEl.className = 'p2p-modal-status error'; return; }
+
+  if (!pendingSendKey) pendingSendKey = crypto.randomUUID();
+  btn.disabled = true; btn.textContent = 'Working...';
+
+  try {
+    const r = await fetch(API + '/p2p/transfers', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ to_handle: handle, amount_cents: cents, note: note || undefined, idempotency_key: pendingSendKey }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not create transfer.';
+      statusEl.className = 'p2p-modal-status error';
+      pendingSendKey = null;
+      return;
+    }
+    showSendConfirm(data);
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'p2p-modal-status error';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Continue';
+  }
+}
+
+function showSendConfirm(transfer) {
+  document.getElementById('p2p-send-step-form').style.display = 'none';
+  const confirmEl = document.getElementById('p2p-send-step-confirm');
+  confirmEl.style.display = '';
+
+  const amount = fmt(transfer.amount_cents / 100);
+  const who = '@' + transfer.counterparty_handle;
+  const needsStepUp = transfer.status === 'requires_step_up' || transfer.step_up_required;
+
+  let warningHtml = '';
+  if (transfer.warning) {
+    warningHtml += `<div class="p2p-confirm-warning">&#9888; ${esc(transfer.warning)}</div>`;
+  }
+  if (needsStepUp && !transfer.warning) {
+    warningHtml += `<div class="p2p-confirm-stepup">&#9888; This looks like a first-time send to a new recipient. Please confirm you recognize this transfer before we send it.</div>`;
+  }
+
+  confirmEl.innerHTML = `
+    <h3>Confirm your payment</h3>
+    <div class="p2p-confirm-amount">${amount}</div>
+    <div class="p2p-confirm-to">Sending to ${esc(who)}</div>
+    ${warningHtml}
+    <div class="p2p-confirm-irreversible">This can't be undone once confirmed.</div>
+    <button class="btn-p2p" style="width:100%;margin-bottom:8px" onclick="confirmSend('${transfer.id}', ${needsStepUp})">Confirm &amp; send ${amount}</button>
+    <button class="btn-p2p secondary" style="width:100%" onclick="resetSendModal()">Cancel</button>
+    <div class="p2p-modal-status" id="p2p-send-confirm-status"></div>
+  `;
+}
+
+async function confirmSend(transferId, stepUpAcked) {
+  const statusEl = document.getElementById('p2p-send-confirm-status');
+  if (statusEl) { statusEl.textContent = 'Sending...'; statusEl.className = 'p2p-modal-status'; }
+  try {
+    const r = await fetch(API + '/p2p/transfers/' + transferId + '/confirm', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ step_up_acknowledged: !!stepUpAcked }),
+    });
+    if (r.status === 428) {
+      const data = await r.json().catch(() => ({}));
+      showSendConfirm(Object.assign({ id: transferId }, data, { step_up_required: true, status: 'requires_step_up' }));
+      return;
+    }
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      if (statusEl) { statusEl.textContent = data.detail || 'Could not complete transfer.'; statusEl.className = 'p2p-modal-status error'; }
+      return;
+    }
+    showSendResult(data);
+  } catch (e) {
+    if (statusEl) { statusEl.textContent = 'Network error. Try again.'; statusEl.className = 'p2p-modal-status error'; }
+  }
+}
+
+function showSendResult(transfer) {
+  document.getElementById('p2p-send-step-confirm').style.display = 'none';
+  const resultEl = document.getElementById('p2p-send-step-result');
+  resultEl.style.display = '';
+  const ok = transfer.status === 'completed';
+  resultEl.innerHTML = `
+    <div class="p2p-result-icon">${ok ? '&#9989;' : '&#10060;'}</div>
+    <div class="p2p-result-title">${ok ? 'Payment sent' : 'Payment failed'}</div>
+    <div class="p2p-result-body">${ok
+      ? 'Sent ' + fmt(transfer.amount_cents/100) + ' to @' + esc(transfer.counterparty_handle) + '.'
+      : esc(transfer.error_message || 'Something went wrong. No money was moved.')}</div>
+    <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-send-overlay'); loadP2pFeed();">Done</button>
+  `;
+  loadP2pFeed();
+}
+
+// ── REQUEST FLOW ─────────────────────────────────────────────
+let pendingRequestKey = null;
+
+function resetRequestModal() {
+  document.getElementById('p2p-request-step-form').style.display = '';
+  document.getElementById('p2p-request-step-result').style.display = 'none';
+  document.getElementById('p2p-request-handle').value = '';
+  document.getElementById('p2p-request-amount').value = '';
+  document.getElementById('p2p-request-note').value = '';
+  document.getElementById('p2p-request-lookup').textContent = '';
+  document.getElementById('p2p-request-status').textContent = '';
+  document.getElementById('p2p-request-status').className = 'p2p-modal-status';
+  pendingRequestKey = null;
+}
+
+function openRequestModal() {
+  resetRequestModal();
+  openModalById('p2p-request-overlay');
+}
+
+async function createRequest() {
+  const handle = stripHandle(document.getElementById('p2p-request-handle').value);
+  const cents = dollarsToCents(document.getElementById('p2p-request-amount').value);
+  const note = document.getElementById('p2p-request-note').value.trim();
+  const statusEl = document.getElementById('p2p-request-status');
+  const btn = document.getElementById('p2p-request-submit-btn');
+
+  statusEl.textContent = ''; statusEl.className = 'p2p-modal-status';
+  if (!/^[a-z0-9_]{3,20}$/.test(handle)) { statusEl.textContent = 'Enter a valid @handle.'; statusEl.className = 'p2p-modal-status error'; return; }
+  if (!cents) { statusEl.textContent = 'Enter a valid amount.'; statusEl.className = 'p2p-modal-status error'; return; }
+
+  if (!pendingRequestKey) pendingRequestKey = crypto.randomUUID();
+  btn.disabled = true; btn.textContent = 'Sending...';
+
+  try {
+    const r = await fetch(API + '/p2p/requests', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ from_handle: handle, amount_cents: cents, note: note || undefined, idempotency_key: pendingRequestKey }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not send request.';
+      statusEl.className = 'p2p-modal-status error';
+      pendingRequestKey = null;
+      return;
+    }
+    document.getElementById('p2p-request-step-form').style.display = 'none';
+    const resultEl = document.getElementById('p2p-request-step-result');
+    resultEl.style.display = '';
+    resultEl.innerHTML = `
+      <div class="p2p-result-icon">&#128203;</div>
+      <div class="p2p-result-title">Request sent</div>
+      <div class="p2p-result-body">You asked @${esc(data.counterparty_handle)} for ${fmt(data.amount_cents/100)}. They'll see it in their FAWN app.</div>
+      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-request-overlay'); loadP2pFeed();">Done</button>
+    `;
+    loadP2pFeed();
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'p2p-modal-status error';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Send request';
+  }
+}
+
+// ── SPLIT FLOW ───────────────────────────────────────────────
+let pendingSplitKey = null;
+
+function addSplitRow() {
+  const wrap = document.getElementById('p2p-split-recipients');
+  const row = document.createElement('div');
+  row.className = 'p2p-recipient-row';
+  row.innerHTML = `<input type="text" placeholder="@handle" autocomplete="off"><button class="p2p-recipient-remove" onclick="removeSplitRow(this)" aria-label="Remove">&#215;</button>`;
+  wrap.appendChild(row);
+  updateSplitPreview();
+}
+
+function removeSplitRow(btn) {
+  const wrap = document.getElementById('p2p-split-recipients');
+  if (wrap.children.length > 1) btn.closest('.p2p-recipient-row').remove();
+  updateSplitPreview();
+}
+
+function updateSplitPreview() {
+  const cents = dollarsToCents(document.getElementById('p2p-split-amount').value);
+  const rows = document.querySelectorAll('#p2p-split-recipients input');
+  const n = rows.length;
+  const preview = document.getElementById('p2p-split-preview');
+  if (!cents || n === 0) { preview.textContent = ''; return; }
+  const each = Math.floor(cents / n);
+  const remainder = cents - each * n;
+  preview.textContent = `Each person pays ${fmt(each/100)}` + (remainder ? ` (first person pays ${fmt((each+remainder)/100)})` : '') + '.';
+}
+
+function resetSplitModal() {
+  document.getElementById('p2p-split-step-form').style.display = '';
+  document.getElementById('p2p-split-step-result').style.display = 'none';
+  document.getElementById('p2p-split-amount').value = '';
+  document.getElementById('p2p-split-note').value = '';
+  document.getElementById('p2p-split-status').textContent = '';
+  document.getElementById('p2p-split-status').className = 'p2p-modal-status';
+  document.getElementById('p2p-split-preview').textContent = '';
+  const wrap = document.getElementById('p2p-split-recipients');
+  wrap.innerHTML = `<div class="p2p-recipient-row"><input type="text" placeholder="@handle" autocomplete="off"><button class="p2p-recipient-remove" onclick="removeSplitRow(this)" aria-label="Remove">&#215;</button></div>`;
+  pendingSplitKey = null;
+}
+
+function openSplitModal() {
+  resetSplitModal();
+  openModalById('p2p-split-overlay');
+  document.getElementById('p2p-split-amount').oninput = updateSplitPreview;
+}
+
+async function createSplit() {
+  const cents = dollarsToCents(document.getElementById('p2p-split-amount').value);
+  const note = document.getElementById('p2p-split-note').value.trim();
+  const handles = Array.from(document.querySelectorAll('#p2p-split-recipients input'))
+    .map(i => stripHandle(i.value)).filter(Boolean);
+  const statusEl = document.getElementById('p2p-split-status');
+  const btn = document.getElementById('p2p-split-submit-btn');
+
+  statusEl.textContent = ''; statusEl.className = 'p2p-modal-status';
+  if (!cents) { statusEl.textContent = 'Enter a valid total amount.'; statusEl.className = 'p2p-modal-status error'; return; }
+  if (!handles.length) { statusEl.textContent = 'Add at least one person to split with.'; statusEl.className = 'p2p-modal-status error'; return; }
+  if (handles.some(h => !/^[a-z0-9_]{3,20}$/.test(h))) { statusEl.textContent = 'One or more handles look invalid.'; statusEl.className = 'p2p-modal-status error'; return; }
+
+  if (!pendingSplitKey) pendingSplitKey = crypto.randomUUID();
+  btn.disabled = true; btn.textContent = 'Sending...';
+
+  try {
+    const r = await fetch(API + '/p2p/splits', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ total_amount_cents: cents, recipient_handles: handles, note: note || undefined, idempotency_key: pendingSplitKey }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not create split.';
+      statusEl.className = 'p2p-modal-status error';
+      pendingSplitKey = null;
+      return;
+    }
+    const transfers = data.transfers || [];
+    document.getElementById('p2p-split-step-form').style.display = 'none';
+    const resultEl = document.getElementById('p2p-split-step-result');
+    resultEl.style.display = '';
+    resultEl.innerHTML = `
+      <div class="p2p-result-icon">&#128203;</div>
+      <div class="p2p-result-title">Split requests sent</div>
+      <div class="p2p-result-body">Sent ${transfers.length} request${transfers.length === 1 ? '' : 's'} for a total of ${fmt(cents/100)}.</div>
+      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-split-overlay'); loadP2pFeed();">Done</button>
+    `;
+    loadP2pFeed();
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'p2p-modal-status error';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Send requests';
+  }
+}
+
+// ── PAY INCOMING REQUEST FLOW ───────────────────────────────
+function openPayRequest(requestId) {
+  const req = p2pTransfers.find(t => t.id === requestId);
+  if (!req) return;
+  const confirmEl = document.getElementById('p2p-pay-step-confirm');
+  document.getElementById('p2p-pay-step-result').style.display = 'none';
+  confirmEl.style.display = '';
+  const amount = fmt(req.amount_cents / 100);
+  confirmEl.innerHTML = `
+    <h3>Pay request</h3>
+    <div class="p2p-confirm-amount">${amount}</div>
+    <div class="p2p-confirm-to">To @${esc(req.counterparty_handle)}${req.note ? ' &middot; ' + esc(req.note) : ''}</div>
+    <div class="p2p-confirm-irreversible">This can't be undone once confirmed.</div>
+    <button class="btn-p2p" style="width:100%;margin-bottom:8px" onclick="payRequest('${req.id}')">Confirm &amp; pay ${amount}</button>
+    <button class="btn-p2p secondary" style="width:100%" onclick="closeP2pModal(null,'p2p-pay-overlay')">Cancel</button>
+    <div class="p2p-modal-status" id="p2p-pay-confirm-status"></div>
+  `;
+  openModalById('p2p-pay-overlay');
+}
+
+async function payRequest(requestId) {
+  const statusEl = document.getElementById('p2p-pay-confirm-status');
+  if (statusEl) { statusEl.textContent = 'Working...'; statusEl.className = 'p2p-modal-status'; }
+  try {
+    const r = await fetch(API + '/p2p/requests/' + requestId + '/pay', {
+      method: 'POST', headers: authHeaders(true),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      if (statusEl) { statusEl.textContent = data.detail || 'Could not pay request.'; statusEl.className = 'p2p-modal-status error'; }
+      return;
+    }
+    // data is the NEW transfer (pending/requires_step_up) - must confirm it
+    showPayConfirmStepTwo(data);
+  } catch (e) {
+    if (statusEl) { statusEl.textContent = 'Network error. Try again.'; statusEl.className = 'p2p-modal-status error'; }
+  }
+}
+
+function showPayConfirmStepTwo(transfer) {
+  const confirmEl = document.getElementById('p2p-pay-step-confirm');
+  const amount = fmt(transfer.amount_cents / 100);
+  const needsStepUp = transfer.status === 'requires_step_up' || transfer.step_up_required;
+  let warningHtml = '';
+  if (transfer.warning) warningHtml += `<div class="p2p-confirm-warning">&#9888; ${esc(transfer.warning)}</div>`;
+  if (needsStepUp && !transfer.warning) warningHtml += `<div class="p2p-confirm-stepup">&#9888; This looks like a first-time send to a new recipient. Please confirm before we send it.</div>`;
+
+  confirmEl.innerHTML = `
+    <h3>Confirm your payment</h3>
+    <div class="p2p-confirm-amount">${amount}</div>
+    <div class="p2p-confirm-to">Sending to @${esc(transfer.counterparty_handle)}</div>
+    ${warningHtml}
+    <div class="p2p-confirm-irreversible">This can't be undone once confirmed.</div>
+    <button class="btn-p2p" style="width:100%;margin-bottom:8px" onclick="confirmPayRequest('${transfer.id}', ${needsStepUp})">Confirm &amp; send ${amount}</button>
+    <button class="btn-p2p secondary" style="width:100%" onclick="closeP2pModal(null,'p2p-pay-overlay')">Cancel</button>
+    <div class="p2p-modal-status" id="p2p-pay-confirm-status"></div>
+  `;
+}
+
+async function confirmPayRequest(transferId, stepUpAcked) {
+  const statusEl = document.getElementById('p2p-pay-confirm-status');
+  if (statusEl) { statusEl.textContent = 'Sending...'; statusEl.className = 'p2p-modal-status'; }
+  try {
+    const r = await fetch(API + '/p2p/transfers/' + transferId + '/confirm', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ step_up_acknowledged: !!stepUpAcked }),
+    });
+    if (r.status === 428) {
+      const data = await r.json().catch(() => ({}));
+      showPayConfirmStepTwo(Object.assign({ id: transferId }, data, { step_up_required: true, status: 'requires_step_up' }));
+      return;
+    }
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      if (statusEl) { statusEl.textContent = data.detail || 'Could not complete transfer.'; statusEl.className = 'p2p-modal-status error'; }
+      return;
+    }
+    document.getElementById('p2p-pay-step-confirm').style.display = 'none';
+    const resultEl = document.getElementById('p2p-pay-step-result');
+    resultEl.style.display = '';
+    const ok = data.status === 'completed';
+    resultEl.innerHTML = `
+      <div class="p2p-result-icon">${ok ? '&#9989;' : '&#10060;'}</div>
+      <div class="p2p-result-title">${ok ? 'Payment sent' : 'Payment failed'}</div>
+      <div class="p2p-result-body">${ok
+        ? 'Sent ' + fmt(data.amount_cents/100) + ' to @' + esc(data.counterparty_handle) + '.'
+        : esc(data.error_message || 'Something went wrong. No money was moved.')}</div>
+      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-pay-overlay'); loadP2pFeed();">Done</button>
+    `;
+    loadP2pFeed();
+  } catch (e) {
+    if (statusEl) { statusEl.textContent = 'Network error. Try again.'; statusEl.className = 'p2p-modal-status error'; }
+  }
+}
+
+// ── DISPUTE FLOW ─────────────────────────────────────────────
+let disputeTransferId = null;
+
+function openDisputeModal(transferId) {
+  disputeTransferId = transferId;
+  document.getElementById('p2p-dispute-step-form').style.display = '';
+  document.getElementById('p2p-dispute-step-result').style.display = 'none';
+  document.getElementById('p2p-dispute-reason').value = '';
+  document.getElementById('p2p-dispute-status').textContent = '';
+  document.getElementById('p2p-dispute-status').className = 'p2p-modal-status';
+  openModalById('p2p-dispute-overlay');
+}
+
+async function submitDispute() {
+  const reason = document.getElementById('p2p-dispute-reason').value.trim();
+  const statusEl = document.getElementById('p2p-dispute-status');
+  const btn = document.getElementById('p2p-dispute-submit-btn');
+  statusEl.textContent = ''; statusEl.className = 'p2p-modal-status';
+
+  if (reason.length < 10) {
+    statusEl.textContent = 'Please describe the issue in at least 10 characters.';
+    statusEl.className = 'p2p-modal-status error';
+    return;
+  }
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  try {
+    const r = await fetch(API + '/p2p/transfers/' + disputeTransferId + '/dispute', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({ reason }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not submit report.';
+      statusEl.className = 'p2p-modal-status error';
+      return;
+    }
+    document.getElementById('p2p-dispute-step-form').style.display = 'none';
+    const resultEl = document.getElementById('p2p-dispute-step-result');
+    resultEl.style.display = '';
+    resultEl.innerHTML = `
+      <div class="p2p-result-icon">&#128203;</div>
+      <div class="p2p-result-title">Report submitted</div>
+      <div class="p2p-result-body">Our team will review this transfer and follow up by email.</div>
+      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-dispute-overlay'); loadP2pFeed();">Done</button>
+    `;
+    loadP2pFeed();
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'p2p-modal-status error';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Submit report';
   }
 }
 
