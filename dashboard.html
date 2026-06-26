@@ -362,6 +362,63 @@
       text-transform: uppercase; background: var(--surface2); color: var(--muted);
       padding: 3px 8px; border-radius: 100px; margin-left: 6px; vertical-align: middle;
     }
+
+    /* ===== CARD ===== */
+    .card-section { margin-bottom: 20px; }
+    .card-cta {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 28px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .card-cta-text .title { font-size: 1.02rem; font-weight: 700; margin-bottom: 4px; }
+    .card-cta-text .sub { font-size: 0.84rem; color: var(--muted); }
+    .card-cta-error { color: var(--red); font-size: 0.82rem; margin-top: 10px; }
+
+    .debit-card-wrap {
+      display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+    }
+    .debit-card {
+      width: 280px; min-height: 170px; border-radius: 18px; flex-shrink: 0;
+      background: linear-gradient(135deg, #103226 0%, #0a1a14 100%);
+      border: 1px solid var(--accent-border);
+      padding: 22px; display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .debit-card.frozen { filter: grayscale(0.6) brightness(0.75); }
+    .debit-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .debit-card-logo { font-size: 1.05rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+    .debit-card-status {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 3px 9px; border-radius: 100px;
+    }
+    .debit-card-status.active { background: rgba(0,200,150,0.15); color: var(--accent); }
+    .debit-card-status.frozen { background: rgba(255,180,0,0.12); color: #ffb400; }
+    .debit-card-number {
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 1.05rem;
+      letter-spacing: 0.12em; color: var(--text); margin-top: 18px;
+    }
+    .debit-card-bottom { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; }
+    .debit-card-exp { font-size: 0.72rem; color: var(--muted); }
+    .debit-card-exp .lbl { text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.6rem; display: block; margin-bottom: 2px; }
+    .debit-card-name { font-size: 0.78rem; color: var(--muted); }
+    .card-actions { display: flex; flex-direction: column; gap: 10px; min-width: 160px; }
+    .card-actions-status { font-size: 0.8rem; color: var(--muted); min-height: 1.2em; }
+    .card-actions-status.error { color: var(--red); }
+
+    /* ===== SPENDING INSIGHTS ===== */
+    .spend-list { display: flex; flex-direction: column; gap: 12px; }
+    .spend-row { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+    .spend-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 10px; }
+    .spend-row-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .spend-emoji { font-size: 1.1rem; flex-shrink: 0; }
+    .spend-cat-name { font-size: 0.9rem; font-weight: 600; }
+    .spend-cat-meta { font-size: 0.78rem; color: var(--muted); }
+    .spend-row-right { text-align: right; flex-shrink: 0; }
+    .spend-cat-total { font-size: 0.92rem; font-weight: 700; }
+    .spend-cat-pct { font-size: 0.75rem; color: var(--muted); }
+    .spend-bar-track { height: 6px; border-radius: 100px; background: var(--surface2); overflow: hidden; }
+    .spend-bar-fill { height: 100%; border-radius: 100px; background: var(--accent); }
   </style>
 </head>
 <body>
@@ -491,10 +548,26 @@
       </div>
     </div>
 
+    <!-- CARD -->
+    <div class="card-section" id="card-section" style="display:none">
+      <div class="section-header">
+        <div class="section-title">Your card</div>
+      </div>
+      <div id="card-content"></div>
+    </div>
+
     <div class="section-header">
       <div class="section-title">Recent transactions</div>
     </div>
     <div class="txn-list" id="txn-list"></div>
+
+    <!-- SPENDING INSIGHTS -->
+    <div style="margin-top:28px">
+      <div class="section-header">
+        <div class="section-title">Spending breakdown</div>
+      </div>
+      <div id="spend-content"></div>
+    </div>
 
     <div id="campus-savings-section" style="display:none; margin-top:28px;">
       <div class="section-header">
@@ -778,6 +851,8 @@ async function loadDashboard() {
     loadCampusSavings(me.school);
     show('state-active');
     loadP2p();
+    loadCards();
+    loadSpendingInsights();
 
   } catch (e) {
     console.error('Dashboard load failed:', e);
@@ -1466,6 +1541,187 @@ async function submitDispute() {
   } finally {
     btn.disabled = false; btn.textContent = 'Submit report';
   }
+}
+
+// ============================================================
+// CARD MANAGEMENT
+// ============================================================
+let myCard = null;
+
+async function loadCards() {
+  const section = document.getElementById('card-section');
+  try {
+    const r = await fetch(API + '/cards', { headers: authHeaders() });
+    if (!r.ok) { section.style.display = 'none'; return; }
+    const data = await r.json();
+    const cards = data.cards || [];
+    myCard = cards.length ? cards[0] : null;
+    section.style.display = '';
+    renderCard();
+  } catch (e) {
+    console.error('Card load failed:', e);
+    section.style.display = 'none';
+  }
+}
+
+function renderCard() {
+  const el = document.getElementById('card-content');
+  if (!myCard) {
+    el.innerHTML = `
+      <div class="card-cta">
+        <div class="card-cta-text">
+          <div class="title">Get your FAWN card</div>
+          <div class="sub">A debit card linked to your FAWN account &#8212; free, no fees.</div>
+        </div>
+        <button class="btn-p2p" id="get-card-btn" onclick="createCard()">Get my card</button>
+      </div>
+      <div class="card-cta-error" id="card-cta-error"></div>
+    `;
+    return;
+  }
+
+  const isFrozen = myCard.status === 'Frozen';
+  const statusClass = isFrozen ? 'frozen' : 'active';
+  const statusLabel = isFrozen ? 'Frozen' : 'Active';
+
+  el.innerHTML = `
+    <div class="debit-card-wrap">
+      <div class="debit-card ${isFrozen ? 'frozen' : ''}">
+        <div class="debit-card-top">
+          <div class="debit-card-logo">fawn</div>
+          <div class="debit-card-status ${statusClass}">${esc(statusLabel)}</div>
+        </div>
+        <div class="debit-card-number">&#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; ${esc(myCard.last4_digits)}</div>
+        <div class="debit-card-bottom">
+          <div class="debit-card-exp"><span class="lbl">Expires</span>${esc(myCard.expiration_date)}</div>
+          <div class="debit-card-name">Debit</div>
+        </div>
+      </div>
+      <div class="card-actions">
+        ${isFrozen
+          ? `<button class="btn-p2p" onclick="unfreezeCard()" id="card-freeze-btn">Unfreeze card</button>`
+          : `<button class="btn-p2p secondary" onclick="freezeCard()" id="card-freeze-btn">Freeze card</button>`}
+        <div class="card-actions-status" id="card-actions-status"></div>
+      </div>
+    </div>
+  `;
+}
+
+async function createCard() {
+  const btn = document.getElementById('get-card-btn');
+  const errEl = document.getElementById('card-cta-error');
+  errEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
+  try {
+    const r = await fetch(API + '/cards', { method: 'POST', headers: authHeaders() });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      errEl.textContent = data.detail || 'Could not create card. Try again.';
+      btn.disabled = false;
+      btn.textContent = 'Get my card';
+      if (r.status === 409) {
+        // already has a card - refresh state from server
+        loadCards();
+      }
+      return;
+    }
+    myCard = data;
+    renderCard();
+  } catch (e) {
+    errEl.textContent = 'Network error. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Get my card';
+  }
+}
+
+async function freezeCard() {
+  await setCardFrozen(true);
+}
+
+async function unfreezeCard() {
+  await setCardFrozen(false);
+}
+
+async function setCardFrozen(freeze) {
+  if (!myCard) return;
+  const btn = document.getElementById('card-freeze-btn');
+  const statusEl = document.getElementById('card-actions-status');
+  statusEl.textContent = '';
+  statusEl.className = 'card-actions-status';
+  btn.disabled = true;
+  btn.textContent = freeze ? 'Freezing...' : 'Unfreezing...';
+  try {
+    const endpoint = freeze ? 'freeze' : 'unfreeze';
+    const body = freeze ? { reason: 'userRequested' } : {};
+    const r = await fetch(API + '/cards/' + myCard.id + '/' + endpoint, {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify(body),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not update card.';
+      statusEl.className = 'card-actions-status error';
+      btn.disabled = false;
+      btn.textContent = freeze ? 'Freeze card' : 'Unfreeze card';
+      return;
+    }
+    myCard = data;
+    renderCard();
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'card-actions-status error';
+    btn.disabled = false;
+    btn.textContent = freeze ? 'Freeze card' : 'Unfreeze card';
+  }
+}
+
+// ============================================================
+// SPENDING INSIGHTS
+// ============================================================
+async function loadSpendingInsights() {
+  const el = document.getElementById('spend-content');
+  try {
+    const r = await fetch(API + '/transactions/summary', { headers: authHeaders() });
+    if (!r.ok) { el.innerHTML = '<div class="empty-state">Could not load spending breakdown.</div>'; return; }
+    const data = await r.json();
+    renderSpendingInsights(data);
+  } catch (e) {
+    console.error('Spending insights load failed:', e);
+    el.innerHTML = '<div class="empty-state">Could not load spending breakdown.</div>';
+  }
+}
+
+function renderSpendingInsights(data) {
+  const el = document.getElementById('spend-content');
+  const categories = (data && data.categories) || [];
+  const totalSpent = (data && data.total_spent) || 0;
+
+  if (!categories.length || totalSpent <= 0) {
+    el.innerHTML = '<div class="empty-state">No spending yet this period.</div>';
+    return;
+  }
+
+  el.innerHTML = `<div class="spend-list">${categories.map(c => {
+    const pct = Math.max(0, Math.min(100, c.pct || 0));
+    return `
+      <div class="spend-row">
+        <div class="spend-row-top">
+          <div class="spend-row-left">
+            <span class="spend-emoji">${esc(c.emoji || '&#128176;')}</span>
+            <div>
+              <div class="spend-cat-name">${esc(c.category || 'Other')}</div>
+              <div class="spend-cat-meta">${c.count || 0} transaction${(c.count === 1) ? '' : 's'}</div>
+            </div>
+          </div>
+          <div class="spend-row-right">
+            <div class="spend-cat-total">${fmt(c.total || 0)}</div>
+            <div class="spend-cat-pct">${pct.toFixed(0)}%</div>
+          </div>
+        </div>
+        <div class="spend-bar-track"><div class="spend-bar-fill" style="width:${pct}%"></div></div>
+      </div>`;
+  }).join('')}</div>`;
 }
 
 loadDashboard();
