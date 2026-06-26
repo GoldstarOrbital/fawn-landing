@@ -549,6 +549,56 @@
       .showcase-phone { max-width: 380px; margin: 0 auto; }
     }
 
+    /* P2P PAYMENTS */
+    .p2p-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+
+    .p2p-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      transition: border-color 0.2s;
+    }
+
+    .p2p-card:hover { border-color: var(--green); }
+
+    .p2p-icon {
+      font-size: 2rem; margin-bottom: 20px;
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(0,200,150,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .p2p-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
+    .p2p-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    .p2p-safety {
+      margin-top: 32px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+
+    .p2p-safety-icon {
+      font-size: 1.6rem; flex-shrink: 0;
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(0,200,150,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .p2p-safety h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .p2p-safety p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    .p2p-scope-note {
+      text-align: center; font-size: 0.78rem; color: var(--muted);
+      margin-top: 28px; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .p2p-grid { grid-template-columns: 1fr; }
+      .p2p-safety { flex-direction: column; }
+    }
+
     /* SOLUTION */
     .solution-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -1127,6 +1177,43 @@
       </div>
     </div>
   </div>
+</section>
+
+<!-- P2P PAYMENTS -->
+<section id="p2p-payments">
+  <div class="section-label">New: FAWN-to-FAWN payments</div>
+  <div class="section-title">Pay your friends like you text them.</div>
+  <p class="section-sub">Send money to another FAWN user by their @handle &#8212; no account numbers, no routing numbers, no waiting around. Since it&#8217;s a direct move between two FAWN accounts, it&#8217;s instant and it&#8217;s free.</p>
+
+  <div class="p2p-grid reveal-group">
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#9889;</div>
+      <h3>Send by @handle</h3>
+      <p>Look up a friend by their FAWN handle, type an amount, send. The money lands in their account instantly &#8212; it&#8217;s a direct ledger move between two FAWN accounts, not a multi-day transfer.</p>
+    </div>
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#128221;</div>
+      <h3>Request, with one tap to pay</h3>
+      <p>Need money back for groceries or a show ticket? Send a request to any FAWN user and they get a one-tap link to pay you back &#8212; no chasing, no Venmo-style "you up?" texts.</p>
+    </div>
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#127869;</div>
+      <h3>Split a bill in one go</h3>
+      <p>Dinner for six? Rent with three roommates? Split the total across everyone in a single flow, and each person gets their own request to settle up &#8212; FAWN does the math.</p>
+    </div>
+  </div>
+
+  <div class="p2p-safety reveal">
+    <div class="p2p-safety-icon">&#128274;</div>
+    <div>
+      <h3>Built so you can&#8217;t send money by accident</h3>
+      <p>Every send shows you an explicit confirmation screen before anything moves &#8212; because once it&#8217;s sent, it&#8217;s sent. FAWN also watches for patterns common in scams and will flag first-time recipients or unusually large sends for an extra confirmation step, so you get a second to double-check before you tap through.</p>
+    </div>
+  </div>
+
+  <p class="p2p-scope-note">
+    FAWN-to-FAWN payments work between FAWN accounts only &#8212; sending to other banks, cards, or apps like Venmo or Cash App isn&#8217;t supported yet. This feature is live in our sandbox banking environment as we prepare for launch.
+  </p>
 </section>
 
 <!-- SOLUTION / FEATURES -->
