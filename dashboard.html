@@ -405,6 +405,11 @@
       <div class="state-title">Your identity is being verified</div>
       <p class="state-body">Our banking partner (Unit) is reviewing your application. This usually takes 1-2 business days. We will email you when your account is ready.</p>
       <div style="margin-top:24px;color:var(--muted);font-size:0.82rem">Questions? Email <a href="mailto:alex@getfawn.com" style="color:var(--accent)">alex@getfawn.com</a></div>
+      <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border)">
+        <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Sandbox test tool — not available once FAWN is live</div>
+        <button id="activate-sandbox-btn" class="btn-signout" style="border-color:var(--accent-border);color:var(--accent)" onclick="activateSandbox()">Skip review &amp; activate now (sandbox only)</button>
+        <div id="activate-sandbox-status" style="margin-top:10px;font-size:0.8rem;color:var(--muted)"></div>
+      </div>
     </div>
   </div>
 
@@ -817,6 +822,27 @@ async function loadCampusSavings(school) {
 // ============================================================
 // P2P PAYMENTS
 // ============================================================
+async function activateSandbox() {
+  const btn = document.getElementById('activate-sandbox-btn');
+  const statusEl = document.getElementById('activate-sandbox-status');
+  btn.disabled = true;
+  statusEl.textContent = 'Activating...';
+  try {
+    const r = await fetch(API + '/accounts/activate-sandbox', { method: 'POST', headers: authHeaders() });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not activate — try again.';
+      btn.disabled = false;
+      return;
+    }
+    statusEl.textContent = 'Account activated! Reloading...';
+    setTimeout(() => location.reload(), 800);
+  } catch (e) {
+    statusEl.textContent = 'Network error — try again.';
+    btn.disabled = false;
+  }
+}
+
 let myHandle = null;
 let p2pTransfers = [];
 let lookupTimers = {};
