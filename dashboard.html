@@ -18,6 +18,7 @@
       --muted: #6b7a8d;
       --red: #ff4d6d;
       --green: #00c896;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1); /* smooth, organic deceleration — used for hover/lift motion site-wide */
     }
     body {
       background: var(--bg); color: var(--text);
@@ -39,7 +40,7 @@
     .btn-signout {
       background: none; border: 1px solid var(--border); color: var(--muted);
       font-size: 0.78rem; padding: 6px 14px; border-radius: 8px; cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
     }
     .btn-signout:hover { border-color: var(--muted); color: var(--text); }
 
@@ -116,9 +117,9 @@
       display: flex; justify-content: space-between; align-items: center;
       padding: 14px 16px; border-radius: 12px;
       background: var(--surface); border: 1px solid transparent;
-      transition: border-color 0.15s;
+      transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
     }
-    .txn-item:hover { border-color: var(--border); }
+    .txn-item:hover { border-color: var(--border); transform: translateY(-1px); }
     .txn-left { display: flex; align-items: center; gap: 12px; }
     .txn-icon {
       width: 36px; height: 36px; border-radius: 10px;
@@ -229,9 +230,11 @@
     .btn-p2p {
       background: var(--accent); color: #000; font-weight: 700;
       font-size: 0.88rem; padding: 12px 22px; border: none; border-radius: 10px;
-      cursor: pointer; transition: opacity 0.15s; white-space: nowrap;
+      cursor: pointer; white-space: nowrap;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), opacity 0.2s var(--ease);
     }
-    .btn-p2p:hover { opacity: 0.88; }
+    .btn-p2p:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,200,150,0.25); }
+    .btn-p2p:active:not(:disabled) { transform: translateY(0); }
     .btn-p2p:disabled { opacity: 0.45; cursor: not-allowed; }
     .btn-p2p.secondary {
       background: var(--surface2); color: var(--text); border: 1px solid var(--border);
@@ -243,9 +246,10 @@
     .p2p-action-btn {
       background: var(--surface2); border: 1px solid var(--border); color: var(--text);
       border-radius: 12px; padding: 14px 8px; text-align: center; cursor: pointer;
-      transition: border-color 0.15s, background 0.15s; font-size: 0.78rem; font-weight: 600;
+      transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+      font-size: 0.78rem; font-weight: 600;
     }
-    .p2p-action-btn:hover { border-color: var(--accent-border); background: var(--accent-dim); }
+    .p2p-action-btn:hover { border-color: var(--accent-border); background: var(--accent-dim); transform: translateY(-2px); }
     .p2p-action-icon { font-size: 1.3rem; display: block; margin-bottom: 6px; }
     @media (max-width: 600px) { .p2p-actions { grid-template-columns: repeat(2, 1fr); } }
 
@@ -436,21 +440,22 @@
       background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
       padding: 24px;
       opacity: 0; visibility: hidden; pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.25s var(--ease);
     }
     .p2p-modal-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
     .p2p-modal {
       transform: scale(0.95) translateY(8px); opacity: 0;
-      transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), opacity 0.22s ease;
+      transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
     }
     .p2p-modal-overlay.open .p2p-modal { transform: scale(1) translateY(0); opacity: 1; }
 
     /* Card / row hover lift for a more tactile feel */
     .debit-card, .p2p-feed-item, .spend-row, .cs-card, .account-tile {
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
     }
-    .p2p-feed-item:hover, .spend-row:hover { transform: translateY(-1px); border-color: var(--border); }
-    .debit-card:hover { transform: translateY(-2px); }
+    .p2p-feed-item:hover, .spend-row:hover { transform: translateY(-2px); border-color: var(--border); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+    .debit-card:hover { transform: translateY(-3px); }
+    .cs-card:hover, .account-tile:hover { transform: translateY(-2px); }
 
     /* Inline button spinner — pairs with a "Loading..." text swap for clearer in-flight feedback */
     .btn-spinner {
@@ -474,7 +479,7 @@
       font-size: 0.85rem; color: var(--text); line-height: 1.4;
       box-shadow: 0 8px 24px rgba(0,0,0,0.4);
       transform: translateX(20px); opacity: 0;
-      transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
     }
     .toast.show { transform: translateX(0); opacity: 1; }
     .toast.error { border-left-color: var(--red); }
@@ -484,7 +489,7 @@
 
     /* Sections that finish loading after the main skeleton clears (card, spending
        insights, P2P) fade in instead of popping into the layout abruptly. */
-    .fade-in-section { animation: fade-in-section 0.35s ease; }
+    .fade-in-section { animation: fade-in-section 0.4s var(--ease); }
     @keyframes fade-in-section { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
