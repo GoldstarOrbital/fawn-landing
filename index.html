@@ -1568,6 +1568,9 @@ if (showcasePhone) {
 }
 
 // ── Global scroll-reveal for .reveal elements across the page ────────────────
+// Deferred to DOMContentLoaded: this script tag runs before later sections
+// (e.g. #security) exist in the DOM, so querySelectorAll('.reveal') here
+// would silently miss them, leaving those cards stuck at opacity:0 forever.
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1576,7 +1579,14 @@ const revealObserver = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.15 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+function observeRevealElements() {
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', observeRevealElements);
+} else {
+  observeRevealElements();
+}
 
 // ── Savings calculator ────────────────────────────────────────────────────────
 function fmtMoney(n) {
