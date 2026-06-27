@@ -1097,11 +1097,11 @@ async function loadCampusSavings(school) {
         const meta = data.categoryMeta[catKey];
         const cat = data.categories[catKey];
         const rows = cat.items.slice(0, 3).map(([name, price]) =>
-          `<div class="cs-row"><span class="name">${name}</span><span class="price">${price}</span></div>`
+          `<div class="cs-row"><span class="name">${esc(name)}</span><span class="price">${esc(price)}</span></div>`
         ).join('');
         return `<div class="cs-card">
-          <div class="cs-card-icon">${meta.icon}</div>
-          <div class="cs-card-cat">${meta.label}</div>
+          <div class="cs-card-icon">${esc(meta.icon)}</div>
+          <div class="cs-card-cat">${esc(meta.label)}</div>
           ${rows}
         </div>`;
       }).join('');
