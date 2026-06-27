@@ -90,6 +90,47 @@
       letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px;
     }
     .value-masked { filter: blur(5px); user-select: none; transition: filter 0.3s; }
+
+    /* ADD FUNDS */
+    .addfunds-cta {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 18px; margin-bottom: 20px;
+      cursor: pointer; transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .addfunds-cta:hover { border-color: var(--accent-border); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+    .addfunds-cta-icon {
+      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent-dim); color: var(--accent);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700;
+    }
+    .addfunds-cta-text { flex: 1; }
+    .addfunds-cta-text .title { font-weight: 700; font-size: 0.92rem; }
+    .addfunds-cta-text .sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .addfunds-cta-arrow { color: var(--muted); font-size: 1rem; }
+
+    /* Numeric keypad amount entry — common pattern across consumer payment
+       apps (Cash App, Venmo, etc.): a big live display + a tap-friendly
+       digit grid reads faster and feels more "money app" than a bare
+       <input type=number>, especially on mobile. */
+    .keypad-display {
+      text-align: center; padding: 28px 0 20px;
+      font-size: 2.6rem; font-weight: 800; letter-spacing: -0.02em;
+    }
+    .keypad-display.zero { color: var(--muted); }
+    .keypad-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .keypad-key {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px 0; text-align: center; font-size: 1.2rem; font-weight: 600;
+      cursor: pointer; user-select: none;
+      transition: background 0.15s var(--ease), transform 0.15s var(--ease);
+    }
+    .keypad-key:hover { background: var(--accent-dim); }
+    .keypad-key:active { transform: scale(0.94); }
+    .keypad-key.keypad-backspace { font-size: 1rem; color: var(--muted); }
     .value-masked.revealed { filter: none; }
     .reveal-btn {
       background: none; border: none; color: var(--muted); font-size: 0.75rem;
@@ -628,6 +669,16 @@
       </div>
     </div>
 
+    <!-- ADD FUNDS -->
+    <div class="addfunds-cta" onclick="openAddFundsModal()">
+      <div class="addfunds-cta-icon">&#8595;</div>
+      <div class="addfunds-cta-text">
+        <div class="title">Add funds</div>
+        <div class="sub">Pull money in from another bank account.</div>
+      </div>
+      <div class="addfunds-cta-arrow">&#8594;</div>
+    </div>
+
     <!-- CARD -->
     <div class="card-section" id="card-section" style="display:none">
       <div class="section-header">
@@ -796,6 +847,66 @@
     <div class="p2p-result-title">Sending to external banks &#8212; coming soon</div>
     <div class="p2p-result-body">Right now FAWN-to-FAWN transfers are instant and free. Sending money to accounts at other banks isn't available yet, but it's on the way. For now, ask your friend to claim a FAWN @handle to get paid instantly.</div>
     <button class="btn-p2p secondary" style="width:100%" onclick="closeP2pModal(null,'p2p-external-overlay')">Got it</button>
+  </div>
+</div>
+
+<!-- ADD FUNDS MODAL -->
+<div class="p2p-modal-overlay" id="addfunds-overlay" onclick="closeP2pModal(event,'addfunds-overlay')">
+  <div class="p2p-modal" onclick="event.stopPropagation()">
+    <button class="p2p-modal-close" onclick="closeP2pModal(null,'addfunds-overlay')" aria-label="Close">&#215;</button>
+
+    <!-- Step 1: amount via numeric keypad -->
+    <div id="addfunds-step-amount">
+      <h3>Add funds</h3>
+      <p class="p2p-modal-sub">How much do you want to pull in from your other bank?</p>
+      <div class="keypad-display zero" id="addfunds-amount-display">$0.00</div>
+      <div class="keypad-grid">
+        <div class="keypad-key" onclick="keypadPress('1')">1</div>
+        <div class="keypad-key" onclick="keypadPress('2')">2</div>
+        <div class="keypad-key" onclick="keypadPress('3')">3</div>
+        <div class="keypad-key" onclick="keypadPress('4')">4</div>
+        <div class="keypad-key" onclick="keypadPress('5')">5</div>
+        <div class="keypad-key" onclick="keypadPress('6')">6</div>
+        <div class="keypad-key" onclick="keypadPress('7')">7</div>
+        <div class="keypad-key" onclick="keypadPress('8')">8</div>
+        <div class="keypad-key" onclick="keypadPress('9')">9</div>
+        <div class="keypad-key" onclick="keypadPress('00')">00</div>
+        <div class="keypad-key" onclick="keypadPress('0')">0</div>
+        <div class="keypad-key keypad-backspace" onclick="keypadBackspace()">&#9003;</div>
+      </div>
+      <div class="p2p-modal-status" id="addfunds-amount-status"></div>
+      <button class="btn-p2p" style="width:100%" onclick="proceedToAddFundsBank()">Continue</button>
+    </div>
+
+    <!-- Step 2: external bank details -->
+    <div id="addfunds-step-bank" style="display:none">
+      <h3>Where from?</h3>
+      <p class="p2p-modal-sub">Enter the external account you're pulling <strong id="addfunds-bank-amount-label"></strong> from. Sandbox only — use any test routing/account numbers.</p>
+      <div class="p2p-field">
+        <label>Account holder name</label>
+        <input type="text" id="addfunds-holder-name" placeholder="Full name on the account" autocomplete="off">
+      </div>
+      <div class="p2p-field">
+        <label>Routing number</label>
+        <input type="text" id="addfunds-routing" placeholder="9 digits" maxlength="9" autocomplete="off" inputmode="numeric">
+      </div>
+      <div class="p2p-field">
+        <label>Account number</label>
+        <input type="text" id="addfunds-account" placeholder="4-17 digits" maxlength="17" autocomplete="off" inputmode="numeric">
+      </div>
+      <div class="p2p-field">
+        <label>Account type</label>
+        <select id="addfunds-account-type" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:inherit;">
+          <option value="Checking">Checking</option>
+          <option value="Savings">Savings</option>
+        </select>
+      </div>
+      <div class="p2p-modal-status" id="addfunds-bank-status"></div>
+      <button class="btn-p2p" id="addfunds-submit-btn" style="width:100%" onclick="submitAddFunds()">Pull in funds</button>
+    </div>
+
+    <!-- Step 3: result -->
+    <div id="addfunds-step-result" style="display:none"></div>
   </div>
 </div>
 
@@ -1227,6 +1338,122 @@ async function doLookup(inputId, resultId) {
 
 // ── SEND FLOW ────────────────────────────────────────────────
 let pendingSendKey = null;
+
+// ── ADD FUNDS (ACH pull from an external bank) ──────────────────────────────
+let addFundsCents = 0;
+let pendingAddFundsKey = null;
+
+function renderAddFundsAmount() {
+  const display = document.getElementById('addfunds-amount-display');
+  display.textContent = fmt(addFundsCents / 100);
+  display.classList.toggle('zero', addFundsCents === 0);
+}
+
+function keypadPress(digit) {
+  const next = (String(addFundsCents) + digit).replace(/^0+/, '') || '0';
+  // Cap at $500 client-side too (matches the backend's per-request limit) —
+  // no point letting someone type a number that will just get rejected.
+  if (Number(next) > 50000) return;
+  addFundsCents = Number(next);
+  renderAddFundsAmount();
+}
+
+function keypadBackspace() {
+  addFundsCents = Math.floor(addFundsCents / 10);
+  renderAddFundsAmount();
+}
+
+function resetAddFundsModal() {
+  addFundsCents = 0;
+  pendingAddFundsKey = null;
+  renderAddFundsAmount();
+  document.getElementById('addfunds-step-amount').style.display = '';
+  document.getElementById('addfunds-step-bank').style.display = 'none';
+  document.getElementById('addfunds-step-result').style.display = 'none';
+  document.getElementById('addfunds-amount-status').textContent = '';
+  document.getElementById('addfunds-bank-status').textContent = '';
+  document.getElementById('addfunds-bank-status').className = 'p2p-modal-status';
+  document.getElementById('addfunds-holder-name').value = '';
+  document.getElementById('addfunds-routing').value = '';
+  document.getElementById('addfunds-account').value = '';
+}
+
+function openAddFundsModal() {
+  resetAddFundsModal();
+  openModalById('addfunds-overlay');
+}
+
+function proceedToAddFundsBank() {
+  const statusEl = document.getElementById('addfunds-amount-status');
+  if (addFundsCents <= 0) {
+    statusEl.textContent = 'Enter an amount first.';
+    statusEl.className = 'p2p-modal-status error';
+    return;
+  }
+  statusEl.textContent = '';
+  document.getElementById('addfunds-bank-amount-label').textContent = fmt(addFundsCents / 100);
+  document.getElementById('addfunds-step-amount').style.display = 'none';
+  document.getElementById('addfunds-step-bank').style.display = '';
+}
+
+async function submitAddFunds() {
+  const holderName = document.getElementById('addfunds-holder-name').value.trim();
+  const routing = document.getElementById('addfunds-routing').value.trim();
+  const account = document.getElementById('addfunds-account').value.trim();
+  const accountType = document.getElementById('addfunds-account-type').value;
+  const statusEl = document.getElementById('addfunds-bank-status');
+  const btn = document.getElementById('addfunds-submit-btn');
+
+  statusEl.textContent = ''; statusEl.className = 'p2p-modal-status';
+  if (!holderName) { statusEl.textContent = 'Enter the name on the account.'; statusEl.className = 'p2p-modal-status error'; return; }
+  if (!/^\d{9}$/.test(routing)) { statusEl.textContent = 'Routing number must be 9 digits.'; statusEl.className = 'p2p-modal-status error'; return; }
+  if (!/^\d{4,17}$/.test(account)) { statusEl.textContent = 'Account number must be 4-17 digits.'; statusEl.className = 'p2p-modal-status error'; return; }
+
+  if (!pendingAddFundsKey) pendingAddFundsKey = crypto.randomUUID();
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span>Pulling in funds...';
+
+  try {
+    const r = await fetch(API + '/funding/add-funds', {
+      method: 'POST', headers: authHeaders(true),
+      body: JSON.stringify({
+        amount_cents: addFundsCents,
+        routing_number: routing,
+        account_number: account,
+        account_type: accountType,
+        account_holder_name: holderName,
+        idempotency_key: pendingAddFundsKey,
+      }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not start that transfer.';
+      statusEl.className = 'p2p-modal-status error';
+      pendingAddFundsKey = null;
+      btn.disabled = false;
+      btn.textContent = 'Pull in funds';
+      return;
+    }
+
+    document.getElementById('addfunds-step-bank').style.display = 'none';
+    const resultEl = document.getElementById('addfunds-step-result');
+    resultEl.style.display = '';
+    const ok = data.status === 'completed';
+    resultEl.innerHTML = `
+      <div class="p2p-result-icon">${ok ? '&#9989;' : '&#10060;'}</div>
+      <div class="p2p-result-title">${ok ? 'Transfer started' : 'Transfer failed'}</div>
+      <div class="p2p-result-body">${ok
+        ? fmt(data.amount_cents / 100) + ' is on its way from the account ending in ' + esc(data.external_account_last4) + '. ACH transfers typically take 1-3 business days to settle &#8212; this is not instant.'
+        : esc(data.error_message || 'Something went wrong. No money was moved.')}</div>
+      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'addfunds-overlay')${ok ? "; showToast('Add Funds started — funds typically arrive in 1-3 business days.')" : ''}">Done</button>
+    `;
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'p2p-modal-status error';
+    btn.disabled = false;
+    btn.textContent = 'Pull in funds';
+  }
+}
 
 function resetSendModal() {
   document.getElementById('p2p-send-step-form').style.display = '';
