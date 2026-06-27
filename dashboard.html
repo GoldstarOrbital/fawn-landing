@@ -353,7 +353,8 @@
     .p2p-modal-status.error { color: var(--red); }
     .p2p-modal-status.success { color: var(--accent); }
 
-    .p2p-result-icon { text-align: center; font-size: 2.6rem; margin-bottom: 6px; }
+    .p2p-result-icon { text-align: center; font-size: 2.6rem; margin-bottom: 6px; animation: result-pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes result-pop { 0% { transform: scale(0.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     .p2p-result-title { text-align: center; font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
     .p2p-result-body { text-align: center; color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 18px; }
 
@@ -418,10 +419,78 @@
     .spend-cat-total { font-size: 0.92rem; font-weight: 700; }
     .spend-cat-pct { font-size: 0.75rem; color: var(--muted); }
     .spend-bar-track { height: 6px; border-radius: 100px; background: var(--surface2); overflow: hidden; }
-    .spend-bar-fill { height: 100%; border-radius: 100px; background: var(--accent); }
+    .spend-bar-fill { height: 100%; border-radius: 100px; background: var(--accent); transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+
+    /* ===== POLISH: focus rings, modal motion, toasts, spinners, hover lift ===== */
+    button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px;
+    }
+    .p2p-field input:focus, .p2p-field textarea:focus,
+    .p2p-claim-row input:focus {
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* Modal: animate opacity/transform instead of an instant display:none<->flex snap */
+    .p2p-modal-overlay {
+      display: flex; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .p2p-modal-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .p2p-modal {
+      transform: scale(0.95) translateY(8px); opacity: 0;
+      transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), opacity 0.22s ease;
+    }
+    .p2p-modal-overlay.open .p2p-modal { transform: scale(1) translateY(0); opacity: 1; }
+
+    /* Card / row hover lift for a more tactile feel */
+    .debit-card, .p2p-feed-item, .spend-row, .cs-card, .account-tile {
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .p2p-feed-item:hover, .spend-row:hover { transform: translateY(-1px); border-color: var(--border); }
+    .debit-card:hover { transform: translateY(-2px); }
+
+    /* Inline button spinner — pairs with a "Loading..." text swap for clearer in-flight feedback */
+    .btn-spinner {
+      display: inline-block; width: 13px; height: 13px; margin-right: 7px;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: currentColor;
+      border-radius: 50%; vertical-align: -2px;
+      animation: btn-spin 0.7s linear infinite;
+    }
+    @keyframes btn-spin { to { transform: rotate(360deg); } }
+
+    /* Toast notifications */
+    #toast-stack {
+      position: fixed; top: 20px; right: 20px; z-index: 999;
+      display: flex; flex-direction: column; gap: 10px;
+      max-width: 360px;
+    }
+    .toast {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 10px; padding: 13px 16px;
+      font-size: 0.85rem; color: var(--text); line-height: 1.4;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transform: translateX(20px); opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+    }
+    .toast.show { transform: translateX(0); opacity: 1; }
+    .toast.error { border-left-color: var(--red); }
+    @media (max-width: 600px) {
+      #toast-stack { left: 16px; right: 16px; top: 12px; max-width: none; }
+    }
+
+    /* Sections that finish loading after the main skeleton clears (card, spending
+       insights, P2P) fade in instead of popping into the layout abruptly. */
+    .fade-in-section { animation: fade-in-section 0.35s ease; }
+    @keyframes fade-in-section { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
+
+<div id="toast-stack" aria-live="polite" aria-atomic="true"></div>
 
 <nav>
   <div class="nav-logo">fawn</div>
@@ -491,6 +560,12 @@
 
     <!-- P2P PAYMENTS -->
     <div class="p2p-card" id="p2p-card">
+
+      <!-- shown briefly while loadP2p() determines claim-vs-active state -->
+      <div id="p2p-loading-state">
+        <div class="skeleton" style="width:160px;height:20px;margin-bottom:14px"></div>
+        <div class="skeleton" style="width:100%;height:44px;border-radius:10px"></div>
+      </div>
 
       <!-- claim handle prompt -->
       <div id="p2p-claim-state" style="display:none">
@@ -740,6 +815,33 @@ function fmt(n) {
   return '$' + Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
+function showToast(message, type) {
+  const stack = document.getElementById('toast-stack');
+  if (!stack) return;
+  const el = document.createElement('div');
+  el.className = 'toast' + (type === 'error' ? ' error' : '');
+  el.textContent = message; // textContent only — never render raw HTML in a toast
+  stack.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 250);
+  }, 3800);
+}
+
+function animateCountUp(el, target, duration) {
+  if (!el) return;
+  const start = performance.now();
+  const from = 0;
+  function frame(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = fmt(from + (target - from) * eased);
+    if (progress < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
 function txnIcon(type) {
   const t = (type || '').toLowerCase();
   if (t.includes('card')) return '&#128179;';
@@ -837,7 +939,7 @@ async function loadDashboard() {
     const bal = dash.balance || {};
     const details = dash.account_details || {};
 
-    document.getElementById('balance-available').textContent = fmt(bal.available || 0);
+    animateCountUp(document.getElementById('balance-available'), bal.available || 0, 900);
     if (bal.current !== bal.available) {
       document.getElementById('balance-current').textContent = 'Current balance: ' + fmt(bal.current || 0);
     }
@@ -901,16 +1003,19 @@ async function activateSandbox() {
   const btn = document.getElementById('activate-sandbox-btn');
   const statusEl = document.getElementById('activate-sandbox-status');
   btn.disabled = true;
-  statusEl.textContent = 'Activating...';
+  btn.innerHTML = '<span class="btn-spinner"></span>Activating...';
+  statusEl.textContent = '';
   try {
     const r = await fetch(API + '/accounts/activate-sandbox', { method: 'POST', headers: authHeaders() });
     const data = await r.json().catch(() => ({}));
     if (!r.ok) {
       statusEl.textContent = data.detail || 'Could not activate — try again.';
       btn.disabled = false;
+      btn.textContent = 'Skip review & activate now (sandbox only)';
       return;
     }
     statusEl.textContent = 'Account activated! Reloading...';
+    showToast('Sandbox account activated.');
     setTimeout(() => location.reload(), 800);
   } catch (e) {
     statusEl.textContent = 'Network error — try again.';
@@ -940,18 +1045,22 @@ function stripHandle(h) {
 }
 
 async function loadP2p() {
+  const loadingEl = document.getElementById('p2p-loading-state');
   try {
     const r = await fetch(API + '/p2p/handles/me', { headers: authHeaders() });
     if (!r.ok) { document.getElementById('p2p-card').style.display = 'none'; return; }
     const data = await r.json();
     myHandle = data.handle || null;
 
+    loadingEl.style.display = 'none';
     if (!myHandle) {
-      document.getElementById('p2p-claim-state').style.display = '';
+      const el = document.getElementById('p2p-claim-state');
+      el.style.display = ''; el.classList.add('fade-in-section');
       document.getElementById('p2p-active-state').style.display = 'none';
     } else {
       document.getElementById('p2p-claim-state').style.display = 'none';
-      document.getElementById('p2p-active-state').style.display = '';
+      const el = document.getElementById('p2p-active-state');
+      el.style.display = ''; el.classList.add('fade-in-section');
       document.getElementById('p2p-my-handle').textContent = '@' + myHandle;
       loadP2pFeed();
     }
@@ -974,7 +1083,7 @@ async function claimHandle() {
   }
 
   btn.disabled = true;
-  btn.textContent = 'Claiming...';
+  btn.innerHTML = '<span class="btn-spinner"></span>Claiming...';
   try {
     const r = await fetch(API + '/p2p/handles', {
       method: 'POST', headers: authHeaders(true),
@@ -987,6 +1096,7 @@ async function claimHandle() {
       document.getElementById('p2p-active-state').style.display = '';
       document.getElementById('p2p-my-handle').textContent = '@' + myHandle;
       loadP2pFeed();
+      showToast('@' + myHandle + ' is yours. You can now send and receive money on FAWN.');
     } else {
       errEl.textContent = data.detail || 'Could not claim that handle. Try another.';
     }
@@ -1219,18 +1329,44 @@ async function confirmSend(transferId, stepUpAcked) {
   }
 }
 
+function finishSendModal(toastMessage) {
+  closeP2pModal(null, 'p2p-send-overlay');
+  loadP2pFeed();
+  if (toastMessage) showToast(toastMessage);
+}
+
+function finishPayModal(toastMessage) {
+  closeP2pModal(null, 'p2p-pay-overlay');
+  loadP2pFeed();
+  if (toastMessage) showToast(toastMessage);
+}
+
+function finishRequestModal(handle, amountCents) {
+  closeP2pModal(null, 'p2p-request-overlay');
+  loadP2pFeed();
+  showToast('Requested ' + fmt(amountCents/100) + ' from @' + handle + '.');
+}
+
+function finishSplitModal(count, totalCents) {
+  closeP2pModal(null, 'p2p-split-overlay');
+  loadP2pFeed();
+  showToast('Sent ' + count + ' request' + (count === 1 ? '' : 's') + ' totaling ' + fmt(totalCents/100) + '.');
+}
+
 function showSendResult(transfer) {
   document.getElementById('p2p-send-step-confirm').style.display = 'none';
   const resultEl = document.getElementById('p2p-send-step-result');
   resultEl.style.display = '';
   const ok = transfer.status === 'completed';
+  const toastMsg = ok ? ('Sent ' + fmt(transfer.amount_cents/100) + ' to @' + transfer.counterparty_handle + '.') : '';
+  window.__pendingSendToast = toastMsg;
   resultEl.innerHTML = `
     <div class="p2p-result-icon">${ok ? '&#9989;' : '&#10060;'}</div>
     <div class="p2p-result-title">${ok ? 'Payment sent' : 'Payment failed'}</div>
     <div class="p2p-result-body">${ok
       ? 'Sent ' + fmt(transfer.amount_cents/100) + ' to @' + esc(transfer.counterparty_handle) + '.'
       : esc(transfer.error_message || 'Something went wrong. No money was moved.')}</div>
-    <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-send-overlay'); loadP2pFeed();">Done</button>
+    <button class="btn-p2p" style="width:100%" onclick="finishSendModal(window.__pendingSendToast)">Done</button>
   `;
   loadP2pFeed();
 }
@@ -1267,7 +1403,7 @@ async function createRequest() {
   if (!cents) { statusEl.textContent = 'Enter a valid amount.'; statusEl.className = 'p2p-modal-status error'; return; }
 
   if (!pendingRequestKey) pendingRequestKey = crypto.randomUUID();
-  btn.disabled = true; btn.textContent = 'Sending...';
+  btn.disabled = true; btn.innerHTML = '<span class="btn-spinner"></span>Sending...';
 
   try {
     const r = await fetch(API + '/p2p/requests', {
@@ -1288,7 +1424,7 @@ async function createRequest() {
       <div class="p2p-result-icon">&#128203;</div>
       <div class="p2p-result-title">Request sent</div>
       <div class="p2p-result-body">You asked @${esc(data.counterparty_handle)} for ${fmt(data.amount_cents/100)}. They'll see it in their FAWN app.</div>
-      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-request-overlay'); loadP2pFeed();">Done</button>
+      <button class="btn-p2p" style="width:100%" onclick="finishRequestModal('${esc(data.counterparty_handle)}', ${data.amount_cents})">Done</button>
     `;
     loadP2pFeed();
   } catch (e) {
@@ -1361,7 +1497,7 @@ async function createSplit() {
   if (handles.some(h => !/^[a-z0-9_]{3,20}$/.test(h))) { statusEl.textContent = 'One or more handles look invalid.'; statusEl.className = 'p2p-modal-status error'; return; }
 
   if (!pendingSplitKey) pendingSplitKey = crypto.randomUUID();
-  btn.disabled = true; btn.textContent = 'Sending...';
+  btn.disabled = true; btn.innerHTML = '<span class="btn-spinner"></span>Sending...';
 
   try {
     const r = await fetch(API + '/p2p/splits', {
@@ -1383,7 +1519,7 @@ async function createSplit() {
       <div class="p2p-result-icon">&#128203;</div>
       <div class="p2p-result-title">Split requests sent</div>
       <div class="p2p-result-body">Sent ${transfers.length} request${transfers.length === 1 ? '' : 's'} for a total of ${fmt(cents/100)}.</div>
-      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-split-overlay'); loadP2pFeed();">Done</button>
+      <button class="btn-p2p" style="width:100%" onclick="finishSplitModal(${transfers.length}, ${cents})">Done</button>
     `;
     loadP2pFeed();
   } catch (e) {
@@ -1475,13 +1611,14 @@ async function confirmPayRequest(transferId, stepUpAcked) {
     const resultEl = document.getElementById('p2p-pay-step-result');
     resultEl.style.display = '';
     const ok = data.status === 'completed';
+    window.__pendingPayToast = ok ? ('Sent ' + fmt(data.amount_cents/100) + ' to @' + data.counterparty_handle + '.') : '';
     resultEl.innerHTML = `
       <div class="p2p-result-icon">${ok ? '&#9989;' : '&#10060;'}</div>
       <div class="p2p-result-title">${ok ? 'Payment sent' : 'Payment failed'}</div>
       <div class="p2p-result-body">${ok
         ? 'Sent ' + fmt(data.amount_cents/100) + ' to @' + esc(data.counterparty_handle) + '.'
         : esc(data.error_message || 'Something went wrong. No money was moved.')}</div>
-      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-pay-overlay'); loadP2pFeed();">Done</button>
+      <button class="btn-p2p" style="width:100%" onclick="finishPayModal(window.__pendingPayToast)">Done</button>
     `;
     loadP2pFeed();
   } catch (e) {
@@ -1513,7 +1650,7 @@ async function submitDispute() {
     statusEl.className = 'p2p-modal-status error';
     return;
   }
-  btn.disabled = true; btn.textContent = 'Submitting...';
+  btn.disabled = true; btn.innerHTML = '<span class="btn-spinner"></span>Submitting...';
   try {
     const r = await fetch(API + '/p2p/transfers/' + disputeTransferId + '/dispute', {
       method: 'POST', headers: authHeaders(true),
@@ -1532,7 +1669,7 @@ async function submitDispute() {
       <div class="p2p-result-icon">&#128203;</div>
       <div class="p2p-result-title">Report submitted</div>
       <div class="p2p-result-body">Our team will review this transfer and follow up by email.</div>
-      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-dispute-overlay'); loadP2pFeed();">Done</button>
+      <button class="btn-p2p" style="width:100%" onclick="closeP2pModal(null,'p2p-dispute-overlay'); loadP2pFeed(); showToast('Report submitted — we will follow up by email.')">Done</button>
     `;
     loadP2pFeed();
   } catch (e) {
@@ -1557,6 +1694,7 @@ async function loadCards() {
     const cards = data.cards || [];
     myCard = cards.length ? cards[0] : null;
     section.style.display = '';
+    section.classList.add('fade-in-section');
     renderCard();
   } catch (e) {
     console.error('Card load failed:', e);
@@ -1568,7 +1706,7 @@ function renderCard() {
   const el = document.getElementById('card-content');
   if (!myCard) {
     el.innerHTML = `
-      <div class="card-cta">
+      <div class="card-cta fade-in-section">
         <div class="card-cta-text">
           <div class="title">Get your FAWN card</div>
           <div class="sub">A debit card linked to your FAWN account &#8212; free, no fees.</div>
@@ -1585,7 +1723,7 @@ function renderCard() {
   const statusLabel = isFrozen ? 'Frozen' : 'Active';
 
   el.innerHTML = `
-    <div class="debit-card-wrap">
+    <div class="debit-card-wrap fade-in-section">
       <div class="debit-card ${isFrozen ? 'frozen' : ''}">
         <div class="debit-card-top">
           <div class="debit-card-logo">fawn</div>
@@ -1612,7 +1750,7 @@ async function createCard() {
   const errEl = document.getElementById('card-cta-error');
   errEl.textContent = '';
   btn.disabled = true;
-  btn.textContent = 'Creating...';
+  btn.innerHTML = '<span class="btn-spinner"></span>Creating...';
   try {
     const r = await fetch(API + '/cards', { method: 'POST', headers: authHeaders() });
     const data = await r.json().catch(() => ({}));
@@ -1628,6 +1766,7 @@ async function createCard() {
     }
     myCard = data;
     renderCard();
+    showToast('Your FAWN card is ready — •••• ' + (data.last4_digits || ''));
   } catch (e) {
     errEl.textContent = 'Network error. Please try again.';
     btn.disabled = false;
@@ -1650,7 +1789,7 @@ async function setCardFrozen(freeze) {
   statusEl.textContent = '';
   statusEl.className = 'card-actions-status';
   btn.disabled = true;
-  btn.textContent = freeze ? 'Freezing...' : 'Unfreezing...';
+  btn.innerHTML = '<span class="btn-spinner"></span>' + (freeze ? 'Freezing...' : 'Unfreezing...');
   try {
     const endpoint = freeze ? 'freeze' : 'unfreeze';
     const body = freeze ? { reason: 'userRequested' } : {};
@@ -1668,6 +1807,7 @@ async function setCardFrozen(freeze) {
     }
     myCard = data;
     renderCard();
+    showToast(freeze ? 'Card frozen — no new purchases will go through.' : 'Card unfrozen and ready to use.');
   } catch (e) {
     statusEl.textContent = 'Network error. Try again.';
     statusEl.className = 'card-actions-status error';
@@ -1681,6 +1821,12 @@ async function setCardFrozen(freeze) {
 // ============================================================
 async function loadSpendingInsights() {
   const el = document.getElementById('spend-content');
+  el.innerHTML = `
+    <div class="spend-list">
+      <div class="skeleton" style="height:58px;border-radius:12px"></div>
+      <div class="skeleton" style="height:58px;border-radius:12px"></div>
+      <div class="skeleton" style="height:58px;border-radius:12px"></div>
+    </div>`;
   try {
     const r = await fetch(API + '/transactions/summary', { headers: authHeaders() });
     if (!r.ok) { el.innerHTML = '<div class="empty-state">Could not load spending breakdown.</div>'; return; }
@@ -1702,7 +1848,7 @@ function renderSpendingInsights(data) {
     return;
   }
 
-  el.innerHTML = `<div class="spend-list">${categories.map(c => {
+  el.innerHTML = `<div class="spend-list fade-in-section">${categories.map(c => {
     const pct = Math.max(0, Math.min(100, c.pct || 0));
     return `
       <div class="spend-row">
@@ -1719,9 +1865,17 @@ function renderSpendingInsights(data) {
             <div class="spend-cat-pct">${pct.toFixed(0)}%</div>
           </div>
         </div>
-        <div class="spend-bar-track"><div class="spend-bar-fill" style="width:${pct}%"></div></div>
+        <div class="spend-bar-track"><div class="spend-bar-fill" data-pct="${pct}" style="width:0%"></div></div>
       </div>`;
   }).join('')}</div>`;
+
+  // Animate bars in from 0 on the next frame — setting the real width inline above
+  // wouldn't transition since there'd be no prior value for the browser to tween from.
+  requestAnimationFrame(() => {
+    el.querySelectorAll('.spend-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  });
 }
 
 loadDashboard();
