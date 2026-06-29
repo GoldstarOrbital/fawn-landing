@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAWN Roadmap - What's Next | Student Banking Revolution</title>
+  <meta name="description" content="Discover FAWN's vision for the future of student banking. Funding, revenue sharing, lending products, and a path to zero-interest mortgages for Gen Z." />
+  <meta name="keywords" content="banking roadmap, student loans, mortgages, revenue sharing, Gen Z banking" />
+  <meta name="author" content="FAWN" />
+  
+  <style>
+    /* =============================================
+       CORE STYLES (shared with index.html)
+       ============================================= */
+    :root {
+      --green: #00c896;
+      --green-dark: #00a87e;
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --surface2: #1f1f1f;
+      --border: #2a2a2a;
+      --text: #f0f0f0;
+      --muted: #888;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 200;
+    }
+
+    .nav-logo { font-size: 1.5rem; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
+
+    .nav-links { display: flex; gap: 32px; }
+
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      padding: 10px 22px;
+      background: var(--green);
+      color: #000; font-weight: 700; font-size: 0.85rem;
+      border: none; border-radius: 8px; cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+    }
+
+    .nav-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; gap: 5px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 57px; left: 0; right: 0;
+      background: rgba(13,13,13,0.98);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      z-index: 199;
+      flex-direction: column; gap: 0;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      color: var(--muted); text-decoration: none; font-size: 1rem;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,200,150,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,200,150,0.1);
+      border: 1px solid rgba(0,200,150,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem; color: var(--green);
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -3px;
+      line-height: 1.0;
+      margin-bottom: 28px;
+      max-width: 700px;
+    }
+
+    h1 span { color: var(--green); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    /* SECTION COMMONS */
+    section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .section-sub { font-size: 1.05rem; color: var(--muted); max-width: 560px; line-height: 1.7; }
+
+    /* REVEAL ANIMATION */
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+    .reveal-group .reveal:nth-child(1) { transition-delay: 0s; }
+    .reveal-group .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .reveal-group .reveal:nth-child(3) { transition-delay: 0.2s; }
+    .reveal-group .reveal:nth-child(4) { transition-delay: 0.3s; }
+    .reveal-group .reveal:nth-child(5) { transition-delay: 0.4s; }
+    .reveal-group .reveal:nth-child(6) { transition-delay: 0.5s; }
+
+    /* ROADMAP CARDS */
+    .roadmap-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+
+    .roadmap-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+
+    .roadmap-card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.28); }
+
+    .roadmap-icon {
+      font-size: 2.4rem; margin-bottom: 20px;
+      width: 60px; height: 60px; border-radius: 14px;
+      background: rgba(0,200,150,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .roadmap-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 14px; }
+    .roadmap-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    .roadmap-list {
+      list-style: none;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .roadmap-list li {
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .roadmap-list li::before {
+      content: "\2713";
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      text-align: center; padding: 100px 24px;
+      background: linear-gradient(135deg, rgba(0,200,150,0.06), transparent);
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-primary {
+      padding: 16px 36px;
+      background: var(--green); color: #000;
+      font-weight: 700; font-size: 1rem;
+      border: none; border-radius: 12px; cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,200,150,0.25); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+
+    .footer-logo { font-size: 1.2rem; font-weight: 800; color: var(--green); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-legal { font-size: 0.78rem; color: var(--muted); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      h1 {
+        font-size: clamp(1.9rem, 7vw, 2.5rem);
+        letter-spacing: -1.5px;
+      }
+
+      .roadmap-grid { grid-template-columns: 1fr; }
+
+      footer {
+        flex-direction: column; text-align: center;
+        padding: 40px 20px;
+      }
+    }
+  </style>
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments)))}}for(g(e,"capture"),g(e,"identify"),g(e,"reset"),g(e,"group"),g(e,"register"),g(e,"registerOnce"),g(e,"unregister"),g(e,"on"),g(e,"once"),g(e,"off"),g(e,"get_distinct_id"),g(e,"get_session_id"),g(e,"has_feature"),g(e,"feature_flags"),g(e,"reloadFeatureFlags"),g(e,"all_flags"),g(e,"isFeatureEnabled"),g(e,"reset_after_logout"),g(e,"register_for_session"),p=["setPageContext","trackPageView","trackEvent","trackEvents","trackPageLeave","lib","people","toString","sessionRecordingStarted","sessionRecordingStopped","sharedBuffer","buffer","take_rate","isIframe"],r=0;r<p.length;r++)g(e,p[r]);e._i.push([i,s,a])},e.__SV=1}(window.posthog||[]);
+    posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">fawn</a>
+  <div class="nav-links">
+    <a href="index.html#how-it-works">How it works</a>
+    <a href="campus-savings.html">Campus Savings</a>
+    <a href="perks.html">Student Perks</a>
+    <a href="military.html">Military &amp; Veterans</a>
+    <a href="roadmap.html" style="color: var(--green);">Roadmap</a>
+    <a href="index.html#faq">FAQ</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="founding.html" class="nav-cta">Founding Member &#8594;</a>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html#how-it-works" onclick="closeMobileMenu()">How it works</a>
+  <a href="campus-savings.html" onclick="closeMobileMenu()">Campus Savings</a>
+  <a href="perks.html" onclick="closeMobileMenu()">Student Perks</a>
+  <a href="military.html" onclick="closeMobileMenu()">Military &amp; Veterans</a>
+  <a href="roadmap.html" onclick="closeMobileMenu()" style="color:var(--green);font-weight:700">Roadmap</a>
+  <a href="index.html#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="founding.html" onclick="closeMobileMenu()" style="color:var(--green);font-weight:700">Founding Member &#8594;</a>
+</div>
+
+<!-- HERO -->
+<div style="max-width:1100px;margin:0 auto">
+<div class="hero" id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    The future of student banking
+  </div>
+  <h1>What's <span>Next</span> for FAWN</h1>
+  <p class="hero-sub">From free banking today to zero-interest mortgages tomorrow. Here's our roadmap to reshape banking for Gen Z.</p>
+  <a href="founding.html" class="btn-primary">Join the Movement &#8594;</a>
+</div>
+</div>
+
+<!-- FUNDING & EQUITY -->
+<section>
+  <div class="section-label">Phase 1</div>
+  <h2 class="section-title">Building Together</h2>
+  <p class="section-sub">We're raising $21k to fund development and early scaling. Here's how we're doing it.</p>
+
+  <div class="roadmap-grid reveal-group">
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">💰</div>
+      <h3>Founding Shares Program</h3>
+      <p>10,000 shares available at $1 per share to early investors. Own a piece of FAWN from day one.</p>
+      <ul class="roadmap-list">
+        <li>Direct equity stake</li>
+        <li>Founding member benefits</li>
+        <li>Access to roadmap voting</li>
+        <li>Community recognition</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">🔄</div>
+      <h3>User Reward Shares</h3>
+      <p>Another 10,000 shares sold in $25 plots, exchangeable for $1 per share. Earn by signing up and using FAWN.</p>
+      <ul class="roadmap-list">
+        <li>Incentivize user growth</li>
+        <li>Convertible to dollar value</li>
+        <li>Encourages active usage</li>
+        <li>Community-driven scaling</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">🎯</div>
+      <h3>Team & Operations</h3>
+      <p>1,000 shares reserved for AI credits and operational infrastructure to support the platform.</p>
+      <ul class="roadmap-list">
+        <li>Development resources</li>
+        <li>AI-powered features</li>
+        <li>Platform stability</li>
+        <li>Scalable infrastructure</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">📊</div>
+      <h3>Total Raise: $21k</h3>
+      <p>A lean, community-driven funding model that aligns incentives with your success.</p>
+      <ul class="roadmap-list">
+        <li>$10k from investors</li>
+        <li>$10k from users</li>
+        <li>$1k for operations</li>
+        <li>Full transparency</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE SHARING -->
+<section>
+  <div class="section-label">Phase 2</div>
+  <h2 class="section-title">Revenue Shared with You</h2>
+  <p class="section-sub">FAWN keeps only what it needs. The rest flows back to users who make the platform thrive.</p>
+
+  <div class="roadmap-grid reveal-group">
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">💸</div>
+      <h3>User Revenue Sharing</h3>
+      <p>Every transaction generates $0.01-$0.02 in revenue. We reinvest a portion directly back to active users as rewards and benefits.</p>
+      <ul class="roadmap-list">
+        <li>Transparent revenue model</li>
+        <li>Shared prosperity</li>
+        <li>Direct rewards for usage</li>
+        <li>Growing benefit pool</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">⏱️</div>
+      <h3>Rewards for Time</h3>
+      <p>Simply using FAWN earns you benefits. The longer you're active on the platform, the more you earn.</p>
+      <ul class="roadmap-list">
+        <li>Time-based rewards</li>
+        <li>Engagement bonuses</li>
+        <li>Loyalty multipliers</li>
+        <li>No hidden requirements</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">🌱</div>
+      <h3>Compound Benefits</h3>
+      <p>As FAWN grows, so does your share. More users = more transactions = more benefits flowing to you.</p>
+      <ul class="roadmap-list">
+        <li>Aligned growth</li>
+        <li>Network effects</li>
+        <li>Exponential rewards</li>
+        <li>Community success</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">✨</div>
+      <h3>Premium Perks</h3>
+      <p>Founding members get early access to exclusive benefits, premium features, and special earning opportunities.</p>
+      <ul class="roadmap-list">
+        <li>First access to features</li>
+        <li>Higher earning rates</li>
+        <li>VIP support</li>
+        <li>Community leadership</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LENDING PRODUCTS -->
+<section>
+  <div class="section-label">Phase 3</div>
+  <h2 class="section-title">Lending Built for Gen Z</h2>
+  <p class="section-sub">No more 15%+ interest rates. FAWN caps all lending products at 7% or less—with smart terms that actually work for you.</p>
+
+  <div class="roadmap-grid reveal-group">
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">🏠</div>
+      <h3>Student Mortgages</h3>
+      <p>Own a home as a college student. Zero down payment. 20-year term with intelligent payment structures designed for undergrads.</p>
+      <ul class="roadmap-list">
+        <li>$0 down payment</li>
+        <li>20-year amortization</li>
+        <li>Flexible payment options</li>
+        <li>Capped at 7% or lower</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">💼</div>
+      <h3>Business Loans</h3>
+      <p>Student entrepreneurs deserve fair terms. FAWN business loans are capped at 7% to help you start and scale without predatory rates.</p>
+      <ul class="roadmap-list">
+        <li>Flexible terms</li>
+        <li>No origination fees</li>
+        <li>7% max interest</li>
+        <li>Business-focused support</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">🎓</div>
+      <h3>Leadership Loans</h3>
+      <p>Loans designed for students pursuing leadership roles in agriculture, engineering, and environmental fields. Build your future at a fair price.</p>
+      <ul class="roadmap-list">
+        <li>Field-focused lending</li>
+        <li>Leadership development</li>
+        <li>7% cap on rates</li>
+        <li>Social impact aligned</li>
+      </ul>
+    </div>
+
+    <div class="roadmap-card reveal">
+      <div class="roadmap-icon">🚜</div>
+      <h3>Agricultural & Farming Loans</h3>
+      <p>FAWN believes in supporting student farmers and agricultural entrepreneurs with transparent, affordable lending.</p>
+      <ul class="roadmap-list">
+        <li>Agriculture focused</li>
+        <li>Sustainable practices support</li>
+        <li>7% max rate</li>
+        <li>Long-term terms available</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LONG TERM VISION -->
+<section>
+  <div class="section-label">Phase 4</div>
+  <h2 class="section-title">The 20-Year Vision</h2>
+  <p class="section-sub">Using transaction revenue, FAWN accumulates wealth to offer something revolutionary: zero-interest mortgages for undergrads.</p>
+
+  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-top: 56px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; max-width: 1000px; margin: 0 auto;">
+      <div>
+        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; color: var(--green);">Zero-Interest Undergrad Mortgages</h3>
+        <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 20px;">As FAWN grows, we build a reserve fund from transaction revenue. Eventually, we offer undergraduates something revolutionary:</p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px;">
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="color: var(--green); font-weight: 700; flex-shrink: 0;">✓</span>
+            <span style="color: var(--muted);">20-year mortgage with $0 down</span>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="color: var(--green); font-weight: 700; flex-shrink: 0;">✓</span>
+            <span style="color: var(--muted);">7-year period paying 20% of loan at 7% interest</span>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="color: var(--green); font-weight: 700; flex-shrink: 0;">✓</span>
+            <span style="color: var(--muted);">13 remaining years: pay the other 80% with NO INTEREST</span>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="color: var(--green); font-weight: 700; flex-shrink: 0;">✓</span>
+            <span style="color: var(--muted);">Ownership from day one, not years away</span>
+          </li>
+        </ul>
+      </div>
+      <div style="background: linear-gradient(135deg, rgba(0,200,150,0.1), rgba(0,200,150,0.05)); border: 1px solid rgba(0,200,150,0.2); border-radius: 16px; padding: 32px; text-align: center;">
+        <div style="font-size: 0.75rem; color: var(--green); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;">The Math</div>
+        <div style="font-size: 2.4rem; font-weight: 800; color: var(--green); margin-bottom: 8px;">0%</div>
+        <div style="font-size: 1rem; color: var(--text); margin-bottom: 20px;">Interest Years 8-20</div>
+        <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.6;">Save tens of thousands compared to traditional mortgages. Build wealth instead of paying interest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <h2 class="section-title">Ready to Shape the Future?</h2>
+  <p class="section-sub" style="margin-bottom: 40px;">Join as a Founding Member and help FAWN change banking for Gen Z.</p>
+  <a href="founding.html" class="btn-primary">Become a Founding Member &#8594;</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">fawn</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="campus-savings.html">Campus Savings</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="perks.html">Student Perks</a>
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <div class="footer-legal">&copy; 2026 GoldstarOrbital Inc. | Banking for Gen Z.</div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('open');
+  }
+
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.remove('open');
+  }
+
+  // Scroll reveal animation
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
