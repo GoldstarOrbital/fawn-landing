@@ -65,7 +65,7 @@
         "name": "Is FAWN FDIC insured?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner, Unit. Your money is insured up to $250,000 per depositor  - the same protection offered by Chase, Wells Fargo, and all major banks."
+          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner, Unit. Your money is insured up to $250,000 per depositor  - the same protection offered by Chase or Bank of America."
         }
       },
       {
@@ -73,7 +73,7 @@
         "name": "How does FAWN work for college students?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FAWN is a no-fee college bank account built for Gen Z. Sign up with your name, email, and school  - no credit check required. You get an FDIC-insured checking account and pay only $0.01-$0.02 per transaction."
+          "text": "FAWN is a no-fee college bank account built for Gen Z. Sign up with your name, email, and school  - no credit check required. You get an FDIC-insured checking account and pay only $0.01 per transaction with no monthly fees."
         }
       },
       {
@@ -89,7 +89,7 @@
         "name": "Is there a credit check to open a FAWN account?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No hard credit check is required to open a FAWN account. FAWN verifies your identity as required by banking regulations but does not pull your credit score, and opening an account does not impact your credit."
+          "text": "No hard credit check is required to open a FAWN account. FAWN verifies your identity as required by banking regulations but does not pull your credit score, and opening an account will not affect your credit."
         }
       },
       {
@@ -97,7 +97,7 @@
         "name": "Is there a mobile app?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FAWN is currently web-based. Native iOS and Android apps are on the roadmap for Q4 2026. In the meantime, the web app is mobile-optimized and you can add it to your home screen for app-like access."
+          "text": "FAWN is currently web-based. Native iOS and Android apps are on the roadmap for Q4 2026. In the meantime, the web app is mobile-optimized and you can add it to your home screen on both iOS and Android for an app-like experience."
         }
       }
     ]
@@ -241,7 +241,7 @@
       border-radius: 24px;
       padding: 48px;
       text-align: center;
-      transition: all 0.3s var(--ease);
+      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
     }
 
     .roadmap-highlight-card:hover {
@@ -274,8 +274,6 @@
       animation: pulse 2s infinite;
     }
 
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
     .roadmap-highlight-card h3 {
       font-size: 2rem;
       font-weight: 800;
@@ -288,11 +286,9 @@
     .roadmap-highlight-card p {
       font-size: 1rem;
       color: var(--muted);
-      margin-bottom: 32px;
+      margin: 0 auto 32px;
       line-height: 1.7;
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .roadmap-highlight-cta {
@@ -304,11 +300,9 @@
       color: #000;
       font-weight: 700;
       font-size: 0.95rem;
-      border: none;
       border-radius: 12px;
       text-decoration: none;
-      cursor: pointer;
-      transition: all 0.25s var(--ease);
+      transition: background 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
     }
 
     .roadmap-highlight-cta:hover {
@@ -401,6 +395,8 @@
       background: var(--green);
       animation: pulse 2s infinite;
     }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
     h1 {
       font-size: clamp(2.5rem, 8vw, 6rem);
@@ -1011,13 +1007,8 @@
       .compare-section { padding: 32px 20px; overflow-x: auto; }
       .compare-table { min-width: 480px; }
 
-      .roadmap-highlight-card {
-        padding: 32px;
-      }
-
-      .roadmap-highlight-card h3 {
-        font-size: 1.5rem;
-      }
+      .roadmap-highlight-card { padding: 32px; }
+      .roadmap-highlight-card h3 { font-size: 1.5rem; }
 
       footer {
         flex-direction: column; text-align: center;
@@ -1039,7 +1030,7 @@
     }
   </style>
   <script>
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments)))}}for(g(e,"capture"),g(e,"identify"),g(e,"reset"),g(e,"group"),g(e,"register"),g(e,"registerOnce"),g(e,"unregister"),g(e,"on"),g(e,"once"),g(e,"off"),g(e,"get_distinct_id"),g(e,"get_session_id"),g(e,"has_feature"),g(e,"feature_flags"),g(e,"reloadFeatureFlags"),g(e,"all_flags"),g(e,"isFeatureEnabled"),g(e,"reset_after_logout"),g(e,"register_for_session"),p=["setPageContext","trackPageView","trackEvent","trackEvents","trackPageLeave","lib","people","toString","sessionRecordingStarted","sessionRecordingStopped","sharedBuffer","buffer","take_rate","isIframe"],r=0;r<p.length;r++)g(e,p[r]);e._i.push([i,s,a])},e.__SV=1}(window.posthog||[]);
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureFlagEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
     posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
   </script>
 </head>
@@ -1080,3 +1071,945 @@
   <a href="#news-feature" onclick="closeMobileMenu()">AI News</a>
   <a href="#waitlist" onclick="closeMobileMenu()" style="color:var(--green);font-weight:700">Join Waitlist &#8594;</a>
 </div>
+
+<!-- STICKY WAITLIST CTA (desktop floating pill) -->
+<div class="sticky-cta" id="sticky-cta">
+  <a href="#waitlist">Join Waitlist &#8212; It&#8217;s Free &#8594;</a>
+</div>
+
+<!-- MOBILE STICKY BOTTOM BAR -->
+<div class="mobile-sticky-bar" id="mobile-sticky-bar">
+  <a href="#waitlist">Join Free Beta &#8594;</a>
+</div>
+
+<!-- HERO -->
+<div style="max-width:1100px;margin:0 auto">
+<div class="hero" id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <div class="hero-badge-dot"></div>
+    Now in sandbox &#8212; coming soon
+  </div>
+  <h1>Banking that<br />doesn&#8217;t <span>rob you.</span></h1>
+  <p class="hero-sub">
+    FDIC-insured checking for college students. No monthly fee. No overdraft penalty. Just a penny when you transact.
+  </p>
+  <div class="hero-buttons">
+    <a href="signup.html" class="btn-primary">Open your account -></a>
+    <a href="founding.html" class="btn-secondary">Become a Founding Member</a>
+  </div>
+  <div class="hero-buttons" style="margin-top:12px;">
+    <a href="#waitlist" style="color:var(--muted);font-size:0.85rem;text-decoration:underline;">Not ready? Join the waitlist instead</a>
+  </div>
+  <div class="hero-trust">
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> FDIC insured up to $250K</div>
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> No overdraft fees</div>
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> $0.01 per transaction</div>
+    <div class="trust-item"><span class="trust-icon">&#10003;</span> No credit check</div>
+  </div>
+  <p class="hero-web-note">Currently web-based &#8212; iOS and Android apps coming Q4 2026.</p>
+</div>
+
+<!-- PROBLEM -->
+<section>
+  <div class="section-label">The problem</div>
+  <div class="section-title">Banks were not built for you.</div>
+  <p class="section-sub">The average Gen Z checking account costs $180/year in fees. That&#8217;s not a bug &#8212; it&#8217;s the business model.</p>
+  <div class="problem-grid reveal-group">
+    <div class="problem-card reveal">
+      <div class="problem-stat">$35</div>
+      <div class="problem-desc">Overdraft fee charged on a $5 mistake. A 700% penalty on your worst day.</div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-stat">$180</div>
+      <div class="problem-desc">Average annual fee burden on a Gen Z checking account. That&#8217;s money you earned.</div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-stat">67%</div>
+      <div class="problem-desc">Of Gen Z distrust traditional banks. (Deloitte, 2024.) They&#8217;re right to.</div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-stat">0</div>
+      <div class="problem-desc">Neobanks built specifically for individual college students. Until now.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS  - 3 STEPS -->
+<section id="how-it-works">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Three steps to better banking.</div>
+  <p class="section-sub">No credit check. No minimum deposit. Takes minutes.</p>
+  <div class="steps-grid reveal-group">
+    <div class="step-card reveal">
+      <div class="step-number">1</div>
+      <h3>Sign up</h3>
+      <p>Create your account with just your name, email, and school. No credit check, no Social Security number required to get started.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">2</div>
+      <h3>Get your account</h3>
+      <p>Your FDIC-insured checking account is issued through our banking partner Unit. Funds held at an FDIC-member bank &#8212; protected up to $250K.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">3</div>
+      <h3>Use it anywhere</h3>
+      <p>Send money, receive deposits, and pay for things. Each transaction costs exactly $0.01&#8211;$0.02. That&#8217;s the whole model.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT SHOWCASE -->
+<section id="product-showcase">
+  <div class="section-label">The product</div>
+  <div class="section-title">This is what banking that respects you looks like.</div>
+  <p class="section-sub">A real preview of the dashboard you get on day one. Tap the account number &#8212; it&#8217;s interactive.</p>
+
+  <div class="showcase-wrap">
+    <div class="showcase-phone" id="showcase-phone">
+      <div class="showcase-nav">
+        <span class="showcase-logo">fawn</span>
+        <span class="showcase-email">jane@berkeley.edu</span>
+      </div>
+
+      <div class="showcase-greeting">
+        <div class="showcase-greeting-title">Good morning, Jane.</div>
+        <div class="showcase-greeting-sub">Here is your FAWN account.</div>
+      </div>
+
+      <div class="showcase-balance">
+        <div class="showcase-balance-left">
+          <div class="showcase-balance-label">Available balance</div>
+          <div class="showcase-balance-amount" id="showcase-balance-amount">$0.00</div>
+        </div>
+        <div class="showcase-balance-right">
+          <div class="showcase-badge"><span class="showcase-live-dot"></span> FDIC Insured</div>
+        </div>
+      </div>
+
+      <div class="showcase-tiles">
+        <div class="showcase-tile">
+          <div class="showcase-tile-label">Routing number</div>
+          <div class="showcase-tile-value">021000021</div>
+        </div>
+        <div class="showcase-tile showcase-tile-interactive" id="showcase-account-tile" onclick="toggleShowcaseReveal()">
+          <div class="showcase-tile-label">Account number</div>
+          <div class="showcase-tile-value showcase-masked" id="showcase-account-value">&bull;&bull;&bull;&bull;&bull;&bull;9182</div>
+          <div class="showcase-tile-hint" id="showcase-tile-hint">tap to reveal</div>
+        </div>
+      </div>
+
+      <div class="showcase-section-title">Recent transactions</div>
+      <div class="showcase-txn-list">
+        <div class="showcase-txn">
+          <div class="showcase-txn-left">
+            <div class="showcase-txn-icon">&#127869;</div>
+            <div>
+              <div class="showcase-txn-desc">Financial Aid Deposit</div>
+              <div class="showcase-txn-date">Today</div>
+            </div>
+          </div>
+          <div class="showcase-txn-amount showcase-credit">+$640.00</div>
+        </div>
+        <div class="showcase-txn">
+          <div class="showcase-txn-left">
+            <div class="showcase-txn-icon">&#9749;</div>
+            <div>
+              <div class="showcase-txn-desc">Brewed Awakening</div>
+              <div class="showcase-txn-date">Yesterday</div>
+            </div>
+          </div>
+          <div class="showcase-txn-amount">-$4.51</div>
+        </div>
+        <div class="showcase-txn">
+          <div class="showcase-txn-left">
+            <div class="showcase-txn-icon">&#127968;</div>
+            <div>
+              <div class="showcase-txn-desc">Albany Shared Room</div>
+              <div class="showcase-txn-date">3 days ago</div>
+            </div>
+          </div>
+          <div class="showcase-txn-amount">-$875.00</div>
+        </div>
+        <div class="showcase-txn">
+          <div class="showcase-txn-left">
+            <div class="showcase-txn-icon">&#128178;</div>
+            <div>
+              <div class="showcase-txn-desc">FAWN transaction fee</div>
+              <div class="showcase-txn-date">3 days ago</div>
+            </div>
+          </div>
+          <div class="showcase-txn-amount">-$0.01</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-callouts">
+      <div class="showcase-callout" data-target="showcase-balance">
+        <div class="showcase-callout-dot"></div>
+        <div>
+          <h3>Real-time balance</h3>
+          <p>No 1-3 day "pending" mystery. You always see what you actually have.</p>
+        </div>
+      </div>
+      <div class="showcase-callout" data-target="showcase-account-tile">
+        <div class="showcase-callout-dot"></div>
+        <div>
+          <h3>Account numbers, protected</h3>
+          <p>Blurred by default. Tap to reveal &#8212; same as the real dashboard.</p>
+        </div>
+      </div>
+      <div class="showcase-callout" data-target="showcase-txn-list">
+        <div class="showcase-callout-dot"></div>
+        <div>
+          <h3>Every transaction, $0.01</h3>
+          <p>Look at that fee line. That&#8217;s the entire business model, in plain sight.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P2P PAYMENTS -->
+<section id="p2p-payments">
+  <div class="section-label">New: FAWN-to-FAWN payments</div>
+  <div class="section-title">Pay your friends like you text them.</div>
+  <p class="section-sub">Send money to another FAWN user by their @handle &#8212; no account numbers, no routing numbers, no waiting around. Since it&#8217;s a direct move between two FAWN accounts, it&#8217;s instant and it&#8217;s free.</p>
+
+  <div class="p2p-grid reveal-group">
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#9889;</div>
+      <h3>Send by @handle</h3>
+      <p>Look up a friend by their FAWN handle, type an amount, send. The money lands in their account instantly &#8212; it&#8217;s a direct ledger move between two FAWN accounts, not a multi-day transfer.</p>
+    </div>
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#128221;</div>
+      <h3>Request, with one tap to pay</h3>
+      <p>Need money back for groceries or a show ticket? Send a request to any FAWN user and they get a one-tap link to pay you back &#8212; no chasing, no Venmo-style "you up?" texts.</p>
+    </div>
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#127869;</div>
+      <h3>Split a bill in one go</h3>
+      <p>Dinner for six? Rent with three roommates? Split the total across everyone in a single flow, and each person gets their own request to settle up &#8212; FAWN does the math.</p>
+    </div>
+  </div>
+
+  <div class="p2p-safety reveal">
+    <div class="p2p-safety-icon">&#128274;</div>
+    <div>
+      <h3>Built so you can&#8217;t send money by accident</h3>
+      <p>Every send shows you an explicit confirmation screen before anything moves &#8212; because once it&#8217;s sent, it&#8217;s sent. FAWN also watches for patterns common in scams and will flag first-time recipients or unusually large sends for an extra confirmation step, so you get a second to double-check before you tap through.</p>
+    </div>
+  </div>
+
+  <p class="p2p-scope-note">
+    FAWN-to-FAWN payments work between FAWN accounts only &#8212; sending to other banks, cards, or apps like Venmo or Cash App isn&#8217;t supported yet. This feature is live in our sandbox banking environment as we prepare for launch.
+  </p>
+</section>
+
+<!-- CARDS & SPENDING INSIGHTS -->
+<section id="cards-insights">
+  <div class="section-label">New: Card &amp; spending insights</div>
+  <div class="section-title">A card you control. Spending you can actually see.</div>
+  <p class="section-sub">Issue a virtual debit card in seconds and watch where your money goes, broken down by category &#8212; no spreadsheet required.</p>
+
+  <div class="p2p-grid reveal-group">
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#128179;</div>
+      <h3>Instant virtual card</h3>
+      <p>Issue a virtual debit card straight from your account and start spending right away &#8212; no waiting on the mail.</p>
+    </div>
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#128274;</div>
+      <h3>Freeze it, anytime</h3>
+      <p>Lost your phone for a minute or just being careful? Freeze your card in one tap and unfreeze it just as fast when you&#8217;re ready.</p>
+    </div>
+    <div class="p2p-card reveal">
+      <div class="p2p-icon">&#128202;</div>
+      <h3>Spending, by category</h3>
+      <p>See exactly where your money went &#8212; food, housing, transport, and more &#8212; broken down automatically so you don&#8217;t have to track it yourself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION / FEATURES -->
+<section style="padding-top:0">
+  <div class="section-label">Features</div>
+  <div class="section-title">Simple. Safe. Smart.</div>
+  <p class="section-sub">Three things we obsessed over so you don&#8217;t have to think about them.</p>
+  <div class="solution-grid reveal-group">
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#9889;</div>
+      <h3>Simple pricing</h3>
+      <p>One flat fee per transaction: $0.01 to $0.02. That&#8217;s it. No monthly fee, no minimum balance, no overdraft trap. You always know what you&#8217;re paying.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#128274;</div>
+      <h3>Your money stays yours</h3>
+      <p>Deposits are held at an FDIC-insured bank (via our partner Unit). Fully liquid &#8212; withdraw anytime. We never invest your deposits. Our revenue comes from fees, not your balance.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#129504;</div>
+      <h3>AI-powered context</h3>
+      <p>Inflation went up. Interest rates changed. What does it mean for you? FAWN&#8217;s AI news layer explains what&#8217;s happening in the economy in plain English &#8212; not financial jargon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEE COMPARISON -->
+<section style="padding-top:0">
+  <div class="compare-section">
+    <div class="section-label">Fee comparison</div>
+    <div class="section-title" style="margin-bottom:8px">We make a penny. They make a killing.</div>
+    <p style="color:var(--muted);font-size:0.95rem;margin-bottom:0">Real fees from Chase and Wells Fargo, compared to FAWN.</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Fee type</th>
+          <th class="col-chase">Chase Total Checking</th>
+          <th class="col-wells">Wells Fargo Everyday</th>
+          <th class="col-fawn">FAWN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monthly maintenance</td>
+          <td class="fee-bad-high">$15/mo</td>
+          <td class="fee-bad-mid">$10/mo</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Overdraft fee</td>
+          <td class="fee-bad-high">$34</td>
+          <td class="fee-bad-mid">$35</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Out-of-network ATM</td>
+          <td class="fee-bad-high">$3.50</td>
+          <td class="fee-bad-mid">$2.50</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Wire transfer (domestic)</td>
+          <td class="fee-bad-high">$25&#8211;$35</td>
+          <td class="fee-bad-mid">$30</td>
+          <td class="fee-good">$0</td>
+        </tr>
+        <tr>
+          <td>Per transaction fee</td>
+          <td style="color:var(--muted)">$0</td>
+          <td style="color:var(--muted)">$0</td>
+          <td class="fee-good">$0.01</td>
+        </tr>
+        <tr>
+          <td>Annual cost estimate</td>
+          <td class="fee-bad-high">$180&#8211;$600+</td>
+          <td class="fee-bad-mid">$120&#8211;$420+</td>
+          <td class="fee-good">&lt; $10</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="calc-widget reveal" id="calc-widget">
+      <div class="calc-header">
+        <div class="calc-title">Calculate your own savings</div>
+        <p class="calc-sub">Drag the slider to match how you actually bank.</p>
+      </div>
+      <div class="calc-body">
+        <div class="calc-input-col">
+          <label for="calc-slider" class="calc-label">Transactions per month: <span id="calc-txn-display">50</span></label>
+          <input type="range" id="calc-slider" min="5" max="200" value="50" step="5" oninput="updateCalc()">
+          <div class="calc-checkbox-row">
+            <label><input type="checkbox" id="calc-overdraft" checked onchange="updateCalc()"> I&#8217;ve overdrafted at least once this year</label>
+          </div>
+        </div>
+        <div class="calc-result-col">
+          <div class="calc-result-row">
+            <span>Chase Total Checking</span>
+            <span class="calc-result-amount calc-bad" id="calc-chase">$0/yr</span>
+          </div>
+          <div class="calc-result-row">
+            <span>Wells Fargo Everyday</span>
+            <span class="calc-result-amount calc-bad" id="calc-wells">$0/yr</span>
+          </div>
+          <div class="calc-result-row calc-result-fawn">
+            <span>FAWN</span>
+            <span class="calc-result-amount calc-good" id="calc-fawn">$0/yr</span>
+          </div>
+          <div class="calc-savings-banner" id="calc-savings-banner">
+            You&#8217;d save <strong id="calc-savings-amount">$0</strong> a year switching to FAWN.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEOBANK COMPARISON -->
+<section id="neobank-compare">
+  <div class="section-label">Not just vs. big banks</div>
+  <div class="section-title">FAWN vs. the other apps on your phone.</div>
+  <p class="section-sub">Chime, Current, Varo, and SoFi all market themselves as fee-free too. Here&#8217;s how the model actually differs.</p>
+
+  <div class="problem-grid reveal-group" style="margin-top:56px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+    <div class="problem-card reveal">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Chime</div>
+      <p class="problem-desc">No monthly fee, but Chime makes money mainly off interchange (the fee merchants pay when you swipe) and by steering users toward its SpotMe overdraft-advance feature and optional tips. You don&#8217;t pay directly &#8212; but the incentive is to get you swiping and borrowing, not to keep your fees low.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Current</div>
+      <p class="problem-desc">Free tier exists, but core perks like faster direct deposit and higher savings APY sit behind a paid tier and require qualifying activity (like direct deposit volume) &#8212; not a flat, transparent rate you can calculate in advance.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Varo</div>
+      <p class="problem-desc">No monthly fee on the base account, but advertised savings APY and cash-advance perks are conditional on meeting minimum monthly deposit thresholds &#8212; miss the threshold and the headline rate doesn&#8217;t apply to you that month.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">SoFi</div>
+      <p class="problem-desc">No monthly fee, but SoFi&#8217;s checking product is really a funnel into its broader business &#8212; loans, investing, credit cards &#8212; and the best rates and bonuses are reserved for customers who set up qualifying direct deposits.</p>
+    </div>
+  </div>
+
+  <div class="problem-grid reveal-group" style="margin-top:24px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+    <div class="problem-card reveal" style="border-color:rgba(0,200,150,0.3);background:rgba(0,200,150,0.04)">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">FAWN</div>
+      <p class="problem-desc">No conditions, no qualifying deposit, no tiers to unlock. You pay $0.01&#8211;$0.02 per transaction and that&#8217;s the entire revenue model &#8212; visible on every single transaction in your history. Nothing is monetized in the background.</p>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.6">
+    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN&#8217;s deposits are FDIC-insured up to $250,000 through our banking partner Unit, the same insurance structure used by Chime, Current, Varo, and SoFi&#8217;s bank partners.
+  </p>
+</section>
+
+<!-- SOCIAL PROOF / TESTIMONIALS -->
+<section>
+  <div class="section-label">From students</div>
+  <div class="section-title">Real frustration. Composite voices.</div>
+  <p class="section-sub">FAWN is pre-launch &#8212; these aren&#8217;t FAWN users. They&#8217;re composite quotes reflecting common themes from student banking interviews we conducted while building FAWN.</p>
+  <div class="testimonials-grid reveal-group">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-quote">&#8220;I got hit with a $35 overdraft fee on a $4 coffee. That&#8217;s when I knew I had to find something better.&#8221;</div>
+      <div class="testimonial-author">&#8212; Illustrative quote, college student, Michigan</div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-quote">&#8220;My bank charges $12 a month just to exist. I&#8217;m a college student &#8212; I don&#8217;t have money to pay to have a bank account.&#8221;</div>
+      <div class="testimonial-author">&#8212; Illustrative quote, business school student, New York</div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-quote">&#8220;Eight out of ten of my friends have been hit with unexpected fees. We just accept it. FAWN is the first thing that actually made me mad about that.&#8221;</div>
+      <div class="testimonial-author">&#8212; Illustrative quote, college student, Los Angeles</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <div id="social-waitlist-count" style="display:inline-flex;align-items:center;gap:10px;background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);border-radius:100px;padding:10px 24px;font-size:0.92rem;color:var(--green);font-weight:700"></div>
+  </div>
+</section>
+
+<!-- AI NEWS FEATURE -->
+<section id="news-feature">
+  <div class="section-label">AI News Layer</div>
+  <div class="section-title">The world affects your money.<br />We explain how.</div>
+  <p class="section-sub">Every week, FAWN&#8217;s AI summarizes what&#8217;s happening in the economy &#8212; interest rates, inflation, jobs &#8212; in plain English. No jargon. No panic. Just context.</p>
+  <div class="news-preview">
+    <div class="news-preview-header">
+      <div class="live-badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span> AI Summary</div>
+      <span style="color:var(--muted);font-size:0.82rem">Economy &#183; Interest Rates &#183; Inflation</span>
+    </div>
+    <div class="news-body">
+      The Federal Reserve held interest rates steady this month, signaling that while inflation has cooled significantly from its 2022 peak, policymakers aren&#8217;t ready to cut rates yet. For you, this means savings account yields stay relatively high &#8212; if you have money sitting in cash, it&#8217;s actually earning something right now. On the jobs front, hiring slowed in tech but remained strong in healthcare and hospitality, which tends to keep consumer spending stable heading into summer.
+    </div>
+    <div class="news-disclaimer-preview">
+      This is general financial news for informational purposes only. It is not investment advice. FAWN does not manage or invest your deposits.
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">Transparent. Always.</div>
+  <p class="section-sub">No fine print. No gotchas. You pay a cent when you do something. That&#8217;s the whole model.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">Student</div>
+      <div class="pricing-price">$0<span>/month</span></div>
+      <div class="pricing-desc">For verified college students</div>
+      <ul class="pricing-features">
+        <li>FDIC-insured checking account</li>
+        <li>$0.01 per transaction</li>
+        <li>Real-time balance</li>
+        <li>AI news summaries</li>
+        <li>No minimum balance</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-name">Standard</div>
+      <div class="pricing-price">$0<span>/month</span></div>
+      <div class="pricing-desc">Pay only when you transact</div>
+      <ul class="pricing-features">
+        <li>Everything in Student</li>
+        <li>$0.01&#8211;$0.02 per transaction</li>
+        <li>Transaction history</li>
+        <li>ACH transfers</li>
+        <li>Virtual debit card</li>
+        <li>Spending insights by category</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">Premium</div>
+      <div class="pricing-price">$3<span>/month</span></div>
+      <div class="pricing-desc">For power users</div>
+      <ul class="pricing-features">
+        <li>Everything in Standard</li>
+        <li>Higher transfer limits</li>
+        <li>Priority support</li>
+        <li>Custom AI news topics</li>
+        <li>Early access to new features</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP HIGHLIGHT -->
+<section class="roadmap-highlight-section" style="padding-top:0">
+  <div class="roadmap-highlight-card reveal">
+    <div class="roadmap-badge"><span class="roadmap-badge-dot"></span> Product roadmap</div>
+    <h3>See what FAWN is building <span>next.</span></h3>
+    <p>Track the features coming after launch, from mobile apps and smarter campus savings to safer P2P payments and deeper student money tools.</p>
+    <a href="roadmap.html" class="roadmap-highlight-cta">View the roadmap &#8594;</a>
+  </div>
+</section>
+
+<!-- CAMPUS SAVINGS PREVIEW -->
+<section id="campus-deals">
+  <div class="section-label">Campus savings</div>
+  <div class="section-title">Every buck counts.</div>
+  <p class="section-sub">Real local deals within 15 miles of your campus — gas, food, coffee, housing, bars, and coupons. Updated regularly by the FAWN community.</p>
+
+  <p class="savings-preview-count">A sneak peek — the full hub covers 35 West Coast schools.</p>
+
+  <div class="savings-preview-grid reveal-group">
+    <div class="savings-preview-card reveal">
+      <div class="savings-preview-icon">&#9981;</div>
+      <div class="savings-preview-school">UC Berkeley &mdash; Cheapest Gas</div>
+      <div class="savings-preview-row"><span class="savings-preview-name">Costco, Richmond</span><span class="savings-preview-price">$5.17/gal</span></div>
+      <div class="savings-preview-row"><span class="savings-preview-name">Arco &amp; ampm, San Pablo Ave</span><span class="savings-preview-price">$5.29/gal</span></div>
+    </div>
+    <div class="savings-preview-card reveal">
+      <div class="savings-preview-icon">&#127828;</div>
+      <div class="savings-preview-school">Stanford &mdash; Best Food Combos</div>
+      <div class="savings-preview-row"><span class="savings-preview-name">Tresidder Union daily special</span><span class="savings-preview-price">$7.50</span></div>
+      <div class="savings-preview-row"><span class="savings-preview-name">Tacos El Grullense</span><span class="savings-preview-price">$3.50/taco</span></div>
+    </div>
+    <div class="savings-preview-card reveal">
+      <div class="savings-preview-icon">&#127915;</div>
+      <div class="savings-preview-school">UNLV &mdash; Coupons &amp; Codes</div>
+      <div class="savings-preview-row"><span class="savings-preview-name">UNLV Rebel Bookstore w/ student ID</span><span class="savings-preview-price">10% off</span></div>
+      <div class="savings-preview-row"><span class="savings-preview-name">Regal student Tuesday</span><span class="savings-preview-price">$8 tickets</span></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <a href="campus-savings.html" class="savings-preview-cta">See your campus's full savings hub &#8594;</a>
+  </div>
+</section>
+
+<script>
+// ── Product showcase: scroll-in animation + balance count-up + reveal toggle ──
+let showcaseRevealed = false;
+
+function toggleShowcaseReveal() {
+  showcaseRevealed = !showcaseRevealed;
+  const val = document.getElementById('showcase-account-value');
+  const hint = document.getElementById('showcase-tile-hint');
+  if (showcaseRevealed) {
+    val.textContent = '4417209182';
+    val.classList.remove('showcase-masked');
+    hint.textContent = 'tap to hide';
+  } else {
+    val.textContent = '•••••• 9182';
+    val.classList.add('showcase-masked');
+    hint.textContent = 'tap to reveal';
+  }
+}
+
+function countUpShowcaseBalance() {
+  const el = document.getElementById('showcase-balance-amount');
+  const target = 640.00;
+  const duration = 1100;
+  const start = performance.now();
+  function frame(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = '$' + (target * eased).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (progress < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+const showcasePhone = document.getElementById('showcase-phone');
+const showcaseCallouts = document.querySelector('.showcase-callouts');
+if (showcasePhone) {
+  const showcaseObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        if (entry.target === showcasePhone) countUpShowcaseBalance();
+        showcaseObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  showcaseObserver.observe(showcasePhone);
+  if (showcaseCallouts) showcaseObserver.observe(showcaseCallouts);
+}
+
+// ── Global scroll-reveal for .reveal elements across the page ────────────────
+// Deferred to DOMContentLoaded: this script tag runs before later sections
+// (e.g. #security) exist in the DOM, so querySelectorAll('.reveal') here
+// would silently miss them, leaving those cards stuck at opacity:0 forever.
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+function observeRevealElements() {
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', observeRevealElements);
+} else {
+  observeRevealElements();
+}
+
+// ── Savings calculator ────────────────────────────────────────────────────────
+function fmtMoney(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function updateCalc() {
+  const slider = document.getElementById('calc-slider');
+  const txnPerMonth = parseInt(slider.value, 10);
+  document.getElementById('calc-txn-display').textContent = txnPerMonth;
+
+  const overdrafted = document.getElementById('calc-overdraft').checked;
+
+  const chaseAnnual = 15 * 12 + (overdrafted ? 34 : 0);
+  const wellsAnnual = 10 * 12 + (overdrafted ? 35 : 0);
+  const fawnAnnual = txnPerMonth * 0.01 * 12;
+
+  document.getElementById('calc-chase').textContent = fmtMoney(chaseAnnual) + '/yr';
+  document.getElementById('calc-wells').textContent = fmtMoney(wellsAnnual) + '/yr';
+  document.getElementById('calc-fawn').textContent = fmtMoney(fawnAnnual) + '/yr';
+
+  const savings = chaseAnnual - fawnAnnual;
+  document.getElementById('calc-savings-amount').textContent = fmtMoney(Math.max(savings, 0));
+}
+
+if (document.getElementById('calc-widget')) updateCalc();
+
+</script>
+
+<!-- SECURITY & TRUST -->
+<section id="security">
+  <div class="section-label">Security &amp; trust</div>
+  <div class="section-title">Built to protect your money &#8212; and your data.</div>
+  <p class="section-sub">Security isn&#8217;t a feature we bolted on. It&#8217;s baked into how FAWN handles your deposits, your identity, your card, and every dollar you send.</p>
+
+  <div class="solution-grid reveal-group">
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#127974;</div>
+      <h3>FDIC-insured deposits</h3>
+      <p>Your funds are held at an FDIC-member bank through our banking partner Unit, insured up to $250,000 per depositor &#8212; the same protection you&#8217;d get at Chase or Bank of America.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#128272;</div>
+      <h3>Your SSN, never stored by us</h3>
+      <p>When we verify your identity, your Social Security number is passed directly to our banking partner for that check. FAWN does not store your SSN on our own servers.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#128179;</div>
+      <h3>Card details, never exposed</h3>
+      <p>Freeze or unfreeze your virtual card instantly from the app. FAWN never stores or displays your full card number or CVV anywhere &#8212; only the last 4 digits, ever. That&#8217;s by design, not a limitation.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#9989;</div>
+      <h3>P2P payments, confirmed before they move</h3>
+      <p>Every FAWN-to-FAWN send requires an explicit confirmation before money moves. FAWN also watches for patterns common in scams and flags first-time recipients or unusually large sends for extra confirmation.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#128737;</div>
+      <h3>Encrypted, always</h3>
+      <p>Your data is encrypted in transit between your device and our servers. We don&#8217;t sell your data, and your deposits are never invested or lent &#8212; they&#8217;re yours, fully liquid, at all times.</p>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">&#128203;</div>
+      <h3>Honest about where we are</h3>
+      <p>FAWN is currently live in a sandbox banking environment as we prepare for launch. We&#8217;ll be upfront about our security posture every step of the way &#8212; no overstated claims, just what&#8217;s actually true.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">FAQ</div>
+  <div class="section-title">Questions we actually get asked.</div>
+  <p class="section-sub">If yours isn&#8217;t here, email us at <a href="mailto:alexmarcusgoldsmith@gmail.com" style="color:var(--green)">alexmarcusgoldsmith@gmail.com</a>.</p>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is it really FDIC insured?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Yes. Your deposits are held at an FDIC-member bank through our banking-as-a-service partner, Unit. This means your money is insured up to $250,000 per depositor &#8212; the same protection you get at Chase or Bank of America. FAWN itself is not a bank; it is a fintech platform that uses Unit&#8217;s regulated infrastructure to hold your funds safely.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What happens to my money?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Your deposits sit in an FDIC-insured account, fully liquid, fully yours. We do not invest, lend, or pool your money. You can withdraw at any time. FAWN&#8217;s only revenue comes from the per-transaction fee &#8212; not from using your balance for anything else. This is by design: your money is not our asset.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How does FAWN make money?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Every time you complete a transaction, FAWN charges $0.01&#8211;$0.02. That&#8217;s our entire revenue model. We also offer an optional $3/month Premium plan for higher transfer limits and custom features. We don&#8217;t charge monthly fees, we don&#8217;t sell your data, and we don&#8217;t lend your deposits. The business is profitable when you use the account &#8212; not when you forget about a fee.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a credit check?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">No hard credit check to open an account. We verify your identity (as required by banking regulations) but we do not pull your credit score, and opening a FAWN account will not affect your credit. This is a checking account, not a loan product.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What if I overdraft?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">FAWN does not charge overdraft fees. If you don&#8217;t have sufficient funds for a transaction, the transaction will be declined &#8212; no penalty, no fee, no notification to your parents. We think a $35 penalty on a $5 mistake is predatory, so we eliminated it entirely.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a mobile app?
+        <span class="faq-chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">FAWN is currently web-based. Native iOS and Android apps are on the roadmap for Q4 2026. In the meantime, the web app is mobile-optimized and you can add it to your home screen on both iOS and Android for an app-like experience.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- CTA / WAITLIST -->
+<div class="cta-section" id="waitlist">
+  <div class="section-label" style="margin-bottom:16px">Early Access</div>
+  <div class="section-title" style="margin-bottom:16px">Join the waitlist.</div>
+  <p style="color:var(--muted);margin-bottom:12px;font-size:1.05rem">
+    We&#8217;re onboarding students first. No credit check. No minimum deposit.<br />Just banking that respects you.
+  </p>
+  <div id="wl-count-row" style="color:var(--green);font-size:0.9rem;font-weight:700;margin-bottom:28px;min-height:20px"></div>
+
+  <div id="wl-form" style="max-width:440px;margin:0 auto 16px">
+    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <input id="wl-name" type="text" placeholder="First name" autocomplete="given-name"
+        style="flex:1;min-width:120px;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;color:#f0f0f0;font-size:0.95rem;outline:none" />
+      <input id="wl-email" type="email" inputmode="email" placeholder="your@email.com" autocomplete="email"
+        style="flex:2;min-width:200px;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;color:#f0f0f0;font-size:0.95rem;outline:none" />
+    </div>
+    <button onclick="joinWaitlist()" id="wl-btn"
+      style="width:100%;padding:15px;background:var(--green);color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:background 0.2s">
+      Reserve my spot &#8594;
+    </button>
+    <p style="color:var(--muted);font-size:0.82rem;margin-top:10px;font-weight:600">No credit card. No monthly fee. Ever.</p>
+  </div>
+
+  <div id="wl-success" style="display:none;color:var(--green);font-size:1.1rem;font-weight:700;margin-bottom:16px"></div>
+
+  <!-- Web Share API button (mobile only, hidden if API unavailable) -->
+  <button class="share-btn" id="share-btn" onclick="shareNative()" aria-label="Share FAWN with a friend">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    Share with a friend
+  </button>
+
+  <p style="color:var(--muted);font-size:0.8rem;margin-top:8px">
+    FDIC insured &#183; No hidden fees &#183; No credit check &#183; Cancel anytime
+  </p>
+</div>
+
+<script>
+const API_BASE = 'https://web-production-13d5b.up.railway.app';
+
+async function loadWaitlistCount() {
+  try {
+    const r = await fetch(API_BASE + '/waitlist/count');
+    const d = await r.json();
+    if (d.count > 0) {
+      const msg = d.count.toLocaleString() + ' student' + (d.count !== 1 ? 's' : '') + ' already on the waitlist';
+      const el = document.getElementById('wl-count-row');
+      if (el) el.textContent = msg;
+      const social = document.getElementById('social-waitlist-count');
+      if (social) social.textContent = 'Join ' + msg;
+      const exitPopup = document.getElementById('exit-popup-count');
+      if (exitPopup) exitPopup.textContent = 'Join ' + msg + ' for $0 banking';
+    }
+  } catch (e) {}
+}
+
+async function joinWaitlist() {
+  const email = document.getElementById('wl-email').value.trim();
+  const name = document.getElementById('wl-name').value.trim();
+  if (!email) { document.getElementById('wl-email').focus(); return; }
+
+  const btn = document.getElementById('wl-btn');
+  btn.disabled = true; btn.textContent = 'Saving your spot...';
+
+  try {
+    const r = await fetch(API_BASE + '/waitlist/join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, name: name, source: 'landing' })
+    });
+    const d = await r.json();
+    document.getElementById('wl-form').style.display = 'none';
+    const success = document.getElementById('wl-success');
+    success.style.display = 'block';
+    success.innerHTML = 'You\'re #' + d.position + ' on the list!<br><span style="font-size:0.85rem;font-weight:400;color:#aaa">We\'ll email ' + email + ' when you\'re up.</span>';
+    loadWaitlistCount();
+  } catch (e) {
+    btn.disabled = false; btn.textContent = 'Reserve my spot ->';
+    alert('Something went wrong  - is the backend running?');
+  }
+}
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// FAQ accordion
+function switchSchool(school, btn) {
+  document.querySelectorAll('.school-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.school-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + school).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+
+// Sticky CTA  - appears after scrolling past hero (desktop pill + mobile bar)
+const stickyCta = document.getElementById('sticky-cta');
+const mobileStickyBar = document.getElementById('mobile-sticky-bar');
+const heroEl = document.getElementById('hero');
+
+const heroObserver = new IntersectionObserver(function(entries) {
+  const pastHero = !entries[0].isIntersecting;
+  if (stickyCta) stickyCta.classList.toggle('visible', pastHero);
+  if (mobileStickyBar) mobileStickyBar.classList.toggle('visible', pastHero);
+}, { threshold: 0.1 });
+
+heroObserver.observe(heroEl);
+
+loadWaitlistCount();
+
+// Web Share API  - native share sheet on mobile
+async function shareNative() {
+  if (!navigator.share) return;
+  try {
+    await navigator.share({
+      title: 'FAWN  - Free Student Banking',
+      text: 'Banking that doesn\'t rob you. No monthly fees, no overdraft traps. FDIC-insured. Just $0.01 per transaction.',
+      url: 'https://goldstarorbital.github.io/fawn-landing'
+    });
+  } catch (e) {
+    // User cancelled or share failed  - no-op
+  }
+}
+
+// Hide share button if Web Share API is not supported
+(function() {
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn && !navigator.share) {
+    shareBtn.style.display = 'none';
+  }
+})();
+
+// Exit-intent popup
+let exitPopupShown = false;
+document.addEventListener('mouseleave', function(e) {
+  if (e.clientY <= 0 && !exitPopupShown) {
+    exitPopupShown = true;
+    document.getElementById('exit-popup').style.display = 'flex';
+  }
+});
+function closeExitPopup() {
+  document.getElementById('exit-popup').style.display = 'none';
+}
+function exitPopupJoin() {
+  closeExitPopup();
+  document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(function() {
+    const el = document.getElementById('wl-email');
+    if (el) el.focus();
+  }, 600);
+}
+</script>
+
+<!-- EXIT-INTENT POPUP -->
+<div id="exit-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center;padding:24px">
+  <div style="background:#161616;border:1px solid #2a2a2a;border-radius:20px;padding:40px 36px;max-width:420px;width:100%;text-align:center;position:relative">
+    <button onclick="closeExitPopup()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;line-height:1" aria-label="Close">&#215;</button>
+    <div style="font-size:2rem;margin-bottom:12px">&#9995;</div>
+    <div style="font-size:1.3rem;font-weight:800;margin-bottom:10px;line-height:1.3">Wait &#8212; before you go:</div>
+    <div id="exit-popup-count" style="color:#00c896;font-size:1.05rem;font-weight:700;margin-bottom:20px">Join the waitlist for $0 banking</div>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:28px;line-height:1.6">No monthly fees. No overdraft traps. Just a penny per transaction &#8212; FDIC insured.</p>
+    <button onclick="exitPopupJoin()" style="width:100%;padding:14px;background:#00c896;color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer">Reserve my free spot &#8594;</button>
+    <div style="margin-top:14px;color:#555;font-size:0.78rem;cursor:pointer" onclick="closeExitPopup()">No thanks, I prefer paying $35 overdraft fees</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">fawn</div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="mailto:alexmarcusgoldsmith@gmail.com">Contact</a>
+  </div>
+  <div class="footer-legal">
+    &#169; 2026 FAWN. Deposits held at Unit&#8217;s FDIC-member bank partner.<br />
+    Not investment advice. AI summaries are informational only.
+  </div>
+</footer>
+
+</body>
+</html>
+
+
+
