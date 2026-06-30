@@ -112,6 +112,7 @@
     .stat-breakdown { margin-top: 4px; font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
   </style>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -169,7 +170,7 @@
 </div>
 
 <script>
-const API = 'https://web-production-13d5b.up.railway.app';
+const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
 const ADMIN_KEY_SESSION_KEY = 'fawn_admin_key';
 
 function esc(s) {

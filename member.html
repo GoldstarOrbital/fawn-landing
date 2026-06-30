@@ -104,6 +104,7 @@
     posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
   </script>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -167,7 +168,7 @@
 </div>
 
 <script>
-const API = 'https://web-production-13d5b.up.railway.app';
+const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
 const TOKEN_KEY = 'fawn_member_token';
 
 function show(id) {

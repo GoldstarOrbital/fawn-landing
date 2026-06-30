@@ -239,6 +239,7 @@
     posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
   </script>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -475,7 +476,7 @@
   // Live counter: pulls real sales counts from the FAWN backend (which
   // reads from Stripe). Cached server-side for 60s. No fake data  - if the
   // API is down, the numbers stay at 0.
-  const STATS_URL = 'https://web-production-13d5b.up.railway.app/public/founding-stats';
+  const STATS_URL = (window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app') + '/public/founding-stats';
   async function refreshStats() {
     try {
       const r = await fetch(STATS_URL);
@@ -508,7 +509,7 @@
     btn.disabled = true;
     btn.textContent = 'Adding...';
     try {
-      const r = await fetch('https://web-production-13d5b.up.railway.app/waitlist/join', {
+      const r = await fetch((window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app') + '/waitlist/join', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({email, source: 'founding-page'})

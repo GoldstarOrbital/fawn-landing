@@ -1261,6 +1261,7 @@
     posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
   </script>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -2139,7 +2140,7 @@ updateArtFeeDial();
 </div>
 
 <script>
-const API_BASE = 'https://web-production-13d5b.up.railway.app';
+const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
 
 async function loadWaitlistCount() {
   try {

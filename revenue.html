@@ -93,6 +93,7 @@
     }
   </style>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -137,7 +138,7 @@
 </div>
 
 <script>
-  const STATS_URL = 'https://web-production-13d5b.up.railway.app/public/founding-stats';
+  const STATS_URL = (window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app') + '/public/founding-stats';
   const GOAL_CENTS = 100000; // $1000
 
   async function refresh() {

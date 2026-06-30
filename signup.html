@@ -82,6 +82,7 @@
     }
   </style>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
   <a class="logo" href="index.html">FAWN<span>.bank</span></a>
@@ -239,7 +240,7 @@
   <div class="login-link">Already have an account? <a href="login.html">Sign in</a></div>
 
   <script>
-    const API = 'https://web-production-13d5b.up.railway.app';
+    const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     let currentStep = 1;
     const TOTAL = 4;
 

@@ -45,6 +45,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
   <a class="logo" href="index.html">FAWN<span>.bank</span></a>
@@ -71,7 +72,7 @@
   </div>
 
   <script>
-    const API = 'https://web-production-13d5b.up.railway.app';
+    const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const TOKEN_KEY = 'fawn_token';
 
     function showErr(msg) {

@@ -534,6 +534,7 @@
     @keyframes fade-in-section { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -912,7 +913,7 @@
 </div>
 
 <script>
-const API = 'https://web-production-13d5b.up.railway.app';
+const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
 const TOKEN_KEY = 'fawn_token';
 
 function show(id) {

@@ -264,6 +264,7 @@
     posthog.init('phc_sQqndsVzunsDyQqa9SfWyJnEhwQ4hRooHTMrieoU9Lye',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'});
   </script>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
+  <script src="assets/fawn-api.js"></script>
 </head>
 <body>
 
@@ -839,7 +840,7 @@ function renderSchools() {
 renderSchools();
 
 // ── Suggest-a-deal modal ────────────────────────────────────────────────────
-const DEALS_API = 'https://web-production-13d5b.up.railway.app';
+const DEALS_API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
 
 function openSuggestModal() {
   document.getElementById('suggest-modal-overlay').classList.add('open');
