@@ -1,0 +1,148 @@
+/* Shared FAWN page polish inspired by WDS spacing discipline: consistent surfaces, tight controls, clear hierarchy. */
+:root {
+  --polish-green: #00c896;
+  --polish-ink: #f7fff9;
+  --polish-panel: rgba(13, 17, 15, 0.74);
+  --polish-line: rgba(255, 255, 255, 0.12);
+}
+
+body.fawn-polished {
+  min-height: 100vh;
+  background-color: #080b0a;
+  background-image: var(--page-atmosphere), linear-gradient(180deg, #080b0a 0%, #101211 100%) !important;
+  background-attachment: fixed;
+}
+
+body.fawn-polished::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.28;
+  background:
+    radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(0, 200, 150, 0.22), transparent 19rem),
+    repeating-linear-gradient(115deg, rgba(255,255,255,0.026) 0 1px, transparent 1px 22px);
+}
+
+body.fawn-polished::after {
+  content: "";
+  position: fixed;
+  right: clamp(-210px, -7vw, -70px);
+  bottom: clamp(-150px, -9vw, -60px);
+  width: min(56vw, 640px);
+  aspect-ratio: 980 / 760;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.38;
+  background: url("buck-dollar.svg") center / contain no-repeat;
+  filter: saturate(1.08) drop-shadow(0 34px 90px rgba(0, 0, 0, 0.45));
+  transform: translate3d(calc(var(--drift-x, 0) * -10px), calc(var(--drift-y, 0) * -8px), 0);
+  transition: transform 0.25s ease-out;
+}
+
+body.polish-roadmap { --page-atmosphere: radial-gradient(circle at 12% 18%, rgba(0, 200, 150, 0.24), transparent 25rem), radial-gradient(circle at 82% 16%, rgba(255, 215, 94, 0.16), transparent 24rem), linear-gradient(135deg, rgba(18, 48, 37, 0.8), rgba(7, 8, 10, 0.96)); }
+body.polish-about { --page-atmosphere: radial-gradient(circle at 18% 24%, rgba(255, 215, 94, 0.18), transparent 22rem), radial-gradient(circle at 82% 74%, rgba(0, 200, 150, 0.22), transparent 28rem), linear-gradient(140deg, rgba(20, 16, 10, 0.88), rgba(6, 12, 10, 0.98)); }
+body.polish-perks, body.polish-campus-savings { --page-atmosphere: radial-gradient(circle at 10% 78%, rgba(86, 159, 255, 0.16), transparent 24rem), radial-gradient(circle at 90% 12%, rgba(0, 200, 150, 0.22), transparent 24rem), linear-gradient(145deg, rgba(8, 20, 28, 0.92), rgba(7, 8, 10, 0.98)); }
+body.polish-revenue, body.polish-founding, body.polish-member { --page-atmosphere: radial-gradient(circle at 17% 17%, rgba(0, 200, 150, 0.22), transparent 23rem), radial-gradient(circle at 76% 78%, rgba(255, 91, 115, 0.12), transparent 24rem), linear-gradient(145deg, rgba(14, 26, 18, 0.94), rgba(8, 8, 8, 0.98)); }
+body.polish-login, body.polish-signup, body.polish-forgot-password, body.polish-reset-password, body.polish-settings, body.polish-dashboard, body.polish-admin { --page-atmosphere: radial-gradient(circle at 76% 18%, rgba(0, 200, 150, 0.2), transparent 22rem), radial-gradient(circle at 16% 82%, rgba(156, 119, 255, 0.12), transparent 23rem), linear-gradient(150deg, rgba(8, 11, 18, 0.94), rgba(6, 8, 8, 0.98)); }
+body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-military, body.polish-refer { --page-atmosphere: radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.1), transparent 22rem), radial-gradient(circle at 88% 74%, rgba(0, 200, 150, 0.18), transparent 26rem), linear-gradient(140deg, rgba(11, 15, 12, 0.96), rgba(10, 10, 10, 0.98)); }
+
+.fawn-polished nav,
+.fawn-polished .nav {
+  background: rgba(8, 10, 9, 0.76) !important;
+  border-bottom-color: rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(18px);
+}
+
+.fawn-polished .content,
+.fawn-polished main,
+.fawn-polished .container,
+.fawn-polished .hero-content,
+.fawn-polished section {
+  position: relative;
+}
+
+.fawn-polished .stack-item,
+.fawn-polished .card,
+.fawn-polished .feature-card,
+.fawn-polished .problem-card,
+.fawn-polished .step,
+.fawn-polished .roadmap-card,
+.fawn-polished .cta-block,
+.fawn-polished form {
+  border-color: rgba(255,255,255,0.12) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.fawn-word-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 8px 8px 0;
+  padding: 8px 11px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.055);
+  color: #e9fff5;
+  font-size: 0.84rem;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.fawn-polish-dock {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 210;
+  width: min(310px, calc(100vw - 36px));
+  padding: 14px;
+  border: 1px solid var(--polish-line);
+  border-radius: 18px;
+  background: var(--polish-panel);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.32);
+}
+
+.fawn-polish-dock button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: transparent;
+  color: var(--polish-ink);
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+}
+
+.fawn-polish-dock p {
+  margin: 10px 0 0 !important;
+  color: rgba(247,255,249,0.76) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.45 !important;
+}
+
+.fawn-buck-meter {
+  margin-top: 12px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+
+.fawn-buck-meter span {
+  display: block;
+  height: 100%;
+  width: var(--buck-meter, 42%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, #00c896, #ffd75e);
+  transition: width 0.35s ease;
+}
+
+@media (max-width: 720px) {
+  body.fawn-polished::after { width: 92vw; right: -42vw; opacity: 0.26; }
+  .fawn-polish-dock { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+}
