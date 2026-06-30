@@ -362,6 +362,10 @@
       border: 0;
     }
 
+    .film-frame iframe {
+      aspect-ratio: 16 / 9;
+    }
+
     .film-frame video {
       background: #020403;
     }
@@ -1378,18 +1382,15 @@
 <section class="film-section">
   <div class="film-wrap">
     <div class="film-frame reveal">
-      <video
-        src="assets/fawn-immortals-ready.mp4"
-        controls
-        preload="metadata"
-        playsinline
-        muted
-        poster="assets/fawn-video-poster.jpg">
-        <a href="assets/fawn-immortals-ready.mp4">Watch the FAWN launch video</a>
-      </video>
+      <iframe
+        src="https://www.youtube.com/embed/ijnjv6NTWS8?rel=0&modestbranding=1&playsinline=1"
+        title="FAWN launch video"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
       <div class="film-caption">
         <strong>Watch the FAWN launch spot</strong>
-        <span><a href="https://youtu.be/ijnjv6NTWS8?si=6hcc3X87me1von7f" target="_blank" rel="noopener" style="color:inherit">YouTube version</a></span>
+        <span><a href="https://youtu.be/ijnjv6NTWS8?si=6hcc3X87me1von7f" target="_blank" rel="noopener" style="color:inherit">Open on YouTube</a></span>
       </div>
     </div>
     <div class="film-card reveal">
