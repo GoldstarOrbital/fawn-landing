@@ -154,11 +154,28 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(0,200,150,0.13), transparent 26rem),
+        radial-gradient(circle at 88% 12%, rgba(255,214,94,0.09), transparent 22rem),
+        radial-gradient(circle at 78% 78%, rgba(66,135,245,0.08), transparent 24rem),
+        var(--bg);
       color: var(--text);
       line-height: 1.6;
       /* Prevent horizontal scroll on mobile */
       overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.24;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='180' height='92' viewBox='0 0 180 92' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2300c896' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='.7'%3E%3Cpath d='M13 43 C35 14 62 13 86 39 C112 68 145 70 166 41'/%3E%3Cpath d='M24 47 C43 28 64 27 83 48 C108 76 139 75 157 52'/%3E%3Cpath d='M55 31 C52 43 56 55 68 61 C79 67 90 61 95 51 C100 40 96 29 84 24 C72 18 61 21 55 31 Z'/%3E%3Cpath d='M75 20 L69 64'/%3E%3Cpath d='M67 28 C77 24 88 28 90 38'/%3E%3Cpath d='M60 52 C70 63 87 61 94 49'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 280px 144px;
+      background-position: 8px 88px;
     }
 
     /* NAV */
@@ -311,6 +328,135 @@
       box-shadow: 0 10px 24px rgba(0,200,150,0.25);
     }
 
+    /* FOUNDER FILM + INTERACTIVE MONEY DIAL */
+    .film-section {
+      padding: 18px 24px 104px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .film-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .film-frame {
+      position: relative;
+      min-height: 360px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      overflow: hidden;
+      background: #050505;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,200,150,0.06);
+    }
+
+    .film-frame video {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .film-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      background: rgba(8,8,8,0.76);
+      backdrop-filter: blur(14px);
+      color: #f0f0f0;
+      font-size: 0.86rem;
+    }
+
+    .film-card {
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 32px;
+      background:
+        linear-gradient(145deg, rgba(22,22,22,0.94), rgba(12,12,12,0.92)),
+        radial-gradient(circle at 80% 0%, rgba(0,200,150,0.18), transparent 18rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .film-card::after {
+      content: "$";
+      position: absolute;
+      right: -22px;
+      top: -18px;
+      font-size: 8rem;
+      line-height: 1;
+      color: rgba(0,200,150,0.08);
+      font-weight: 900;
+      transform: rotate(12deg);
+    }
+
+    .film-card h2 {
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .film-card h2 span { color: var(--green); }
+    .film-card p { color: #a8a8a8; margin-bottom: 20px; position: relative; z-index: 1; }
+
+    .money-dial {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.09);
+      position: relative;
+      z-index: 1;
+    }
+
+    .money-dial-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .money-dial-value {
+      color: var(--green);
+      font-size: 1.85rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .money-dial input { width: 100%; accent-color: var(--green); }
+
+    .money-dial-result {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .money-result-box {
+      padding: 12px;
+      border-radius: 14px;
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .money-result-label { color: #777; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.7px; }
+    .money-result-amount { color: #fff; font-weight: 850; font-size: 1.15rem; }
+
     /* STICKY WAITLIST CTA (desktop floating pill) */
     .sticky-cta {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -371,6 +517,40 @@
       overflow: hidden;
     }
 
+    .hero::before,
+    .hero::after {
+      content: "$";
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 112px;
+      height: 58px;
+      border: 1px solid rgba(0,200,150,0.32);
+      border-radius: 42% 58% 48% 52% / 60% 38% 62% 40%;
+      color: rgba(0,200,150,0.72);
+      font-weight: 900;
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, rgba(0,200,150,0.16), rgba(255,255,255,0.03));
+      box-shadow: inset 0 0 0 8px rgba(13,13,13,0.22), 0 24px 70px rgba(0,200,150,0.1);
+      transform: rotate(-15deg);
+      animation: buckDrift 9s ease-in-out infinite;
+    }
+
+    .hero::before { left: 2%; top: 28%; }
+    .hero::after {
+      right: 4%; bottom: 18%;
+      transform: rotate(13deg);
+      animation-delay: -3s;
+      color: rgba(255,214,94,0.72);
+      border-color: rgba(255,214,94,0.32);
+      background: linear-gradient(135deg, rgba(255,214,94,0.13), rgba(255,255,255,0.03));
+    }
+
+    @keyframes buckDrift {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -18px; }
+    }
+
     .hero-glow {
       position: absolute;
       width: 600px; height: 600px;
@@ -418,6 +598,47 @@
     }
 
     .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+    .hero-proof-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 28px auto 0;
+      max-width: 760px;
+    }
+
+    .hero-proof-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: #d9d9d9;
+      font-size: 0.82rem;
+      font-weight: 650;
+      backdrop-filter: blur(8px);
+    }
+
+    .texture-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .texture-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -52px auto;
+      width: 150px;
+      height: 84px;
+      border: 1px solid rgba(0,200,150,0.22);
+      border-radius: 48% 52% 45% 55% / 60% 40% 58% 42%;
+      transform: rotate(-17deg);
+      background: rgba(0,200,150,0.06);
+      pointer-events: none;
+    }
 
     .btn-primary {
       padding: 16px 36px;
@@ -1007,6 +1228,12 @@
       .compare-section { padding: 32px 20px; overflow-x: auto; }
       .compare-table { min-width: 480px; }
 
+      .film-wrap { grid-template-columns: 1fr; }
+      .film-frame, .film-frame video { min-height: 260px; }
+      .film-card { padding: 24px; }
+      .film-caption { position: static; border-radius: 0; border-left: none; border-right: none; border-bottom: none; flex-direction: column; align-items: flex-start; }
+      .money-dial-result { grid-template-columns: 1fr; }
+
       .roadmap-highlight-card { padding: 32px; }
       .roadmap-highlight-card h3 { font-size: 1.5rem; }
 
@@ -1107,8 +1334,50 @@
     <div class="trust-item"><span class="trust-icon">&#10003;</span> $0.01 per transaction</div>
     <div class="trust-item"><span class="trust-icon">&#10003;</span> No credit check</div>
   </div>
+  <div class="hero-proof-strip" aria-label="FAWN values">
+    <div class="hero-proof-pill">💵 tiny fees</div>
+    <div class="hero-proof-pill">🛡️ real protections</div>
+    <div class="hero-proof-pill">🎓 made for campus life</div>
+    <div class="hero-proof-pill">⚡ fast web app first</div>
+  </div>
   <p class="hero-web-note">Currently web-based &#8212; iOS and Android apps coming Q4 2026.</p>
 </div>
+
+<!-- FOUNDER FILM -->
+<section class="film-section">
+  <div class="film-wrap">
+    <div class="film-frame reveal">
+      <video src="assets/fawn-ad.mp4" controls playsinline preload="metadata" aria-label="FAWN ad video"></video>
+      <div class="film-caption">
+        <strong>Watch the FAWN pitch</strong>
+        <span>built from overdraft anger into student banking</span>
+      </div>
+    </div>
+    <div class="film-card reveal">
+      <div class="section-label" style="text-align:left;margin-bottom:14px">Founder note</div>
+      <h2>A bank account with a <span>human pulse.</span></h2>
+      <p>FAWN is not trying to look like another sterile fintech dashboard. It is built around the feeling of checking your balance before class, splitting food with friends, and knowing the fee model is not quietly hunting you.</p>
+      <p>Every buck should feel like it still belongs to you.</p>
+      <div class="money-dial" aria-label="Interactive fee comparison">
+        <div class="money-dial-top">
+          <span style="color:#aaa;font-weight:700">Monthly transactions</span>
+          <span class="money-dial-value" id="art-txn-count">50</span>
+        </div>
+        <input id="art-fee-slider" type="range" min="5" max="180" value="50" oninput="updateArtFeeDial()" />
+        <div class="money-dial-result">
+          <div class="money-result-box">
+            <div class="money-result-label">FAWN annual fee</div>
+            <div class="money-result-amount" id="art-fawn-fee">$6</div>
+          </div>
+          <div class="money-result-box">
+            <div class="money-result-label">Typical big-bank baseline</div>
+            <div class="money-result-amount" id="art-bank-fee">$180</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- PROBLEM -->
 <section>
@@ -1116,19 +1385,19 @@
   <div class="section-title">Banks were not built for you.</div>
   <p class="section-sub">The average Gen Z checking account costs $180/year in fees. That&#8217;s not a bug &#8212; it&#8217;s the business model.</p>
   <div class="problem-grid reveal-group">
-    <div class="problem-card reveal">
+    <div class="problem-card reveal texture-card">
       <div class="problem-stat">$35</div>
       <div class="problem-desc">Overdraft fee charged on a $5 mistake. A 700% penalty on your worst day.</div>
     </div>
-    <div class="problem-card reveal">
+    <div class="problem-card reveal texture-card">
       <div class="problem-stat">$180</div>
       <div class="problem-desc">Average annual fee burden on a Gen Z checking account. That&#8217;s money you earned.</div>
     </div>
-    <div class="problem-card reveal">
+    <div class="problem-card reveal texture-card">
       <div class="problem-stat">67%</div>
       <div class="problem-desc">Of Gen Z distrust traditional banks. (Deloitte, 2024.) They&#8217;re right to.</div>
     </div>
-    <div class="problem-card reveal">
+    <div class="problem-card reveal texture-card">
       <div class="problem-stat">0</div>
       <div class="problem-desc">Neobanks built specifically for individual college students. Until now.</div>
     </div>
@@ -1712,6 +1981,19 @@ function updateCalc() {
 }
 
 if (document.getElementById('calc-widget')) updateCalc();
+
+function updateArtFeeDial() {
+  const slider = document.getElementById('art-fee-slider');
+  if (!slider) return;
+  const txns = parseInt(slider.value, 10);
+  const fawn = Math.max(1, Math.round(txns * 0.01 * 12));
+  const bank = 180;
+  document.getElementById('art-txn-count').textContent = txns;
+  document.getElementById('art-fawn-fee').textContent = '$' + fawn.toLocaleString('en-US');
+  document.getElementById('art-bank-fee').textContent = '$' + bank.toLocaleString('en-US');
+}
+
+updateArtFeeDial();
 
 </script>
 
