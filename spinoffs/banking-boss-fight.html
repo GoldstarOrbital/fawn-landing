@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAWN Banking Boss Fight</title>
+  <link rel="preload" as="image" href="../assets/video-captures/dashboard.png" />
+  <style>
+    :root { --green:#00c896; --gold:#f5b732; --red:#ff4d68; --ink:#030807; --muted:#b4c7be; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #020504; color: white; font-family: Inter, ui-sans-serif, system-ui, "Segoe UI", sans-serif; overflow: hidden; }
+    .stage { position: fixed; inset: 0; overflow: hidden; background:
+      radial-gradient(circle at 72% 28%, rgba(0,200,150,.28), transparent 28%),
+      radial-gradient(circle at 20% 58%, rgba(255,77,104,.22), transparent 24%),
+      linear-gradient(120deg, #020504, #08221b 52%, #03100d); }
+    .rain { position:absolute; inset:-20%; background-image: repeating-linear-gradient(100deg, transparent 0 34px, rgba(0,200,150,.15) 35px 36px, transparent 37px 72px); animation: rain 5s linear infinite; opacity:.52; }
+    .grid { position:absolute; inset:0; background-image: linear-gradient(rgba(0,200,150,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,200,150,.08) 1px, transparent 1px); background-size: 72px 72px; transform: perspective(600px) rotateX(58deg) translateY(210px); transform-origin: bottom; opacity:.32; }
+    .panel { position:absolute; left:64px; top:66px; width:460px; padding:26px; border:1px solid rgba(255,255,255,.14); border-radius:24px; background: rgba(0,0,0,.66); box-shadow: 0 30px 90px rgba(0,0,0,.45); animation: slam .8s both; }
+    .tag { display:inline-flex; padding:8px 14px; border-radius:100px; background:rgba(0,200,150,.18); color:var(--green); font-size:12px; font-weight:900; letter-spacing:1.6px; text-transform:uppercase; }
+    h1 { margin:22px 0 10px; font-size:60px; line-height:.9; letter-spacing:-1.6px; }
+    p { color:var(--muted); font-size:20px; line-height:1.45; margin:0; }
+    .meter { margin-top:28px; }
+    .meter-label { color:#dcece5; font-weight:800; font-size:15px; margin-bottom:10px; }
+    .bar { height:18px; border-radius:100px; background:#071612; border:1px solid rgba(0,200,150,.35); overflow:hidden; }
+    .fill { height:100%; border-radius:inherit; width:0; background:linear-gradient(90deg,var(--green),var(--gold)); animation: fill 12s linear forwards; }
+    .villain { position:absolute; right:70px; top:90px; width:300px; height:300px; border-radius:42% 58% 48% 52%; background: radial-gradient(circle at 50% 35%, rgba(255,77,104,.45), rgba(40,0,12,.9)); border:1px solid rgba(255,77,104,.3); box-shadow:0 0 90px rgba(255,77,104,.35); animation: villain 6s ease-in-out infinite; }
+    .villain::before { content:"OLD FEES"; position:absolute; inset:118px 0 auto; text-align:center; font-size:34px; font-weight:950; letter-spacing:-1px; color:#ffdce3; text-shadow:0 0 18px rgba(255,77,104,.8); }
+    .screen { position:absolute; right:190px; bottom:86px; width:575px; height:362px; border-radius:28px; overflow:hidden; border:1px solid rgba(0,200,150,.28); box-shadow:0 34px 120px rgba(0,0,0,.62); animation: screenIn 1.1s .45s both; }
+    .screen img { width:100%; height:100%; object-fit:cover; filter:brightness(.74) saturate(1.25); }
+    .screen::after { content:"AI NEWS + CAMPUS SAVINGS ONLINE"; position:absolute; left:22px; bottom:20px; padding:10px 14px; border-radius:14px; background:rgba(0,0,0,.7); color:var(--green); font-weight:900; font-size:13px; letter-spacing:1px; }
+    .buck { position:absolute; right:570px; bottom:52px; width:220px; opacity:.9; filter:drop-shadow(0 0 34px rgba(0,200,150,.55)); animation: buck 3s ease-in-out infinite; }
+    .blast { position:absolute; inset:auto 396px 236px auto; width:230px; height:4px; background:linear-gradient(90deg, transparent, var(--green), var(--gold)); box-shadow:0 0 30px var(--green); animation: blast 1.2s ease-in-out infinite; }
+    .beats { position:absolute; left:64px; bottom:42px; display:flex; gap:10px; color:#dcece5; font-size:15px; font-weight:800; }
+    .beats span { padding:10px 14px; border-radius:999px; background:rgba(0,0,0,.54); border:1px solid rgba(255,255,255,.12); animation: pop 8s infinite; }
+    .beats span:nth-child(2){animation-delay:1s}.beats span:nth-child(3){animation-delay:2s}.beats span:nth-child(4){animation-delay:3s}
+    @keyframes rain { to { transform: translateX(-180px); } }
+    @keyframes slam { from { transform:translateX(-50px) scale(.96); opacity:0; } to { transform:none; opacity:1; } }
+    @keyframes fill { to { width:96%; } }
+    @keyframes villain { 50% { transform: translateY(22px) scale(.94); filter:brightness(.7); } }
+    @keyframes screenIn { from { transform:translateY(44px) scale(.92); opacity:0; } to { transform:none; opacity:1; } }
+    @keyframes buck { 50% { transform: translateY(-12px); } }
+    @keyframes blast { 50% { transform:scaleX(1.22); opacity:.55; } }
+    @keyframes pop { 10%, 22% { border-color:var(--green); color:var(--green); transform:translateY(-4px); } }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="rain"></div><div class="grid"></div>
+    <section class="panel">
+      <div class="tag">FAWN versus old banking</div>
+      <h1>Boss fight: fees.</h1>
+      <p>A penny per transaction. No monthly fee. No overdraft penalty. The buck fights back.</p>
+      <div class="meter"><div class="meter-label">Dollar Buck Meter</div><div class="bar"><div class="fill"></div></div></div>
+    </section>
+    <div class="villain"></div>
+    <div class="screen"><img src="../assets/video-captures/dashboard.png" alt="FAWN app dashboard" /></div>
+    <img class="buck" src="../assets/buck-dollar-real.png" alt="" />
+    <div class="blast"></div>
+    <div class="beats"><span>$0 monthly</span><span>$0 overdraft</span><span>AI news</span><span>Campus savings</span></div>
+  </main>
+</body>
+</html>
