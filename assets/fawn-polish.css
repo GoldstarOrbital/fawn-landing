@@ -22,6 +22,7 @@ body.fawn-polished::before {
   opacity: 0.28;
   background:
     radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(0, 200, 150, 0.22), transparent 19rem),
+    url("fawn-quarter-real.png") left clamp(92px, 14vw, 180px) top clamp(110px, 18vh, 220px) / min(22vw, 210px) auto no-repeat,
     repeating-linear-gradient(115deg, rgba(255,255,255,0.026) 0 1px, transparent 1px 22px);
 }
 
@@ -75,34 +76,82 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
   box-shadow: 0 22px 70px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
+.fawn-feature-panel {
+  max-width: 980px;
+  margin: 22px auto 26px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 22px;
+  background: rgba(9, 13, 12, 0.72);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
 .fawn-feature-tabs {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
-  margin: 18px 0 22px;
+  margin-bottom: 12px;
 }
 
 .fawn-feature-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
-  background: rgba(255,255,255,0.055);
-  color: #e9fff5;
+  min-height: 54px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.045);
+  color: rgba(247,255,249,0.76);
+  font: inherit;
   font-size: 0.84rem;
-  font-weight: 780;
-  line-height: 1;
+  font-weight: 850;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.fawn-feature-tab::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
+.fawn-feature-tab:hover,
+.fawn-feature-tab.active {
+  transform: translateY(-1px);
+  color: #03110d;
   background: var(--polish-green);
-  box-shadow: 0 0 16px rgba(0,200,150,0.55);
+  border-color: var(--polish-green);
+}
+
+.fawn-feature-output {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, rgba(0,200,150,0.12), rgba(255,255,255,0.035));
+}
+
+.fawn-feature-mark {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(0,200,150,0.16);
+  color: var(--polish-green);
+  font-weight: 950;
+  font-size: 1.05rem;
+}
+
+.fawn-feature-output h3 {
+  margin: 0 0 4px;
+  color: #f7fff9;
+  font-size: 1.04rem;
+}
+
+.fawn-feature-output p {
+  margin: 0 !important;
+  color: rgba(247,255,249,0.72) !important;
+  font-size: 0.92rem !important;
+  line-height: 1.48 !important;
 }
 
 .fawn-polished a[href^="http"],
@@ -124,4 +173,6 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
 
 @media (max-width: 720px) {
   body.fawn-polished::after { width: 92vw; right: -42vw; opacity: 0.26; }
+  .fawn-feature-tabs { grid-template-columns: 1fr 1fr; }
+  .fawn-feature-output { grid-template-columns: 1fr; }
 }
