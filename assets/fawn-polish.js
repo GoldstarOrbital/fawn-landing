@@ -3,59 +3,34 @@
   const page = file.replace(/\.html$/i, "") || "index";
   document.body.classList.add("fawn-polished", `polish-${page}`);
 
-  const blurbs = {
-    roadmap: ["🗺️ next moves", "🏦 safer money rails", "🎓 student-first build"],
-    about: ["🦌 founder-built", "💵 fewer fee traps", "🧠 plain-English money"],
-    perks: ["🎁 useful perks", "🍜 campus savings", "⚡ quick wins"],
-    "campus-savings": ["🍕 local deals", "📚 student budget", "💚 no bank nonsense"],
-    revenue: ["📈 transparent model", "💵 penny economics", "🛡️ aligned incentives"],
-    founding: ["🔥 early believer", "🎟️ locked-in perks", "🦌 buck-backed energy"],
-    member: ["🏅 member status", "💌 updates", "✨ founder circle"],
-    login: ["🔐 secure access", "⚡ fast return", "💚 welcome back"],
-    signup: ["🎓 campus-ready", "🛡️ protected start", "💵 fee-light"],
-    dashboard: ["📊 money snapshot", "⚡ quick actions", "🦌 calm controls"],
-    settings: ["⚙️ tuned controls", "🛡️ privacy first", "💚 your account"],
-    refer: ["🤝 bring friends", "🎁 share upside", "📣 campus signal"],
-    military: ["🇺🇸 service-aware", "🛡️ respect built in", "💵 less friction"],
-    privacy: ["🛡️ clear privacy", "📄 no fog", "🔐 protected data"],
-    terms: ["📄 plain terms", "⚖️ clear edges", "💚 fair use"],
-    "founding-terms": ["🎟️ founder terms", "🔁 refund clarity", "📄 no surprises"],
+  const tabs = {
+    roadmap: ["Next moves", "Safer money rails", "Student-first build"],
+    about: ["Founder-built", "Plain-English money", "FDIC partner rails"],
+    perks: ["Student discounts", "Campus savings", "Software perks"],
+    "campus-savings": ["Location-aware", "School colors", "Daily deal picks"],
+    revenue: ["Transparent model", "Penny economics", "Aligned incentives"],
+    founding: ["Early access", "Class A share option", "Roadmap voice"],
+    member: ["Member status", "Referral tracking", "Founder updates"],
+    login: ["Secure access", "Fast return", "Account dashboard"],
+    signup: ["School profile", "Location setup", "Military option"],
+    dashboard: ["Balance snapshot", "P2P controls", "Card tools"],
+    settings: ["Profile controls", "School updates", "Service status"],
+    refer: ["Share code", "Campus growth", "Invite rewards"],
+    military: ["Military status", "Veteran support", "Fee-light banking"],
+    privacy: ["Data boundaries", "Clear terms", "Account protection"],
+    terms: ["Plain terms", "Fair use", "Launch clarity"],
+    "founding-terms": ["Refund clarity", "Founder perks", "Share option"],
   };
 
-  const chosen = blurbs[page] || ["🦌 FAWN energy", "💵 dollar-buck backdrop", "✨ polished page"];
+  const chosen = tabs[page] || ["School profile", "Location-aware", "Military option"];
   const target = document.querySelector("h1, .hero h1, main, .content");
-  if (target && !document.querySelector(".fawn-word-chip")) {
-    const chipWrap = document.createElement("div");
-    chipWrap.setAttribute("aria-label", "Page highlights");
-    chipWrap.style.margin = "18px 0 22px";
-    chipWrap.innerHTML = chosen.map((item) => `<span class="fawn-word-chip">${item}</span>`).join("");
-    target.insertAdjacentElement(target.matches("h1, .hero h1") ? "afterend" : "afterbegin", chipWrap);
+  if (target && !document.querySelector(".fawn-feature-tabs")) {
+    const tabWrap = document.createElement("div");
+    tabWrap.className = "fawn-feature-tabs";
+    tabWrap.setAttribute("aria-label", "Personalized FAWN features");
+    tabWrap.innerHTML = chosen.map((item) => `<span class="fawn-feature-tab">${item}</span>`).join("");
+    target.insertAdjacentElement(target.matches("h1, .hero h1") ? "afterend" : "afterbegin", tabWrap);
   }
-
-  const dock = document.createElement("aside");
-  dock.className = "fawn-polish-dock";
-  dock.innerHTML = `
-    <button type="button" aria-expanded="true">
-      <span>🦌 Dollar-buck mode</span>
-      <span aria-hidden="true">↕</span>
-    </button>
-    <p>Move your cursor to steer the background light. Tap this panel to remix the buck meter.</p>
-    <div class="fawn-buck-meter" aria-hidden="true"><span></span></div>
-  `;
-  document.body.appendChild(dock);
-
-  const evolution = document.createElement("button");
-  evolution.type = "button";
-  evolution.className = "fawn-evolution";
-  evolution.setAttribute("aria-label", "Hover to grow the quarter fawn into the dollar buck");
-  evolution.innerHTML = '<span class="fawn-evolution-label">25¢ fawn → $ buck</span>';
-  document.body.appendChild(evolution);
-
-  const meter = dock.querySelector(".fawn-buck-meter span");
-  dock.querySelector("button").addEventListener("click", () => {
-    const width = 28 + Math.round(Math.random() * 68);
-    meter.style.setProperty("--buck-meter", `${width}%`);
-  });
 
   window.addEventListener("pointermove", (event) => {
     const x = Math.round((event.clientX / Math.max(window.innerWidth, 1)) * 100);
