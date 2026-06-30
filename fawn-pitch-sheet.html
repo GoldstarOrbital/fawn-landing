@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAWN Pitch Sheet</title>
+  <style>
+    :root {
+      --ink: #06100d;
+      --green: #00c896;
+      --gold: #f5b732;
+      --paper: #f6faf7;
+      --muted: #557168;
+      --line: #d9e5df;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #eaf3ef;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 32px;
+    }
+    .sheet {
+      max-width: 1120px;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 28px 80px rgba(6, 16, 13, .13);
+      overflow: hidden;
+    }
+    header {
+      padding: 42px 48px;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(0,200,150,.22), transparent 34%),
+        linear-gradient(135deg, #06100d, #0d2b22);
+      color: white;
+    }
+    .eyebrow { color: var(--green); font-size: 12px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase; }
+    h1 { font-size: clamp(42px, 6vw, 74px); line-height: .9; letter-spacing: -2px; margin: 18px 0 14px; max-width: 780px; }
+    .sub { color: #cfe1d9; font-size: 18px; line-height: 1.6; max-width: 820px; }
+    section { padding: 34px 48px; border-top: 1px solid var(--line); }
+    h2 { margin: 0 0 18px; font-size: 26px; letter-spacing: -.5px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      min-height: 145px;
+    }
+    .num { font-size: 34px; font-weight: 900; letter-spacing: -1px; color: var(--ink); }
+    .label { color: var(--muted); font-size: 13px; line-height: 1.45; margin-top: 6px; }
+    .accent { color: var(--green); }
+    table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; letter-spacing: .9px; text-transform: uppercase; background: #f0f7f4; }
+    tr:last-child td { border-bottom: 0; }
+    .note { color: var(--muted); font-size: 13px; line-height: 1.65; margin-top: 12px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill { border: 1px solid rgba(0,200,150,.28); background: rgba(0,200,150,.08); color: #075c49; padding: 10px 12px; border-radius: 999px; font-weight: 800; font-size: 13px; }
+    footer { padding: 24px 48px 34px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    a { color: #05785f; }
+    @media (max-width: 820px) { body { padding: 14px; } header, section, footer { padding-left: 22px; padding-right: 22px; } .grid { grid-template-columns: 1fr; } }
+    @media print { body { background: white; padding: 0; } .sheet { box-shadow: none; border: 0; border-radius: 0; } a { color: inherit; text-decoration: none; } }
+  </style>
+</head>
+<body>
+  <article class="sheet">
+    <header>
+      <div class="eyebrow">FAWN investor pitch sheet - source-backed draft</div>
+      <h1>Student-first banking that turns fee pain into product loyalty.</h1>
+      <div class="sub">FAWN is building a low-friction account experience for students and young adults: penny-per-transaction pricing, no overdraft penalty positioning, AI-personalized financial news, campus savings, military savings, and founding-member upside.</div>
+    </header>
+
+    <section>
+      <h2>Backend Readiness Snapshot</h2>
+      <div class="grid">
+        <div class="card"><div class="num">95</div><div class="label">backend tests passed locally on June 30, 2026</div></div>
+        <div class="card"><div class="num">0</div><div class="label">failing backend tests in the latest local run</div></div>
+        <div class="card"><div class="num">$0.01</div><div class="label">public FAWN transaction-fee model used in product copy</div></div>
+      </div>
+      <div class="note">Current backend includes auth, Unit account flows, transactions, cards, P2P, funding, referral, admin, webhooks, campus deals, AI news, and member/payment surfaces. Test warnings remain, mostly dependency/deprecation warnings.</div>
+    </section>
+
+    <section>
+      <h2>Market Signals With Sources</h2>
+      <div class="grid">
+        <div class="card"><div class="num">$5.83B</div><div class="label">reported U.S. bank overdraft/NSF fee revenue in 2023, down from $11.96B in 2019, per CFPB.</div></div>
+        <div class="card"><div class="num">15.3M</div><div class="label">U.S. undergraduate enrollment in spring 2025, per National Student Clearinghouse Research Center.</div></div>
+        <div class="card"><div class="num">$20k-$24,999</div><div class="label">median education debt range among U.S. borrowers with outstanding education debt in 2024, per Federal Reserve SHED.</div></div>
+      </div>
+      <div class="note">Additional context: FDIC reported a 2023 unbanked household rate of 4.2%, representing 5.6 million households. Sources are listed at the bottom of this sheet.</div>
+    </section>
+
+    <section>
+      <h2>Product Wedges</h2>
+      <div class="pill-row">
+        <span class="pill">Penny transaction model</span>
+        <span class="pill">No monthly-fee positioning</span>
+        <span class="pill">No overdraft-penalty positioning</span>
+        <span class="pill">Campus savings by school</span>
+        <span class="pill">Military/veteran savings</span>
+        <span class="pill">Saved AI news queries</span>
+        <span class="pill">Founding member offer</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Scenario Math, Not Forecasts</h2>
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>Assumption</th><th>Transaction-fee revenue only</th><th>What it excludes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1% undergraduate penetration</td>
+            <td>153,000 users, calculated as 1% of 15.3M undergraduates. 50 transactions/month/user at $0.01.</td>
+            <td><strong>$918,000/year</strong></td>
+            <td>Interchange, subscriptions, card economics, float, affiliate/savings revenue, credit products.</td>
+          </tr>
+          <tr>
+            <td>3% undergraduate penetration</td>
+            <td>459,000 users. Same 50 transactions/month/user penny-fee assumption.</td>
+            <td><strong>$2.754M/year</strong></td>
+            <td>Same exclusions. This is arithmetic, not a projection.</td>
+          </tr>
+          <tr>
+            <td>5% undergraduate penetration</td>
+            <td>765,000 users. Same 50 transactions/month/user penny-fee assumption.</td>
+            <td><strong>$4.59M/year</strong></td>
+            <td>Same exclusions. Requires acquisition, retention, compliance, sponsor-bank, and unit economics validation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note">Formula: users x 50 monthly transactions x $0.01 x 12 months. Replace the 50-transaction assumption with real production transaction data once available.</div>
+    </section>
+
+    <section>
+      <h2>What Carta Can Add Once Connected</h2>
+      <table>
+        <thead><tr><th>Needed from Carta/Form ADV workflow</th><th>Use in pitch sheet</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Firm context and reporting date</td><td>Investor/compliance-backed entity snapshot.</td><td>Blocked: Carta MCP tools not exposed in this Codex thread.</td></tr>
+          <tr><td>Regulatory AUM / fund detail / capital activity</td><td>Can support investor profile or adviser/fund credibility if applicable.</td><td>Blocked until Carta context is available.</td></tr>
+          <tr><td>Investor demographics and distinct LP aggregates</td><td>Can support fundraising-compliance artifacts, not generic fintech TAM.</td><td>Blocked until Carta context is available.</td></tr>
+        </tbody>
+      </table>
+      <div class="note">Per the Carta Form ADV skill, generated Carta artifacts must be an interactive HTML filing guide plus Excel reference. Those require Carta MCP access and a firm context. No Carta numbers are included here.</div>
+    </section>
+
+    <footer>
+      Sources: CFPB Data Spotlight on 2023 overdraft/NSF revenue, National Student Clearinghouse Research Center spring 2025 enrollment estimates, Federal Reserve SHED 2024 education debt, FDIC 2023 National Survey of Unbanked and Underbanked Households. Backend metrics are from the local FAWN backend test run on June 30, 2026.
+      <br />
+      Links: <a href="https://www.consumerfinance.gov/data-research/research-reports/data-spotlight-overdraft-nsf-revenue-in-2023-down-more-than-50-versus-pre-pandemic-levels-saving-consumers-over-6-billion-annually/">CFPB overdraft/NSF revenue</a> ·
+      <a href="https://nscresearchcenter.org/current-term-enrollment-estimates/">NSCRC enrollment estimates</a> ·
+      <a href="https://www.federalreserve.gov/publications/2025-economic-well-being-of-us-households-in-2024-higher-education-and-student-loans.htm">Federal Reserve education debt</a> ·
+      <a href="https://www.fdic.gov/household-survey">FDIC household survey</a>
+    </footer>
+  </article>
+</body>
+</html>
