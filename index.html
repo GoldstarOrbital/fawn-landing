@@ -1137,6 +1137,53 @@
 
     .news-disclaimer-preview { font-size: 0.78rem; color: var(--muted); }
 
+    .news-search-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .news-search-row input {
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 13px 14px;
+      font: inherit;
+      outline: none;
+    }
+    .news-search-row input:focus { border-color: var(--green); }
+    .news-search-row button,
+    .news-preset-row button,
+    .news-app-link {
+      border: 1px solid rgba(0,200,150,0.4);
+      border-radius: 12px;
+      background: rgba(0,200,150,0.12);
+      color: var(--green);
+      font-weight: 800;
+      padding: 12px 16px;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .news-preset-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .news-card-preview {
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 10px;
+      background: rgba(255,255,255,0.03);
+    }
+    .news-card-preview-title { font-weight: 800; line-height: 1.45; margin-bottom: 8px; }
+    .news-card-preview-meta { color: var(--green); font-size: 0.74rem; font-weight: 800; text-transform: uppercase; }
+    .news-card-preview-summary { color: var(--muted); font-size: 0.88rem; line-height: 1.65; margin-top: 10px; }
+
     /* CTA SECTION */
     .cta-section {
       text-align: center; padding: 100px 24px;
@@ -1231,6 +1278,7 @@
 
       /* Extra bottom padding on CTA section to clear mobile sticky bar */
       .cta-section { padding-bottom: 120px; }
+      .news-search-row { grid-template-columns: 1fr; }
     }
   </style>
   <script>
@@ -1255,7 +1303,7 @@
     <a href="#security">Security</a>
     <a href="#faq">FAQ</a>
     <a href="#news-feature">AI News</a>
-    <a href="login.html">Log in</a>
+    <a href="https://goldstarorbital.github.io/fawn-frontend/">Log in</a>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <a href="signup.html" class="nav-cta">Open Account &#8594;</a>
@@ -1277,7 +1325,7 @@
   <a href="#security" onclick="closeMobileMenu()">Security</a>
   <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
   <a href="#news-feature" onclick="closeMobileMenu()">AI News</a>
-  <a href="login.html" onclick="closeMobileMenu()">Log in</a>
+  <a href="https://goldstarorbital.github.io/fawn-frontend/" onclick="closeMobileMenu()">Log in</a>
   <a href="signup.html" onclick="closeMobileMenu()" style="color:var(--green);font-weight:700">Open Account &#8594;</a>
   <a href="#waitlist" onclick="closeMobileMenu()" style="color:var(--green);font-weight:700">Join Waitlist &#8594;</a>
 </div>
@@ -1771,14 +1819,24 @@
 <section id="news-feature">
   <div class="section-label">AI News Layer</div>
   <div class="section-title">The world affects your money.<br />We explain how.</div>
-  <p class="section-sub">Every week, FAWN&#8217;s AI summarizes what&#8217;s happening in the economy &#8212; interest rates, inflation, jobs &#8212; in plain English. No jargon. No panic. Just context.</p>
+  <p class="section-sub">Search any money topic and FAWN pulls a tailored, plain-English news stream from multiple sources. The full app keeps refreshing every second while you watch.</p>
   <div class="news-preview">
     <div class="news-preview-header">
-      <div class="live-badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span> AI Summary</div>
-      <span style="color:var(--muted);font-size:0.82rem">Economy &#183; Interest Rates &#183; Inflation</span>
+      <div class="live-badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span> Live AI News</div>
+      <span id="landing-news-status" style="color:var(--muted);font-size:0.82rem">Multiple sources &#183; 1s refresh in app</span>
     </div>
-    <div class="news-body">
-      The Federal Reserve held interest rates steady this month, signaling that while inflation has cooled significantly from its 2022 peak, policymakers aren&#8217;t ready to cut rates yet. For you, this means savings account yields stay relatively high &#8212; if you have money sitting in cash, it&#8217;s actually earning something right now. On the jobs front, hiring slowed in tech but remained strong in healthcare and hospitality, which tends to keep consumer spending stable heading into summer.
+    <div class="news-search-row">
+      <input id="landing-news-query" type="search" placeholder="Try: student loans, AI banking, housing, military benefits" />
+      <button type="button" onclick="loadLandingNews(true)">Search</button>
+      <a class="news-app-link" href="https://goldstarorbital.github.io/fawn-frontend/?tab=news">Open in app</a>
+    </div>
+    <div class="news-preset-row">
+      <button type="button" onclick="setLandingNewsQuery('student loans scholarships FAFSA')">Student money</button>
+      <button type="button" onclick="setLandingNewsQuery('AI banking fintech payments')">AI fintech</button>
+      <button type="button" onclick="setLandingNewsQuery('military benefits veterans education')">Military benefits</button>
+    </div>
+    <div class="news-body" id="landing-news-feed">
+      Loading live money news...
     </div>
     <div class="news-disclaimer-preview">
       This is general financial news for informational purposes only. It is not investment advice. FAWN does not manage or invest your deposits.
@@ -2252,6 +2310,65 @@ function exitPopupJoin() {
     if (el) el.focus();
   }, 600);
 }
+
+let landingNewsInFlight = false;
+
+function landingNewsEsc(value) {
+  return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function setLandingNewsQuery(query) {
+  const input = document.getElementById('landing-news-query');
+  if (input) input.value = query;
+  loadLandingNews(true);
+}
+
+async function loadLandingNews(manual) {
+  if (landingNewsInFlight && !manual) return;
+  landingNewsInFlight = true;
+  const feed = document.getElementById('landing-news-feed');
+  const input = document.getElementById('landing-news-query');
+  const status = document.getElementById('landing-news-status');
+  const query = (input && input.value ? input.value : '').trim();
+  if (manual && feed) feed.style.opacity = '0.45';
+  try {
+    const params = new URLSearchParams();
+    if (query) params.set('q', query);
+    params.set('limit', '5');
+    const resp = await fetch(window.FAWN_API_BASE + '/news/public-headlines?' + params.toString(), { cache: 'no-store' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || 'News unavailable');
+    const articles = (data.articles || []).slice(0, 3);
+    if (status) status.textContent = articles.length ? `Multiple sources - ${articles.length} live matches` : 'No matches yet';
+    if (!articles.length) {
+      feed.innerHTML = 'No stories matched that topic yet. Try a broader query like student money, housing, or AI fintech.';
+      return;
+    }
+    feed.innerHTML = articles.map(article => `
+      <div class="news-card-preview">
+        <div class="news-card-preview-meta">${landingNewsEsc(article.source || 'Live source')}</div>
+        <div class="news-card-preview-title">${landingNewsEsc(article.title)}</div>
+        <div class="news-card-preview-summary">${landingNewsEsc(article.summary || 'Summary is being generated.')}</div>
+      </div>
+    `).join('');
+  } catch (error) {
+    if (status) status.textContent = 'News service reconnecting';
+    if (feed) feed.innerHTML = 'Could not reach the live news service. The full app will retry automatically once you sign in.';
+  } finally {
+    if (feed) feed.style.opacity = '1';
+    landingNewsInFlight = false;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const newsInput = document.getElementById('landing-news-query');
+  if (!newsInput) return;
+  newsInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') loadLandingNews(true);
+  });
+  loadLandingNews(true);
+  setInterval(function() { loadLandingNews(false); }, 1000);
+});
 </script>
 
 <!-- EXIT-INTENT POPUP -->

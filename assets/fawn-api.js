@@ -5,6 +5,8 @@
   const override = new URLSearchParams(window.location.search).get("api");
 
   window.FAWN_API_BASE = override || (isLocalPage ? PROD_API : PROD_API);
+  window.FAWN_FRONTEND_URL = window.FAWN_FRONTEND_URL || "https://goldstarorbital.github.io/fawn-frontend/";
+  window.FAWN_FRONTEND_NEWS_URL = window.FAWN_FRONTEND_NEWS_URL || "https://goldstarorbital.github.io/fawn-frontend/?tab=news";
   window.FAWN_API_STATUS = async function fawnApiStatus() {
     try {
       const response = await fetch(window.FAWN_API_BASE + "/health", { cache: "no-store" });

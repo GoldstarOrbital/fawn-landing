@@ -368,7 +368,7 @@
       <li>Founding member badge in-app</li>
       <li>Name in the app credits</li>
     </ul>
-    <a href="https://buy.stripe.com/eVq7sK7os1nn1Of5zMdUY00" class="plan-cta" target="_blank" id="basic-cta" onclick="posthog&&posthog.capture('cta_click',{tier:'founding',price:49})">
+    <a href="https://buy.stripe.com/eVq7sK7os1nn1Of5zMdUY00" class="plan-cta" target="_blank" id="basic-cta" onclick="window.posthog&&window.posthog.capture('cta_click',{tier:'founding',price:49})">
       Claim Spot  - $49
     </a>
   </div>
@@ -386,7 +386,7 @@
       <li>Direct line to Alex (founder)</li>
       <li>Shape the roadmap  - vote on features</li>
     </ul>
-    <a href="https://buy.stripe.com/00w3cu5gk2rrdwX5zMdUY01" class="plan-cta" target="_blank" id="founder-cta" onclick="posthog&&posthog.capture('cta_click',{tier:'inner_circle',price:97})">
+    <a href="https://buy.stripe.com/00w3cu5gk2rrdwX5zMdUY01" class="plan-cta" target="_blank" id="founder-cta" onclick="window.posthog&&window.posthog.capture('cta_click',{tier:'inner_circle',price:97})">
       Become a Founding Member  - $97
     </a>
   </div>
@@ -403,7 +403,7 @@
       <li>Your name in the product credits</li>
       <li>Direct line to Alex (founder)</li>
     </ul>
-    <a href="https://buy.stripe.com/bJe9AS1042rrfF53rEdUY03" class="plan-cta" target="_blank" id="devsprint-cta" onclick="posthog&&posthog.capture('cta_click',{tier:'dev_sprint',price:300})">
+    <a href="https://buy.stripe.com/bJe9AS1042rrfF53rEdUY03" class="plan-cta" target="_blank" id="devsprint-cta" onclick="window.posthog&&window.posthog.capture('cta_click',{tier:'dev_sprint',price:300})">
       Claim Dev Sprint  - $300
     </a>
   </div>
@@ -520,7 +520,7 @@
         result.style.display = 'block';
         emailInput.value = '';
         btn.textContent = 'Added';
-        if (window.posthog) posthog.capture('waitlist_joined', { position: d.position, source: 'founding-page' });
+        if (window.posthog) window.posthog.capture('waitlist_joined', { position: d.position, source: 'founding-page' });
       } else {
         result.textContent = 'Something went wrong. Email alex@getfawn.com if it keeps failing.';
         result.style.color = '#ff6b6b';

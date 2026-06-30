@@ -74,6 +74,7 @@
   <script>
     const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const TOKEN_KEY = 'fawn_token';
+    const APP_URL = window.FAWN_FRONTEND_URL || 'https://goldstarorbital.github.io/fawn-frontend/';
 
     function showErr(msg) {
       const el = document.getElementById('err');
@@ -109,7 +110,7 @@
         }
 
         localStorage.setItem(TOKEN_KEY, data.access_token);
-        window.location.href = 'dashboard.html';
+        window.location.href = APP_URL;
       } catch (e) {
         showErr('Network error. Check your connection and try again.');
         btn.disabled = false;

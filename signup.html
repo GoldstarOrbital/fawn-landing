@@ -234,13 +234,14 @@
 
     <div id="account-info"></div>
 
-    <a href="dashboard.html" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin-top:8px;">Go to my dashboard</a>
+    <a href="https://goldstarorbital.github.io/fawn-frontend/" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin-top:8px;">Go to my dashboard</a>
   </div>
 
   <div class="login-link">Already have an account? <a href="login.html">Sign in</a></div>
 
   <script>
     const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
+    const APP_URL = window.FAWN_FRONTEND_URL || 'https://goldstarorbital.github.io/fawn-frontend/';
     let currentStep = 1;
     const TOTAL = 4;
 
@@ -411,6 +412,8 @@
       } else {
         info.innerHTML = `<div class="pending-box">Account opening in progress. Check your dashboard for updates.</div>`;
       }
+      const dashboardLink = document.querySelector('#success a.btn-primary');
+      if (dashboardLink) dashboardLink.href = APP_URL;
     }
 
     // Auto-format SSN
