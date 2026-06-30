@@ -101,6 +101,7 @@ Validation completed:
 - `npm install` completed and generated `package-lock.json`.
 - `npm run typecheck` passes.
 - Login and signup now call the shared auth provider, store the returned JWT with `expo-secure-store`, and show basic loading/error states instead of routing directly to the dashboard.
+- The mobile scaffold is now its own local git repo at `C:\Users\alexg\OneDrive\Desktop\fawn-mobile`, committed at `463e302 Scaffold FAWN mobile app`.
 
 To install dependencies and run the app:
 
