@@ -1,0 +1,20 @@
+<svg width="760" height="600" viewBox="0 0 760 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="quarters" width="82" height="82" patternUnits="userSpaceOnUse">
+      <circle cx="41" cy="41" r="31" fill="#d9cf9b" stroke="#111" stroke-width="3"/>
+      <text x="41" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#111">25¢</text>
+    </pattern>
+  </defs>
+  <g stroke="#050505" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M231 330 C251 225 397 176 533 221 C638 255 672 337 630 424 C591 505 447 526 326 486 C243 459 216 407 231 330Z" fill="url(#quarters)"/>
+    <path d="M222 356 C174 342 128 356 87 398 C136 419 179 412 222 379" fill="url(#quarters)"/>
+    <path d="M226 313 C190 255 215 192 282 178 C348 164 412 209 408 276 C405 329 345 360 288 350 C258 345 238 332 226 313Z" fill="url(#quarters)"/>
+    <path d="M273 180 C244 128 197 91 141 73" />
+    <path d="M306 177 C311 120 339 76 387 45" />
+    <path d="M229 255 C197 222 159 205 113 205" />
+    <path d="M322 241 C336 230 353 232 365 246" />
+    <path d="M315 489 L286 571" />
+    <path d="M428 515 L418 579" />
+    <path d="M557 486 L612 565" />
+  </g>
+</svg>

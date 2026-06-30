@@ -90,6 +90,23 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
   line-height: 1;
 }
 
+.fawn-polished a[href^="http"],
+.fawn-polished a[href^="mailto:"] {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.fawn-polished a[href^="http"]::after,
+.fawn-polished a[href^="mailto:"]::after {
+  content: " ↗";
+  font-size: 0.78em;
+  color: var(--polish-green);
+}
+
+.fawn-polished a[href^="mailto:"]::after {
+  content: " ✉";
+}
+
 .fawn-polish-dock {
   position: fixed;
   left: 18px;
@@ -142,7 +159,72 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
   transition: width 0.35s ease;
 }
 
+.fawn-evolution {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 211;
+  width: min(220px, 35vw);
+  aspect-ratio: 760 / 600;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255,215,94,0.18), transparent 55%),
+    rgba(10, 13, 11, 0.68);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 74px rgba(0,0,0,0.34);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.fawn-evolution::before {
+  content: "";
+  position: absolute;
+  inset: 6px 4px 30px;
+  background: url("fawn-quarter.svg") center bottom / contain no-repeat;
+  transition: opacity 0.28s ease, transform 0.35s ease;
+}
+
+.fawn-evolution::after {
+  content: "";
+  position: absolute;
+  inset: -12px -16px 18px;
+  background: url("buck-dollar.svg") center bottom / contain no-repeat;
+  opacity: 0;
+  transform: scale(0.78) translateY(20px);
+  transition: opacity 0.28s ease, transform 0.35s ease;
+}
+
+.fawn-evolution:hover::before,
+.fawn-evolution:focus-visible::before {
+  opacity: 0;
+  transform: scale(0.82) translateY(18px);
+}
+
+.fawn-evolution:hover::after,
+.fawn-evolution:focus-visible::after {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.fawn-evolution-label {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.62);
+  color: #f9fff9;
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-align: center;
+  line-height: 1;
+}
+
 @media (max-width: 720px) {
   body.fawn-polished::after { width: 92vw; right: -42vw; opacity: 0.26; }
   .fawn-polish-dock { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+  .fawn-evolution { width: 154px; right: 12px; bottom: 128px; }
 }

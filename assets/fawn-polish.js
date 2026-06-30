@@ -44,6 +44,13 @@
   `;
   document.body.appendChild(dock);
 
+  const evolution = document.createElement("button");
+  evolution.type = "button";
+  evolution.className = "fawn-evolution";
+  evolution.setAttribute("aria-label", "Hover to grow the quarter fawn into the dollar buck");
+  evolution.innerHTML = '<span class="fawn-evolution-label">25¢ fawn → $ buck</span>';
+  document.body.appendChild(evolution);
+
   const meter = dock.querySelector(".fawn-buck-meter span");
   dock.querySelector("button").addEventListener("click", () => {
     const width = 28 + Math.round(Math.random() * 68);

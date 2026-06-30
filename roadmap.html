@@ -235,6 +235,71 @@
       flex-shrink: 0;
     }
 
+    .phase-explorer {
+      max-width: 980px;
+      margin: -54px auto 70px;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      background: rgba(12,14,13,0.76);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+      position: relative;
+      z-index: 5;
+    }
+
+    .phase-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .phase-button {
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.035);
+      color: var(--muted);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+      transition: 0.2s var(--ease);
+    }
+
+    .phase-button:hover,
+    .phase-button.active {
+      color: #07100d;
+      background: var(--green);
+      border-color: var(--green);
+      transform: translateY(-1px);
+    }
+
+    .phase-output {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(0,200,150,0.11), rgba(255,255,255,0.035));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .phase-output-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(0,200,150,0.15);
+      font-size: 1.75rem;
+    }
+
+    .phase-output h3 { margin-bottom: 4px; font-size: 1.12rem; }
+    .phase-output p { color: var(--muted); font-size: 0.94rem; line-height: 1.55; }
+
     /* CTA SECTION */
     .cta-section {
       text-align: center; padding: 100px 24px;
@@ -280,6 +345,9 @@
       }
 
       .roadmap-grid { grid-template-columns: 1fr; }
+      .phase-explorer { margin: -32px 16px 40px; }
+      .phase-buttons { grid-template-columns: 1fr 1fr; }
+      .phase-output { grid-template-columns: 1fr; }
 
       footer {
         flex-direction: column; text-align: center;
@@ -337,6 +405,22 @@
   <p class="hero-sub">From free banking today to zero-interest mortgages tomorrow. Here's our roadmap to reshape banking for Gen Z.</p>
   <a href="founding.html" class="btn-primary">Join the Movement &#8594;</a>
 </div>
+</div>
+
+<div class="phase-explorer" aria-label="Interactive roadmap phase explorer">
+  <div class="phase-buttons">
+    <button class="phase-button active" type="button" data-phase="0">1 · Build</button>
+    <button class="phase-button" type="button" data-phase="1">2 · Share</button>
+    <button class="phase-button" type="button" data-phase="2">3 · Lend</button>
+    <button class="phase-button" type="button" data-phase="3">4 · Own</button>
+  </div>
+  <div class="phase-output">
+    <div class="phase-output-icon" id="phase-output-icon">💵</div>
+    <div>
+      <h3 id="phase-output-title">Funding the first useful version</h3>
+      <p id="phase-output-copy">FAWN starts lean: ship the account, prove the fee model, and let early believers see where every dollar goes.</p>
+    </div>
+  </div>
 </div>
 
 <!-- FUNDING & EQUITY -->
@@ -572,6 +656,27 @@
 </footer>
 
 <script>
+  const ROADMAP_PHASES = [
+    ['💵', 'Funding the first useful version', 'FAWN starts lean: ship the account, prove the fee model, and let early believers see where every dollar goes.'],
+    ['🔁', 'Turning usage into shared upside', 'The long-term model gives value back to active users instead of quietly taxing mistakes.'],
+    ['🏦', 'Building fair credit rails', 'Once trust, deposits, and repayment data mature, lending can be priced for students instead of against them.'],
+    ['🏠', 'Making ownership feel possible', 'The 20-year vision is simple: use FAWN economics to make housing less impossible for young people.'],
+  ];
+
+  function setRoadmapPhase(index) {
+    const phase = ROADMAP_PHASES[index] || ROADMAP_PHASES[0];
+    document.querySelectorAll('.phase-button').forEach((button, i) => {
+      button.classList.toggle('active', i === index);
+    });
+    document.getElementById('phase-output-icon').textContent = phase[0];
+    document.getElementById('phase-output-title').textContent = phase[1];
+    document.getElementById('phase-output-copy').textContent = phase[2];
+  }
+
+  document.querySelectorAll('.phase-button').forEach(button => {
+    button.addEventListener('click', () => setRoadmapPhase(Number(button.dataset.phase)));
+  });
+
   // Mobile menu toggle
   function toggleMobileMenu() {
     const menu = document.getElementById('mobile-menu');

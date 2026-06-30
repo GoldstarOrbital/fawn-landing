@@ -60,6 +60,92 @@
     .school-panel { display: none; }
     .school-panel.active { display: block; }
 
+    .school-signal {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: center;
+      margin: 0 0 24px;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--school-primary) 34%, transparent), transparent 22rem),
+        linear-gradient(135deg, color-mix(in srgb, var(--school-primary) 32%, #0e1318), color-mix(in srgb, var(--school-secondary) 22%, #080b10));
+      box-shadow: 0 22px 80px rgba(0,0,0,0.26);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .school-signal::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -60px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--school-secondary) 34%, transparent);
+      filter: blur(34px);
+      opacity: 0.7;
+    }
+
+    .school-signal-kicker {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .school-signal h2 {
+      font-size: clamp(1.55rem, 4vw, 2.65rem);
+      line-height: 1.04;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .school-signal p {
+      color: rgba(255,255,255,0.76);
+      max-width: 650px;
+      line-height: 1.55;
+      font-size: 0.96rem;
+    }
+
+    .school-mark {
+      position: relative;
+      z-index: 1;
+      width: 112px;
+      height: 112px;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255,255,255,0.72);
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, var(--school-primary), var(--school-secondary));
+      color: #fff;
+      font-size: 1.7rem;
+      font-weight: 950;
+      box-shadow: inset 0 0 0 8px rgba(0,0,0,0.14), 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .school-mini-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .school-mini-stat {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.24);
+      color: rgba(255,255,255,0.88);
+      font-size: 0.78rem;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
     .deals-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -109,6 +195,8 @@
     @media (max-width: 900px) { .deals-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px) {
       .deals-grid { grid-template-columns: 1fr; }
+      .school-signal { grid-template-columns: 1fr; }
+      .school-mark { width: 86px; height: 86px; border-radius: 18px; }
       .school-tab { font-size: 0.8rem; padding: 8px 16px; }
       /* Many schools wrap into a tall ragged block on narrow screens -
          switch to a single scrollable row instead */
@@ -611,6 +699,62 @@ const SCHOOLS = [
   }},
 ];
 
+const SCHOOL_STYLES = {
+  berkeley: ['#003262', '#fdb515', 'CAL', 'Blue and gold, built for Telegraph budgets.'],
+  stanford: ['#8c1515', '#ffffff', 'S', 'Cardinal energy with Peninsula price discipline.'],
+  scu: ['#862633', '#d4b16a', 'SCU', 'Bronco colors for South Bay deal hunting.'],
+  sjsu: ['#0055a2', '#e5a823', 'SJSU', 'Spartan blue, gold, and downtown San Jose value.'],
+  usf: ['#00543c', '#fdbb30', 'USF', 'Hilltop green with Richmond-side savings.'],
+  sfstate: ['#231161', '#ffcc33', 'SFSU', 'Purple and gold for Stonestown-area finds.'],
+  smc: ['#06315b', '#d80024', 'SMC', 'Gael blue and red for Moraga value runs.'],
+  sierra: ['#004b8d', '#f2c94c', 'SC', 'Rocklin commuter savings with Sierra blue.'],
+  sacstate: ['#043927', '#c4b581', 'SAC', 'Hornet green and gold, midtown-aware.'],
+  yubacollege: ['#004b8d', '#fdb515', 'YC', 'Yuba blue and gold for Marysville math.'],
+  calpoly: ['#154734', '#b38b00', 'CP', 'Mustang green with SLO rent reality.'],
+  ucdavis: ['#022851', '#ffbf00', 'UCD', 'Aggie blue and gold for Davis bike budgets.'],
+  csumb: ['#00573f', '#8c6a2f', 'MB', 'Otter green with Monterey Bay thrift.'],
+  ucsb: ['#003660', '#fdb515', 'UCSB', 'Gaucho blue and gold for Isla Vista choices.'],
+  ucsc: ['#003c6c', '#fdc700', 'UCSC', 'Slug blue and yellow with coastal-price honesty.'],
+  uoregon: ['#154733', '#fee123', 'UO', 'Duck green and yellow for Eugene deals.'],
+  oregonstate: ['#d73f09', '#000000', 'OSU', 'Beaver orange with Corvallis value.'],
+  unlv: ['#b10202', '#000000', 'UNLV', 'Rebel red for off-Strip savings.'],
+  unr: ['#003366', '#807f84', 'UNR', 'Wolf Pack blue with Midtown Reno finds.'],
+  ucla: ['#2774ae', '#ffd100', 'UCLA', 'Bruin blue and gold for Westwood math.'],
+  ucsd: ['#00629b', '#ffcd00', 'UCSD', 'Triton blue and gold, La Jolla-aware.'],
+  sdsu: ['#a6192e', '#000000', 'SDSU', 'Aztec red for College Area savings.'],
+  uci: ['#0064a4', '#ffd200', 'UCI', 'Anteater blue and gold for Irvine prices.'],
+  ucr: ['#2d6cc0', '#f1ab00', 'UCR', 'Highlander blue and gold with Inland Empire value.'],
+  ucmerced: ['#002856', '#fdb515', 'UCM', 'Bobcat blue and gold for Merced affordability.'],
+  csulb: ['#ffc72c', '#000000', 'LB', 'Beach gold and black for Long Beach runs.'],
+  csuf: ['#00244e', '#f58220', 'CSUF', 'Titan blue and orange for Fullerton nights.'],
+  fresnostate: ['#002e6d', '#db0032', 'FS', 'Bulldog blue and red with Central Valley prices.'],
+  chicostate: ['#9d2235', '#000000', 'CS', 'Wildcat red for walkable Chico bargains.'],
+  humboldt: ['#006747', '#ffc72c', 'CPH', 'Forest green and gold for Arcata finds.'],
+  uw: ['#4b2e83', '#b7a57a', 'UW', 'Husky purple and gold for U District deals.'],
+  seattleu: ['#aa0000', '#000000', 'SU', 'Redhawk red near Capitol Hill savings.'],
+  wsu: ['#981e32', '#5e6a71', 'WSU', 'Cougar crimson with Pullman prices.'],
+  wwu: ['#003f87', '#bad80a', 'WWU', 'Viking blue and green for Bellingham value.'],
+  psu: ['#154734', '#6a7f10', 'PSU', 'Portland green for downtown food-cart math.'],
+};
+
+function schoolSignal(school) {
+  const style = SCHOOL_STYLES[school.key] || ['#00c896', '#ffd75e', school.name.slice(0, 3).toUpperCase(), 'Campus colors meet practical savings.'];
+  const dealCount = Object.values(school.categories).reduce((sum, cat) => sum + cat.items.length, 0);
+  return `<div class="school-signal" style="--school-primary:${style[0]};--school-secondary:${style[1]};">
+    <div>
+      <div class="school-signal-kicker">School signal</div>
+      <h2>${school.name}</h2>
+      <p>${style[3]} Pick a tab, scan the local stack, and let FAWN keep the numbers grounded.</p>
+      <div class="school-mini-stats">
+        <span class="school-mini-stat">&#127979; ${Object.keys(school.categories).length} categories</span>
+        <span class="school-mini-stat">&#128176; ${dealCount}+ local prices</span>
+        <span class="school-mini-stat">&#128302; daily pick rotation</span>
+      </div>
+    </div>
+    <div class="school-mark" aria-label="${school.name} color mark">${style[2]}</div>
+  </div>`;
+}
+
 function dealCard(catKey, data) {
   const meta = CAT_META[catKey];
   const rows = data.items.map(([name, price]) =>
@@ -688,7 +832,7 @@ function renderSchools() {
     const cards = tomorrowPicksCard(s) +
       Object.keys(s.categories).map(catKey => dealCard(catKey, s.categories[catKey])).join('') +
       savingsCard();
-    return `<div class="school-panel${i === 0 ? ' active' : ''}" id="panel-${s.key}"><div class="deals-grid">${cards}</div></div>`;
+    return `<div class="school-panel${i === 0 ? ' active' : ''}" id="panel-${s.key}">${schoolSignal(s)}<div class="deals-grid">${cards}</div></div>`;
   }).join('');
 }
 
