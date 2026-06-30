@@ -164,8 +164,8 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
   right: 18px;
   bottom: 18px;
   z-index: 211;
-  width: min(220px, 35vw);
-  aspect-ratio: 760 / 600;
+  width: min(232px, 36vw);
+  aspect-ratio: 1 / 1;
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 22px;
   background:
@@ -180,7 +180,7 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
 .fawn-evolution::before {
   content: "";
   position: absolute;
-  inset: 6px 4px 30px;
+  inset: 6px 18px 30px;
   background: url("fawn-quarter.svg") center bottom / contain no-repeat;
   transition: opacity 0.28s ease, transform 0.35s ease;
 }
@@ -188,7 +188,7 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
 .fawn-evolution::after {
   content: "";
   position: absolute;
-  inset: -12px -16px 18px;
+  inset: 26px -18px 34px;
   background: url("buck-dollar.svg") center bottom / contain no-repeat;
   opacity: 0;
   transform: scale(0.78) translateY(20px);
