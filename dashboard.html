@@ -398,6 +398,39 @@
     .p2p-modal-status.error { color: var(--red); }
     .p2p-limit-hint { font-size: 0.76rem; color: var(--muted); margin-top: 6px; }
     .p2p-limit-hint.low { color: #ffb400; }
+    .wn-controls { margin-bottom: 14px; }
+    .wn-cats { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .wn-cat {
+      background: var(--card); border: 1px solid var(--border); color: var(--muted);
+      border-radius: 999px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+      cursor: pointer; transition: all 0.18s var(--ease);
+    }
+    .wn-cat.active { border-color: var(--green); color: var(--green); }
+    .wn-search-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .wn-search-row input {
+      flex: 1; min-width: 180px; background: var(--card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 10px; padding: 10px 14px; font-size: 0.88rem; outline: none;
+    }
+    .wn-search-row input:focus { border-color: var(--green); }
+    .wn-digest {
+      background: rgba(0,200,150,0.06); border: 1px solid rgba(0,200,150,0.25);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+    }
+    .wn-digest-label { color: var(--green); font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .wn-digest-body { color: var(--text); font-size: 0.86rem; line-height: 1.65; white-space: pre-line; }
+    .wn-alerts-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 8px; }
+    .wn-alert-chip {
+      display: inline-flex; align-items: center; gap: 6px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px;
+      font-size: 0.78rem; color: var(--text); margin: 0 6px 8px 0;
+    }
+    .wn-alert-chip .count { color: var(--green); font-weight: 800; }
+    .wn-alert-chip button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.9rem; padding: 0; }
+    .wn-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .wn-item:last-child { border-bottom: none; }
+    .wn-item-title { font-weight: 700; font-size: 0.9rem; line-height: 1.45; }
+    .wn-item-meta { color: var(--green); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-top: 3px; }
+    .wn-item-summary { color: var(--muted); font-size: 0.82rem; line-height: 1.6; margin-top: 6px; }
     .p2p-confirm-note {
       text-align: center; color: var(--text); font-size: 0.88rem; margin: -10px 0 16px;
       font-style: italic; overflow-wrap: break-word;
@@ -760,6 +793,38 @@
       </div>
     </div>
 
+    <div id="world-news-section" style="margin-top:28px;">
+      <div class="section-header">
+        <div class="section-title">World News</div>
+        <span style="font-size:0.72rem;color:var(--muted);">AI-explained, refreshed live</span>
+      </div>
+      <div class="wn-controls">
+        <div class="wn-cats" id="wn-cats">
+          <button class="wn-cat active" data-cat="" onclick="setNewsCategory(this)">Top</button>
+          <button class="wn-cat" data-cat="markets" onclick="setNewsCategory(this)">Markets</button>
+          <button class="wn-cat" data-cat="world" onclick="setNewsCategory(this)">World</button>
+          <button class="wn-cat" data-cat="crypto" onclick="setNewsCategory(this)">Crypto</button>
+        </div>
+        <div class="wn-search-row">
+          <input type="text" id="wn-search" placeholder="Search any money topic - rent, loans, fed rates..." maxlength="120" onkeydown="if(event.key==='Enter')searchNews()">
+          <button class="btn-p2p" onclick="searchNews()">Search</button>
+          <button class="btn-p2p secondary" id="wn-save-alert-btn" onclick="saveCurrentSearchAsAlert()" style="display:none">+ Alert me</button>
+        </div>
+      </div>
+      <div class="wn-digest" id="wn-digest" style="display:none">
+        <div class="wn-digest-label">&#10024; What this means for your money</div>
+        <div class="wn-digest-body" id="wn-digest-body"></div>
+      </div>
+      <div id="wn-alerts" style="display:none">
+        <div class="wn-alerts-label">Your alerts</div>
+        <div id="wn-alerts-list"></div>
+      </div>
+      <div id="wn-list"><div class="empty-state">Loading headlines...</div></div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:10px;">
+        Financial news for informational purposes only. Not investment advice.
+      </div>
+    </div>
+
     <div class="fdic-note">
       Deposits held by Unit's FDIC-member bank partner - insured up to $250,000 per depositor.<br>
       FAWN does not invest or lend your deposits. Fully liquid, withdraw anytime.
@@ -1119,6 +1184,8 @@ async function loadDashboard() {
     loadP2p();
     loadCards();
     loadSpendingInsights();
+    loadNews();
+    loadNewsAlerts();
 
   } catch (e) {
     console.error('Dashboard load failed:', e);
@@ -1158,6 +1225,105 @@ async function loadCampusSavings(school) {
     console.error('Campus savings load failed:', e);
     document.getElementById('campus-savings-noschool').style.display = '';
   }
+}
+
+// ============================================================
+// World News (WN): live headlines + AI digest + saved alerts
+// ============================================================
+let wnCategory = '';
+let wnQuery = '';
+
+function setNewsCategory(btn) {
+  document.querySelectorAll('#wn-cats .wn-cat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  wnCategory = btn.dataset.cat || '';
+  loadNews();
+}
+
+function searchNews() {
+  wnQuery = document.getElementById('wn-search').value.trim();
+  loadNews();
+}
+
+async function loadNews() {
+  const list = document.getElementById('wn-list');
+  const saveBtn = document.getElementById('wn-save-alert-btn');
+  if (saveBtn) saveBtn.style.display = wnQuery ? '' : 'none';
+  try {
+    const params = new URLSearchParams({ limit: '12' });
+    if (wnQuery) params.set('q', wnQuery);
+    if (wnCategory) params.set('category', wnCategory);
+    const r = await fetch(API + '/news/headlines?' + params, { headers: authHeaders() });
+    if (!r.ok) { list.innerHTML = '<div class="empty-state">Could not load headlines right now.</div>'; return; }
+    const data = await r.json();
+    const articles = data.articles || [];
+    list.innerHTML = articles.map(a => `
+      <div class="wn-item">
+        <div class="wn-item-title">${esc(a.title)}</div>
+        <div class="wn-item-meta">${esc(a.source || '')}${a.pub_date ? ' &middot; ' + esc(a.pub_date) : ''}</div>
+        <div class="wn-item-summary">${esc(a.summary || '')}</div>
+      </div>`).join('') || '<div class="empty-state">No stories matched. Try different keywords.</div>';
+  } catch (e) {
+    list.innerHTML = '<div class="empty-state">Could not load headlines right now.</div>';
+  }
+  loadNewsDigest();
+}
+
+async function loadNewsDigest() {
+  const panel = document.getElementById('wn-digest');
+  try {
+    const params = new URLSearchParams();
+    if (wnQuery) params.set('q', wnQuery);
+    if (wnCategory) params.set('category', wnCategory);
+    const r = await fetch(API + '/news/digest?' + params, { headers: authHeaders() });
+    if (!r.ok) { panel.style.display = 'none'; return; }
+    const data = await r.json();
+    if (!data.available || !data.digest) { panel.style.display = 'none'; return; }
+    document.getElementById('wn-digest-body').textContent = data.digest;
+    panel.style.display = '';
+  } catch (e) { panel.style.display = 'none'; }
+}
+
+async function loadNewsAlerts() {
+  const wrap = document.getElementById('wn-alerts');
+  try {
+    const r = await fetch(API + '/news/alerts/check', { headers: authHeaders() });
+    if (!r.ok) { wrap.style.display = 'none'; return; }
+    const data = await r.json();
+    const alerts = data.alerts || [];
+    if (!alerts.length) { wrap.style.display = 'none'; return; }
+    document.getElementById('wn-alerts-list').innerHTML = alerts.map(a => `
+      <span class="wn-alert-chip">
+        ${esc(a.query)}${a.category ? ' &middot; ' + esc(a.category) : ''}
+        <span class="count">${a.match_count > 0 ? a.match_count + ' new' : 'quiet'}</span>
+        <button onclick="deleteNewsAlert('${esc(a.id)}')" aria-label="Delete alert">&#215;</button>
+      </span>`).join('');
+    wrap.style.display = '';
+  } catch (e) { wrap.style.display = 'none'; }
+}
+
+async function saveCurrentSearchAsAlert() {
+  if (!wnQuery) return;
+  try {
+    const body = { query: wnQuery };
+    if (wnCategory) body.category = wnCategory;
+    const r = await fetch(API + '/news/alerts', {
+      method: 'POST', headers: authHeaders(true), body: JSON.stringify(body),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) { showToast(data.detail || 'Could not save the alert.'); return; }
+    showToast('Alert saved — we\'ll watch the news for "' + wnQuery + '".');
+    loadNewsAlerts();
+  } catch (e) { showToast('Could not save the alert.'); }
+}
+
+async function deleteNewsAlert(alertId) {
+  try {
+    const r = await fetch(API + '/news/alerts/' + encodeURIComponent(alertId), {
+      method: 'DELETE', headers: authHeaders(),
+    });
+    if (r.ok || r.status === 404) loadNewsAlerts();
+  } catch (e) { /* leave the chip; next check will reconcile */ }
 }
 
 // ============================================================
