@@ -176,3 +176,36 @@ body.polish-privacy, body.polish-terms, body.polish-founding-terms, body.polish-
   .fawn-feature-tabs { grid-template-columns: 1fr 1fr; }
   .fawn-feature-output { grid-template-columns: 1fr; }
 }
+
+/* --- Site-wide accessibility & motion polish ------------------------------
+   Loaded by every page, so these apply everywhere without per-file edits.
+   Pages that define their own :focus-visible (dashboard) simply win on
+   specificity where they differ - the intent is identical. */
+
+/* Keyboard navigation: visible accent ring on the focused control only. */
+:focus-visible {
+  outline: 2px solid #00c896;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline-offset: 0; }
+
+/* Smooth, consistent interactive feedback on every button and link-button. */
+button, .btn, a.btn, input[type="submit"] {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+}
+button:active:not(:disabled), .btn:active, a.btn:active, input[type="submit"]:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Respect the OS-level reduced-motion preference everywhere: collapse
+   decorative movement to near-instant states. Spinners/skeletons that
+   communicate loading state are re-enabled per page where needed. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
