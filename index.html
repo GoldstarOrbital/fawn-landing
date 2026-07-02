@@ -1285,6 +1285,21 @@
       .news-search-row { grid-template-columns: 1fr; }
     }
 
+    /* FAWN Daily Brief podcast player */
+    .daily-brief {
+      margin-top: 22px; background: var(--card, #0e1318);
+      border: 1px solid rgba(0,200,150,0.25); border-radius: 16px; padding: 22px 24px;
+      animation: fade-in-brief 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes fade-in-brief { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .daily-brief-label { color: var(--green, #00c896); font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+    .daily-brief-title { font-weight: 800; font-size: 1.05rem; margin-top: 6px; }
+    .daily-brief-meta { color: var(--muted, #6b7a8d); font-size: 0.8rem; margin-top: 4px; }
+    .daily-brief-transcript {
+      color: var(--muted, #6b7a8d); font-size: 0.86rem; line-height: 1.7;
+      margin-top: 10px; max-height: 320px; overflow-y: auto; white-space: pre-line;
+    }
+
     /* Keyboard navigation: a visible accent ring on the focused control
        only (never on mouse click). */
     :focus-visible {
@@ -1863,6 +1878,24 @@
       This is general financial news for informational purposes only. It is not investment advice. FAWN does not manage or invest your deposits.
     </div>
   </div>
+
+  <div class="daily-brief" id="daily-brief" style="display:none">
+    <div class="daily-brief-header">
+      <div>
+        <div class="daily-brief-label">&#127911; FAWN Daily Brief</div>
+        <div class="daily-brief-title" id="daily-brief-title"></div>
+        <div class="daily-brief-meta" id="daily-brief-meta"></div>
+      </div>
+    </div>
+    <audio controls preload="none" id="daily-brief-audio" style="width:100%;margin-top:12px"></audio>
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;color:var(--muted);font-size:0.82rem">Read the transcript</summary>
+      <div class="daily-brief-transcript" id="daily-brief-transcript"></div>
+    </details>
+    <div class="news-disclaimer-preview" style="margin-top:10px">
+      A new ~5-minute episode drops every morning at 3:30 AM PT — AI-compiled and AI-voiced from public news wires, at least half of it financial news. Not investment advice.
+    </div>
+  </div>
 </section>
 
 <!-- PRICING -->
@@ -2226,6 +2259,27 @@ async function loadWaitlistCount() {
   } catch (e) {}
 }
 
+async function loadDailyBrief() {
+  try {
+    const r = await fetch(API_BASE + '/podcast/latest');
+    if (!r.ok) return; // no episodes yet — section stays hidden
+    const ep = await r.json();
+    document.getElementById('daily-brief-title').textContent = ep.title || 'FAWN Daily Brief';
+    const mins = Math.max(1, Math.round((ep.est_duration_seconds || 0) / 60));
+    document.getElementById('daily-brief-meta').textContent =
+      ep.episode_date + ' · ~' + mins + ' min · AI-compiled & AI-voiced';
+    // textContent everywhere — no HTML interpolation of API data.
+    document.getElementById('daily-brief-transcript').textContent = ep.script || '';
+    const audio = document.getElementById('daily-brief-audio');
+    if (ep.audio_available && ep.audio_url) {
+      audio.src = API_BASE + ep.audio_url;
+    } else {
+      audio.style.display = 'none';
+    }
+    document.getElementById('daily-brief').style.display = '';
+  } catch (e) { /* stay hidden */ }
+}
+
 async function joinWaitlist() {
   const email = document.getElementById('wl-email').value.trim();
   const name = document.getElementById('wl-name').value.trim();
@@ -2289,6 +2343,7 @@ const heroObserver = new IntersectionObserver(function(entries) {
 heroObserver.observe(heroEl);
 
 loadWaitlistCount();
+loadDailyBrief();
 
 // Web Share API  - native share sheet on mobile
 async function shareNative() {
