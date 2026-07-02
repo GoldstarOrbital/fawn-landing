@@ -2259,10 +2259,28 @@ async function loadWaitlistCount() {
   } catch (e) {}
 }
 
+function showDailyBriefPreview() {
+  // No real episodes yet: play the recorded 25-second sample instead,
+  // clearly labeled as a preview. Swapped out automatically the day the
+  // first real episode exists.
+  document.getElementById('daily-brief-title').textContent = 'Hear a 25-second preview';
+  document.getElementById('daily-brief-meta').textContent =
+    'Sample episode preview · AI-compiled & AI-voiced · full ~5-min episodes daily at 3:30 AM PT';
+  document.getElementById('daily-brief-transcript').textContent =
+    "This is a preview of the FAWN Daily Brief. Today's money picture: " +
+    "prediction-market traders think inflation may have already peaked this spring, " +
+    "with energy prices easing in June. At the Federal Reserve, incoming leadership " +
+    "is weighing new ways to read inflation. And in tech, China's Ant Group is " +
+    "pushing into humanoid robots. The full five-minute brief drops every morning " +
+    "at three thirty.";
+  document.getElementById('daily-brief-audio').src = 'assets/daily-brief-preview.mp3';
+  document.getElementById('daily-brief').style.display = '';
+}
+
 async function loadDailyBrief() {
   try {
     const r = await fetch(API_BASE + '/podcast/latest');
-    if (!r.ok) return; // no episodes yet — section stays hidden
+    if (!r.ok) { showDailyBriefPreview(); return; }
     const ep = await r.json();
     document.getElementById('daily-brief-title').textContent = ep.title || 'FAWN Daily Brief';
     const mins = Math.max(1, Math.round((ep.est_duration_seconds || 0) / 60));
@@ -2277,7 +2295,7 @@ async function loadDailyBrief() {
       audio.style.display = 'none';
     }
     document.getElementById('daily-brief').style.display = '';
-  } catch (e) { /* stay hidden */ }
+  } catch (e) { showDailyBriefPreview(); }
 }
 
 async function joinWaitlist() {
