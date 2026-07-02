@@ -398,6 +398,25 @@
     .p2p-modal-status.error { color: var(--red); }
     .p2p-limit-hint { font-size: 0.76rem; color: var(--muted); margin-top: 6px; }
     .p2p-limit-hint.low { color: #ffb400; }
+    .mr-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 22px;
+    }
+    .mr-intro { color: var(--muted); font-size: 0.84rem; line-height: 1.6; margin-bottom: 14px; }
+    .mr-inputs { display: grid; grid-template-columns: 180px 1fr; gap: 10px; margin-bottom: 12px; }
+    @media (max-width: 600px) { .mr-inputs { grid-template-columns: 1fr; } }
+    .mr-inputs input {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      border-radius: 10px; padding: 10px 14px; font-size: 0.86rem; outline: none;
+    }
+    .mr-inputs input:focus { border-color: var(--accent); }
+    .mr-result {
+      margin-top: 16px; background: var(--surface2); border: 1px solid var(--accent-border);
+      border-radius: 12px; padding: 16px 18px; color: var(--text);
+      font-size: 0.86rem; line-height: 1.7; white-space: pre-line;
+      animation: fade-in-section 0.45s var(--ease);
+      max-height: 480px; overflow-y: auto;
+    }
     .wn-controls { margin-bottom: 14px; }
     .wn-cats { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
     .wn-cat {
@@ -841,6 +860,30 @@
       </div>
     </div>
 
+    <div id="money-review-section" style="margin-top:28px;">
+      <div class="section-header">
+        <div class="section-title">AI Money Review</div>
+        <span style="font-size:0.72rem;color:var(--muted);">10 money prompts, one button</span>
+      </div>
+      <div class="mr-card">
+        <div class="mr-intro">
+          One tap runs a full monthly review of your real spending: budget check, overspend
+          and wins, subscription audit, bills worth negotiating, a savings step, food reality
+          check, and three specific adjustments for next month.
+        </div>
+        <div class="mr-inputs">
+          <input type="number" id="mr-income" placeholder="Monthly income (optional)" min="0" step="1" inputmode="numeric">
+          <input type="text" id="mr-goals" placeholder="A goal, e.g. save $500 by December (optional)" maxlength="120">
+        </div>
+        <button class="btn-p2p" id="mr-run-btn" onclick="runMoneyReview()">Run my review</button>
+        <div class="p2p-modal-status" id="mr-status"></div>
+        <div class="mr-result" id="mr-result" style="display:none"></div>
+        <div style="font-size:0.72rem;color:var(--muted);margin-top:10px;">
+          AI-generated budgeting analysis. Educational only — not financial, investment, tax, or legal advice.
+        </div>
+      </div>
+    </div>
+
     <div id="world-news-section" style="margin-top:28px;">
       <div class="section-header">
         <div class="section-title">World News</div>
@@ -1276,6 +1319,45 @@ async function loadCampusSavings(school) {
   } catch (e) {
     console.error('Campus savings load failed:', e);
     document.getElementById('campus-savings-noschool').style.display = '';
+  }
+}
+
+// ============================================================
+// AI Money Review: the whole monthly review in one call
+// ============================================================
+async function runMoneyReview() {
+  const btn = document.getElementById('mr-run-btn');
+  const statusEl = document.getElementById('mr-status');
+  const resultEl = document.getElementById('mr-result');
+  const income = parseFloat(document.getElementById('mr-income').value);
+  const goals = document.getElementById('mr-goals').value.trim();
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span>Reviewing your month...';
+  statusEl.textContent = ''; statusEl.className = 'p2p-modal-status';
+
+  try {
+    const body = {};
+    if (Number.isFinite(income) && income > 0) body.monthly_income_dollars = income;
+    if (goals) body.goals = goals;
+    const r = await fetch(API + '/ai/money-review', {
+      method: 'POST', headers: authHeaders(true), body: JSON.stringify(body),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      statusEl.textContent = data.detail || 'Could not run the review right now.';
+      statusEl.className = 'p2p-modal-status error';
+      return;
+    }
+    resultEl.textContent = data.review; // textContent — never HTML-interpolate model output
+    resultEl.style.display = '';
+    statusEl.textContent = 'Based on ' + data.transaction_count + ' recent transactions.';
+  } catch (e) {
+    statusEl.textContent = 'Network error. Try again.';
+    statusEl.className = 'p2p-modal-status error';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Run my review';
   }
 }
 
