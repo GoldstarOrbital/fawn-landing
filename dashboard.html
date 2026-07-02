@@ -396,6 +396,12 @@
     }
     .p2p-modal-status { font-size: 0.8rem; color: var(--muted); margin-top: 12px; text-align: center; min-height: 1.2em; }
     .p2p-modal-status.error { color: var(--red); }
+    .p2p-limit-hint { font-size: 0.76rem; color: var(--muted); margin-top: 6px; }
+    .p2p-limit-hint.low { color: #ffb400; }
+    .p2p-confirm-note {
+      text-align: center; color: var(--text); font-size: 0.88rem; margin: -10px 0 16px;
+      font-style: italic; overflow-wrap: break-word;
+    }
     .p2p-modal-status.success { color: var(--accent); }
 
     .p2p-result-icon { text-align: center; font-size: 2.6rem; margin-bottom: 6px; animation: result-pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
@@ -715,6 +721,45 @@
       </div>
     </div>
 
+    <div id="student-benefits-section" style="margin-top:28px;">
+      <div class="section-header">
+        <div class="section-title">Student benefits</div>
+      </div>
+      <div class="cs-grid">
+        <div class="cs-card">
+          <div class="cs-card-icon">&#127925;</div>
+          <div class="cs-card-cat">Streaming</div>
+          <div class="cs-row"><span class="name">Spotify Premium Student</span><span class="price">discounted plan</span></div>
+          <div class="cs-row"><span class="name">Apple Music student plan</span><span class="price">discounted plan</span></div>
+          <div class="cs-row"><span class="name">YouTube Premium student</span><span class="price">discounted plan</span></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-card-icon">&#128230;</div>
+          <div class="cs-card-cat">Shopping</div>
+          <div class="cs-row"><span class="name">Amazon Prime Student</span><span class="price">free trial + discount</span></div>
+          <div class="cs-row"><span class="name">UNiDAYS membership</span><span class="price">free</span></div>
+          <div class="cs-row"><span class="name">Student Beans membership</span><span class="price">free</span></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-card-icon">&#128187;</div>
+          <div class="cs-card-cat">Software</div>
+          <div class="cs-row"><span class="name">GitHub Student Developer Pack</span><span class="price">free</span></div>
+          <div class="cs-row"><span class="name">Microsoft 365 via school email</span><span class="price">free</span></div>
+          <div class="cs-row"><span class="name">Notion Education plan</span><span class="price">free</span></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-card-icon">&#128652;</div>
+          <div class="cs-card-cat">Travel</div>
+          <div class="cs-row"><span class="name">Amtrak student discount</span><span class="price">discounted fares</span></div>
+          <div class="cs-row"><span class="name">Greyhound student fares</span><span class="price">discounted fares</span></div>
+          <div class="cs-row"><span class="name">Local transit student passes</span><span class="price">varies by city</span></div>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:10px;">
+        These programs are run by each provider, not FAWN — eligibility usually needs a .edu email or proof of enrollment, and terms change. Verify details with the provider before relying on them.
+      </div>
+    </div>
+
     <div class="fdic-note">
       Deposits held by Unit's FDIC-member bank partner - insured up to $250,000 per depositor.<br>
       FAWN does not invest or lend your deposits. Fully liquid, withdraw anytime.
@@ -738,6 +783,7 @@
       <div class="p2p-field">
         <label for="p2p-send-amount">Amount</label>
         <input type="number" id="p2p-send-amount" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+        <div class="p2p-limit-hint" id="p2p-send-limit-hint" style="display:none"></div>
       </div>
       <div class="p2p-field">
         <label for="p2p-send-note">Note (optional)</label>
@@ -1473,6 +1519,27 @@ function resetSendModal() {
 function openSendModal() {
   resetSendModal();
   openModalById('p2p-send-overlay');
+  loadSendLimits();
+}
+
+async function loadSendLimits() {
+  const hintEl = document.getElementById('p2p-send-limit-hint');
+  if (!hintEl) return;
+  hintEl.style.display = 'none';
+  try {
+    const r = await fetch(API + '/p2p/limits', { headers: authHeaders() });
+    if (!r.ok) return; // older backend without the endpoint — just skip the hint
+    const data = await r.json();
+    if (typeof data.max_send_cents !== 'number') return;
+    if (data.max_send_cents <= 0) {
+      hintEl.textContent = "You've reached your sending limit for now — it resets on a rolling 24-hour/7-day window.";
+      hintEl.className = 'p2p-limit-hint low';
+    } else {
+      hintEl.textContent = 'You can send up to ' + fmt(data.max_send_cents / 100) + ' right now.';
+      hintEl.className = 'p2p-limit-hint' + (data.max_send_cents < data.per_transaction_limit_cents ? ' low' : '');
+    }
+    hintEl.style.display = '';
+  } catch (e) { /* advisory only — never block the form on this */ }
 }
 
 async function createSend() {
@@ -1527,10 +1594,14 @@ function showSendConfirm(transfer) {
     warningHtml += `<div class="p2p-confirm-stepup">&#9888; This looks like a first-time send to a new recipient. Please confirm you recognize this transfer before we send it.</div>`;
   }
 
+  const noteVal = document.getElementById('p2p-send-note') ? document.getElementById('p2p-send-note').value.trim() : '';
+  const noteHtml = noteVal ? `<div class="p2p-confirm-note">&ldquo;${esc(noteVal)}&rdquo;</div>` : '';
+
   confirmEl.innerHTML = `
     <h3>Confirm your payment</h3>
     <div class="p2p-confirm-amount">${amount}</div>
     <div class="p2p-confirm-to">Sending to ${esc(who)}</div>
+    ${noteHtml}
     ${warningHtml}
     <div class="p2p-confirm-irreversible">This can't be undone once confirmed.</div>
     <button class="btn-p2p" style="width:100%;margin-bottom:8px" onclick="confirmSend('${transfer.id}', ${needsStepUp})">Confirm &amp; send ${amount}</button>
