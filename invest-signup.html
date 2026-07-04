@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserve Your FAWN Investment | Community Round Signup</title>
+  <meta name="description" content="Reserve your allocation in FAWN's community round — from $100. We'll email you the moment the regulated investment platform opens." />
+  <meta name="theme-color" content="#00c896" />
+  <style>
+    :root { --green: #00c896; --bg: #0a0a0a; --card: #141414; --border: #2a2a2a; --muted: #8b98a5; --text: #f0f0f0; }
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; display: flex; flex-direction: column; min-height: 100vh; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 5vw; border-bottom: 1px solid var(--border); }
+    .nav-logo { font-weight: 900; font-size: 1.3rem; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.9rem; margin-left: 18px; }
+    nav a:hover { color: var(--green); }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 5vw; }
+    .box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; max-width: 480px; width: 100%; text-align: center; }
+    .section-label { font-size: 0.78rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+    h1 { font-size: 1.7rem; font-weight: 800; margin-bottom: 10px; }
+    p { color: var(--muted); font-size: 0.95rem; margin-bottom: 8px; }
+    input, select { width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border); background: #161616; color: var(--text); font-size: 0.95rem; outline: none; margin-top: 12px; }
+    button { width: 100%; padding: 15px; background: var(--green); color: #04211a; font-weight: 800; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; margin-top: 16px; }
+    button:hover { filter: brightness(1.1); }
+    .legal { font-size: 0.72rem; color: var(--muted); margin-top: 18px; line-height: 1.55; }
+    .legal a { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">fawn<span style="color:var(--green)">.</span></div>
+  <div>
+    <a href="https://goldstarorbital.github.io/fawn-landing/invest.html">&larr; Back to Invest</a>
+    <a href="https://goldstarorbital.github.io/fawn-landing/signup.html">Open Account</a>
+  </div>
+</nav>
+
+<main>
+  <div class="box">
+    <div class="section-label">Community Round</div>
+    <h1>Reserve your allocation.</h1>
+    <p>From $100. We'll email you the moment the regulated investment platform opens &mdash; founding-investor perks lock in for everyone who reserves.</p>
+
+    <div id="inv-form">
+      <input id="inv-name" type="text" placeholder="Full name" autocomplete="name" />
+      <input id="inv-email" type="email" inputmode="email" placeholder="you@email.com" autocomplete="email" />
+      <select id="inv-amount">
+        <option value="">Intended amount (optional)</option>
+        <option value="100-500">$100 &ndash; $500</option>
+        <option value="500-2500">$500 &ndash; $2,500</option>
+        <option value="2500-10000">$2,500 &ndash; $10,000</option>
+        <option value="10000+">$10,000+</option>
+        <option value="church-community">Church / community organization</option>
+      </select>
+      <button onclick="reserveInvest()" id="inv-btn">Reserve my spot &rarr;</button>
+    </div>
+    <div id="inv-success" style="display:none;color:var(--green);font-weight:700;margin-top:14px"></div>
+
+    <p class="legal">
+      Reserving costs nothing and is not a binding commitment or an offer to sell securities. Any offering will be made only through a registered funding platform under Regulation CF; you'll review the offering circular there before investing. Investing involves risk, including total loss. Churches and community organizations wishing to donate (rather than invest) will be routed to FAWN's nonprofit arm. <a href="https://goldstarorbital.github.io/fawn-landing/terms.html">Terms</a> &middot; <a href="https://goldstarorbital.github.io/fawn-landing/privacy.html">Privacy</a>
+    </p>
+  </div>
+</main>
+
+<script>
+const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
+async function reserveInvest() {
+  const email = document.getElementById('inv-email').value.trim();
+  const name = document.getElementById('inv-name').value.trim();
+  const amount = document.getElementById('inv-amount').value;
+  if (!email) { document.getElementById('inv-email').focus(); return; }
+  const btn = document.getElementById('inv-btn');
+  btn.disabled = true; btn.textContent = 'Reserving...';
+  try {
+    await fetch(API_BASE + '/waitlist/join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, name: name, source: 'investor' + (amount ? ':' + amount : '') })
+    });
+    document.getElementById('inv-form').style.display = 'none';
+    const s = document.getElementById('inv-success');
+    s.style.display = 'block';
+    s.innerHTML = "You're in. We'll email " + email + " when the round opens.<br><span style='font-weight:400;font-size:0.85rem;color:#aaa'>Founding perks are locked to this address.</span>";
+  } catch (e) {
+    btn.disabled = false; btn.textContent = 'Reserve my spot →';
+  }
+}
+</script>
+
+</body>
+</html>
