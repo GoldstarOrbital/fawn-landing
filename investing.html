@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAWN Investing (Sandbox) | Fractional Investing Preview</title>
+  <meta name="description" content="FAWN investing sandbox — powered by Alpaca's paper-trading API. Watch quotes, view a demo portfolio, and preview rewards-paid-in-shares." />
+  <meta name="theme-color" content="#00c896" />
+  <style>
+    :root { --green: #00c896; --bg: #0a0a0a; --card: #141414; --border: #2a2a2a; --muted: #8b98a5; --text: #f0f0f0; --red: #ff5470; }
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 5vw; border-bottom: 1px solid var(--border); }
+    .nav-logo { font-weight: 900; font-size: 1.3rem; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.9rem; margin-left: 18px; }
+    nav a:hover { color: var(--green); }
+    main { max-width: 900px; margin: 0 auto; padding: 40px 5vw; }
+    .section-label { font-size: 0.78rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+    h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 800; margin-bottom: 8px; }
+    .sub { color: var(--muted); font-size: 0.98rem; margin-bottom: 26px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 18px; }
+    .card h3 { color: var(--green); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    input { padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: #161616; color: var(--text); font-size: 0.92rem; outline: none; width: 100%; margin-bottom: 10px; }
+    button { padding: 12px 22px; border-radius: 100px; border: none; background: var(--green); color: #04211a; font-weight: 800; font-size: 0.92rem; cursor: pointer; }
+    button.ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 0.94rem; }
+    .row:last-child { border-bottom: none; }
+    .row .k { color: var(--muted); }
+    .pos { color: var(--green); } .neg { color: var(--red); }
+    .note { font-size: 0.76rem; color: var(--muted); line-height: 1.55; margin-top: 20px; }
+    #status { font-size: 0.85rem; margin: 8px 0 0; color: var(--muted); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">fawn<span style="color:var(--green)">.</span></div>
+  <div>
+    <a href="https://goldstarorbital.github.io/fawn-landing/index.html">Home</a>
+    <a href="https://goldstarorbital.github.io/fawn-landing/invest.html">Invest in FAWN</a>
+    <a href="https://goldstarorbital.github.io/fawn-landing/dashboard.html">Banking</a>
+  </div>
+</nav>
+
+<main>
+  <div class="section-label">Sandbox preview</div>
+  <h1>FAWN Investing.</h1>
+  <p class="sub">Fractional shares and rewards-paid-in-shares, running on Alpaca's paper-trading sandbox. Simulated money only &mdash; this is the engineering preview of FAWN's investing tab.</p>
+
+  <!-- KEY SETUP -->
+  <div class="card" id="key-card">
+    <h3>Connect Alpaca paper keys</h3>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">Get free paper-trading keys at <a href="https://app.alpaca.markets/signup" target="_blank" rel="noopener" style="color:var(--green)">alpaca.markets</a> (instant, no approval). Keys are stored only in this browser's localStorage &mdash; never committed, never sent anywhere except Alpaca.</p>
+    <div class="grid2">
+      <input id="ak" type="text" placeholder="APCA-API-KEY-ID (paper)" autocomplete="off" />
+      <input id="as" type="password" placeholder="APCA-API-SECRET-KEY (paper)" autocomplete="off" />
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="saveKeys()">Connect sandbox &rarr;</button>
+      <button class="ghost" onclick="clearKeys()">Disconnect</button>
+    </div>
+    <div id="status"></div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="card" id="acct-card" style="display:none">
+    <h3>Paper account</h3>
+    <div class="row"><span class="k">Buying power</span><span id="a-bp">—</span></div>
+    <div class="row"><span class="k">Portfolio value</span><span id="a-pv">—</span></div>
+    <div class="row"><span class="k">Cash</span><span id="a-cash">—</span></div>
+    <div class="row"><span class="k">Status</span><span id="a-status" class="pos">—</span></div>
+  </div>
+
+  <!-- QUOTE + DEMO ORDER -->
+  <div class="card" id="trade-card" style="display:none">
+    <h3>Get a quote / place a paper order</h3>
+    <div class="grid2">
+      <input id="sym" type="text" placeholder="Symbol (e.g. VOO, AAPL)" value="VOO" />
+      <input id="notional" type="number" placeholder="Amount in $ (fractional)" value="5" min="1" />
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="ghost" onclick="getQuote()">Get quote</button>
+      <button onclick="paperBuy()">Paper-buy (simulated $) &rarr;</button>
+    </div>
+    <div id="quote-out" style="margin-top:12px;font-size:0.94rem"></div>
+  </div>
+
+  <!-- POSITIONS -->
+  <div class="card" id="pos-card" style="display:none">
+    <h3>Positions</h3>
+    <div id="positions"><span style="color:var(--muted);font-size:0.9rem">None yet — try a $5 fractional paper-buy above.</span></div>
+  </div>
+
+  <p class="note">
+    Sandbox only: all balances and orders are simulated by Alpaca's paper-trading environment; no real money or securities are involved. Production investing on FAWN would run through Alpaca's Broker API under a FINRA/SIPC-registered broker-dealer, and is a roadmap product. Never paste live-trading keys into a web page. This page makes requests directly from your browser to paper-api.alpaca.markets and data.alpaca.markets using your keys.
+  </p>
+</main>
+
+<script>
+const PAPER = 'https://paper-api.alpaca.markets';
+const DATA = 'https://data.alpaca.markets';
+const K = () => localStorage.getItem('fawn_apca_key') || '';
+const S = () => localStorage.getItem('fawn_apca_secret') || '';
+const H = () => ({ 'APCA-API-KEY-ID': K(), 'APCA-API-SECRET-KEY': S() });
+const fmt = n => '$' + Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+function setStatus(msg, ok) {
+  const el = document.getElementById('status');
+  el.textContent = msg; el.style.color = ok ? 'var(--green)' : 'var(--red)';
+}
+function saveKeys() {
+  const k = document.getElementById('ak').value.trim();
+  const s = document.getElementById('as').value.trim();
+  if (!k || !s) { setStatus('Paste both keys.', false); return; }
+  localStorage.setItem('fawn_apca_key', k);
+  localStorage.setItem('fawn_apca_secret', s);
+  boot();
+}
+function clearKeys() {
+  localStorage.removeItem('fawn_apca_key');
+  localStorage.removeItem('fawn_apca_secret');
+  ['acct-card','trade-card','pos-card'].forEach(id => document.getElementById(id).style.display = 'none');
+  setStatus('Disconnected. Keys removed from this browser.', true);
+}
+async function boot() {
+  if (!K()) return;
+  setStatus('Connecting to Alpaca paper sandbox...', true);
+  try {
+    const r = await fetch(PAPER + '/v2/account', { headers: H() });
+    if (!r.ok) { setStatus('Connection failed (' + r.status + ') — check the keys are PAPER keys.', false); return; }
+    const a = await r.json();
+    document.getElementById('a-bp').textContent = fmt(a.buying_power);
+    document.getElementById('a-pv').textContent = fmt(a.portfolio_value);
+    document.getElementById('a-cash').textContent = fmt(a.cash);
+    document.getElementById('a-status').textContent = a.status;
+    ['acct-card','trade-card','pos-card'].forEach(id => document.getElementById(id).style.display = '');
+    setStatus('Connected — paper sandbox live.', true);
+    loadPositions();
+  } catch (e) { setStatus('Network error reaching Alpaca.', false); }
+}
+async function getQuote() {
+  const sym = document.getElementById('sym').value.trim().toUpperCase();
+  if (!sym) return;
+  const out = document.getElementById('quote-out');
+  out.textContent = 'Fetching...';
+  try {
+    const r = await fetch(DATA + '/v2/stocks/' + sym + '/trades/latest', { headers: H() });
+    const d = await r.json();
+    out.innerHTML = d.trade ? sym + ' last trade: <strong class="pos">' + fmt(d.trade.p) + '</strong>' : 'No data for ' + sym + '.';
+  } catch (e) { out.textContent = 'Quote failed.'; }
+}
+async function paperBuy() {
+  const sym = document.getElementById('sym').value.trim().toUpperCase();
+  const notional = parseFloat(document.getElementById('notional').value);
+  if (!sym || !notional) return;
+  const out = document.getElementById('quote-out');
+  out.textContent = 'Placing paper order...';
+  try {
+    const r = await fetch(PAPER + '/v2/orders', {
+      method: 'POST',
+      headers: { ...H(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symbol: sym, notional: String(notional), side: 'buy', type: 'market', time_in_force: 'day' })
+    });
+    const d = await r.json();
+    out.innerHTML = r.ok
+      ? '<span class="pos">Paper order placed:</span> ' + fmt(notional) + ' of ' + sym + ' (id ' + (d.id || '').slice(0, 8) + '…). Positions update after fill.'
+      : '<span class="neg">Order rejected:</span> ' + (d.message || r.status);
+    setTimeout(loadPositions, 3000);
+  } catch (e) { out.textContent = 'Order failed.'; }
+}
+async function loadPositions() {
+  try {
+    const r = await fetch(PAPER + '/v2/positions', { headers: H() });
+    const ps = await r.json();
+    const el = document.getElementById('positions');
+    if (!Array.isArray(ps) || ps.length === 0) return;
+    el.innerHTML = ps.map(p => {
+      const pl = parseFloat(p.unrealized_pl);
+      return '<div class="row"><span>' + p.symbol + ' · ' + parseFloat(p.qty).toFixed(4) + ' sh</span><span>' + fmt(p.market_value) + ' <span class="' + (pl >= 0 ? 'pos' : 'neg') + '">(' + (pl >= 0 ? '+' : '') + fmt(pl) + ')</span></span></div>';
+    }).join('');
+  } catch (e) {}
+}
+boot();
+</script>
+
+</body>
+</html>
