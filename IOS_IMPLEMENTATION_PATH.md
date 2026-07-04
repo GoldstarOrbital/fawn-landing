@@ -6,7 +6,7 @@ Inspected workspace on 2026-06-29:
 
 - `fawn-landing`: static GitHub Pages marketing site with signup/login links, YouTube pitch embed, campus savings, founding member pages, and shared polish assets.
 - `fawn-frontend`: single-file PWA-style app (`index.html`, `manifest.json`, `sw.js`). It is not a native iOS app and does not currently contain React Native, Expo, Swift, or Xcode project files.
-- `fawn-backend`: FastAPI + SQLAlchemy API deployed on Railway. Existing routes cover auth, accounts, transactions, cards, P2P, deals, member, public stats, waitlist, Stripe webhook, Unit webhook, and funding.
+- `fawn-backend`: FastAPI + SQLAlchemy API deployed on Railway. Existing routes cover auth, accounts, transactions, cards, P2P, deals, member, public stats, waitlist, Stripe checkout webhook, Stripe BaaS webhook, and funding.
 - `fawn-design-system`: small React component library with FAWN tokens and components. Useful as design reference, but not directly usable in Swift without translation.
 - Wix CLI app project: not found in inspected FAWN repos. The `wix:wix-app` skill is therefore not directly applicable unless FAWN intentionally becomes a Wix app extension. For iOS, Wix CLI is not the correct path.
 
@@ -54,7 +54,7 @@ Manual requirements:
 - App icon at iOS sizes.
 - Privacy nutrition labels covering account data, financial info, contact info, identifiers, diagnostics.
 - Clear disclosure that FAWN is not a bank and banking services are provided by FDIC-insured partner infrastructure.
-- If real banking onboarding is active, confirm Unit production KYC flow and compliance language before public App Store release.
+- If real banking onboarding is active, confirm Stripe production KYC flow and compliance language before public App Store release.
 
 ### Phase 4: Design Translation
 
