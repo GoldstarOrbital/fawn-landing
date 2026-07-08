@@ -192,6 +192,16 @@
     }
     .deal-tip-green { color: rgba(0,200,150,0.8) !important; }
 
+    /* Gas-price freshness badge — recomputed daily from the backend's
+       last-verified date so stale prices never look current. */
+    .gas-freshness {
+      font-size: 0.7rem; line-height: 1.4; color: var(--muted);
+      margin-top: 10px; padding: 6px 8px; border-radius: 6px;
+      background: rgba(255,255,255,0.03);
+    }
+    .gas-freshness.fresh { color: rgba(0,200,150,0.9); background: rgba(0,200,150,0.07); }
+    .gas-freshness.stale { color: #f5b301; background: rgba(245,179,1,0.09); }
+
     @media (max-width: 900px) { .deals-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px) {
       .deals-grid { grid-template-columns: 1fr; }
@@ -756,15 +766,54 @@ function schoolSignal(school) {
   </div>`;
 }
 
+// Gas-price freshness. Filled from GET /deals/gas-status after load; the
+// value stays null until then (badge shows a neutral "checking" state), and
+// becomes 'error' if the backend is unreachable (badge falls back to a static
+// "confirm at the pump" note). days_old/stale advance every day server-side.
+let GAS_FRESHNESS = null;
+
+function fmtGasDate(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if (!m) return iso || '';
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[+m[2] - 1]} ${+m[3]}, ${m[1]}`;
+}
+
+function gasFreshnessHTML() {
+  const f = GAS_FRESHNESS;
+  if (f === null) return `&#9203; Checking price freshness&#8230;`;
+  if (f === 'error' || f.days_old == null) {
+    return `&#128276; Gas prices are hand-verified &#8212; always confirm at the pump before you drive.`;
+  }
+  const when = fmtGasDate(f.verified_date);
+  const age = f.days_old === 0 ? 'today' : (f.days_old === 1 ? 'yesterday' : `${f.days_old} days ago`);
+  if (f.stale) {
+    return `&#9888;&#65039; Prices last verified ${when} (${age}) &#8212; gas moves fast, confirm at the pump before you drive.`;
+  }
+  return `&#9989; Prices verified ${when} (${age}).`;
+}
+
+function applyGasFreshness() {
+  const stale = GAS_FRESHNESS && GAS_FRESHNESS !== 'error' && GAS_FRESHNESS.stale;
+  const fresh = GAS_FRESHNESS && GAS_FRESHNESS !== 'error' && GAS_FRESHNESS.days_old != null && !GAS_FRESHNESS.stale;
+  document.querySelectorAll('[data-gas-freshness]').forEach(el => {
+    el.className = 'gas-freshness' + (stale ? ' stale' : (fresh ? ' fresh' : ''));
+    el.innerHTML = gasFreshnessHTML();
+  });
+}
+
 function dealCard(catKey, data) {
   const meta = CAT_META[catKey];
   const rows = data.items.map(([name, price]) =>
     `<div class="deal-row"><span class="deal-name">${name}</span><span class="deal-price">${price}</span></div>`
   ).join('');
+  const freshness = catKey === 'gas'
+    ? `<div class="gas-freshness" data-gas-freshness>${gasFreshnessHTML()}</div>`
+    : '';
   return `<div class="deal-card">
     <div class="deal-icon">${meta.icon}</div>
     <div class="deal-cat">${meta.label}</div>
-    <div class="deal-items">${rows}<div class="deal-tip">${data.tip}</div></div>
+    <div class="deal-items">${rows}${freshness}<div class="deal-tip">${data.tip}</div></div>
   </div>`;
 }
 
@@ -841,6 +890,21 @@ renderSchools();
 
 // ── Suggest-a-deal modal ────────────────────────────────────────────────────
 const DEALS_API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
+
+// Pull gas-price freshness and stamp it onto every gas card. Recomputed
+// server-side each day, so a price that ages past the threshold flips the
+// badge to a stale warning with no redeploy.
+async function refreshGasFreshness() {
+  try {
+    const r = await fetch(`${DEALS_API}/deals/gas-status`, { cache: 'no-store' });
+    if (!r.ok) throw new Error('bad status ' + r.status);
+    GAS_FRESHNESS = await r.json();
+  } catch (e) {
+    GAS_FRESHNESS = 'error';
+  }
+  applyGasFreshness();
+}
+refreshGasFreshness();
 
 function openSuggestModal() {
   document.getElementById('suggest-modal-overlay').classList.add('open');
