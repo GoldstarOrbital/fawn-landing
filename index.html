@@ -65,7 +65,7 @@
         "name": "Is FAWN FDIC insured?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner, Stripe. Your money is insured up to $250,000 per depositor  - the same protection offered by Chase or Bank of America."
+          "text": "Yes. Your deposits are held at an FDIC-member bank through FAWN's banking-as-a-service partner. Your money is insured up to $250,000 per depositor  - the same protection offered by Chase or Bank of America."
         }
       },
       {
@@ -191,10 +191,12 @@
 
     .nav-logo { font-size: 1.5rem; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
 
-    .nav-links { display: flex; gap: 32px; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .nav-links { display: flex; align-items: center; gap: 16px; }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
 
     .nav-links a {
-      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      color: var(--muted); text-decoration: none; font-size: 0.85rem;
       transition: color 0.2s;
     }
 
@@ -1223,6 +1225,14 @@
     .footer-legal { font-size: 0.78rem; color: var(--muted); }
 
     /* RESPONSIVE */
+    /* The full 11-link nav needs ~1120px to fit; below that, collapse to the
+       hamburger so the links/CTAs never overflow the bar. Placed after the
+       base .nav-hamburger rule so its display:flex wins by source order. */
+    @media (max-width: 1120px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
       .nav-links { display: none; }
@@ -1332,25 +1342,27 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">fawn</div>
-  <div class="nav-links">
-    <a href="#how-it-works">How it works</a>
-    <a href="campus-savings.html">Campus Savings</a>
-    <a href="perks.html">Student Perks</a>
-    <a href="military.html">Military &amp; Veterans</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="https://goldstarorbital.github.io/fawn-landing/invest.html">Invest</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#security">Security</a>
-    <a href="#faq">FAQ</a>
-    <a href="#news-feature">AI News</a>
-    <a href="https://goldstarorbital.github.io/fawn-frontend/">Log in</a>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <a href="signup.html" class="nav-cta">Open Account &#8594;</a>
-    <a href="founding.html" class="nav-cta">Founding Member &#8594;</a>
-    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="campus-savings.html">Campus Savings</a>
+      <a href="perks.html">Student Perks</a>
+      <a href="military.html">Military &amp; Veterans</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="https://goldstarorbital.github.io/fawn-landing/invest.html">Invest</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#security">Security</a>
+      <a href="#faq">FAQ</a>
+      <a href="#news-feature">AI News</a>
+      <a href="https://goldstarorbital.github.io/fawn-frontend/">Log in</a>
+    </div>
+    <div class="nav-actions">
+      <a href="signup.html" class="nav-cta">Open Account &#8594;</a>
+      <a href="founding.html" class="nav-cta">Founding Member &#8594;</a>
+      <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -1495,7 +1507,7 @@
     <div class="step-card reveal">
       <div class="step-number">2</div>
       <h3>Get your account</h3>
-      <p>Your FDIC-insured checking account is issued through our banking partner Stripe. Funds held at an FDIC-member bank &#8212; protected up to $250K.</p>
+      <p>Your FDIC-insured checking account is issued through our banking partner. Funds held at an FDIC-member bank &#8212; protected up to $250K.</p>
     </div>
     <div class="step-card reveal">
       <div class="step-number">3</div>
@@ -1692,7 +1704,7 @@
     <div class="solution-card reveal">
       <div class="solution-icon">&#128274;</div>
       <h3>Your money stays yours</h3>
-      <p>Deposits are held at an FDIC-insured bank (via our partner Stripe). Fully liquid &#8212; withdraw anytime. We never invest your deposits. Our revenue comes from fees, not your balance.</p>
+      <p>Deposits are held at an FDIC-insured bank (via our banking partner). Fully liquid &#8212; withdraw anytime. We never invest your deposits. Our revenue comes from fees, not your balance.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#129504;</div>
@@ -1825,7 +1837,7 @@
   </div>
 
   <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.6">
-    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN&#8217;s deposits are FDIC-insured up to $250,000 through our banking partner Stripe, the same insurance structure used by Chime, Current, Varo, and SoFi&#8217;s bank partners.
+    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN&#8217;s deposits are FDIC-insured up to $250,000 through our banking partner, the same insurance structure used by Chime, Current, Varo, and SoFi&#8217;s bank partners.
   </p>
 </section>
 
@@ -2112,7 +2124,7 @@ updateArtFeeDial();
     <div class="solution-card reveal">
       <div class="solution-icon">&#127974;</div>
       <h3>FDIC-insured deposits</h3>
-      <p>Your funds are held at an FDIC-member bank through our banking partner Stripe, insured up to $250,000 per depositor &#8212; the same protection you&#8217;d get at Chase or Bank of America.</p>
+      <p>Your funds are held at an FDIC-member bank through our banking partner, insured up to $250,000 per depositor &#8212; the same protection you&#8217;d get at Chase or Bank of America.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#128272;</div>
@@ -2154,7 +2166,7 @@ updateArtFeeDial();
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">Yes. Your deposits are held at an FDIC-member bank through our banking-as-a-service partner, Stripe. This means your money is insured up to $250,000 per depositor &#8212; the same protection you get at Chase or Bank of America. FAWN itself is not a bank; it is a fintech platform that uses Stripe&#8217;s regulated infrastructure to hold your funds safely.</div>
+        <div class="faq-answer-inner">Yes. Your deposits are held at an FDIC-member bank through our banking-as-a-service partner. This means your money is insured up to $250,000 per depositor &#8212; the same protection you get at Chase or Bank of America. FAWN itself is not a bank; it is a fintech platform that uses regulated banking infrastructure to hold your funds safely.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2491,7 +2503,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <a href="mailto:alexmarcusgoldsmith@gmail.com">Contact</a>
   </div>
   <div class="footer-legal">
-    &#169; 2026 FAWN. Deposits held at Stripe&#8217;s FDIC-member bank partners.<br />
+    &#169; 2026 FAWN. Deposits held at an FDIC-member bank partner.<br />
     Not investment advice. AI summaries are informational only.
   </div>
 </footer>
