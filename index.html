@@ -119,12 +119,6 @@
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Free Student Banking",
-        "item": "https://goldstarorbital.github.io/fawn-landing/#how-it-works"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
         "name": "Pricing",
         "item": "https://goldstarorbital.github.io/fawn-landing/#pricing"
       }
@@ -1344,7 +1338,6 @@
   <div class="nav-logo">fawn</div>
   <div class="nav-right">
     <div class="nav-links">
-      <a href="#how-it-works">How it works</a>
       <a href="campus-savings.html">Campus Savings</a>
       <a href="perks.html">Student Perks</a>
       <a href="military.html">Military &amp; Veterans</a>
@@ -1367,7 +1360,6 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#how-it-works" onclick="closeMobileMenu()">How it works</a>
   <a href="campus-savings.html" onclick="closeMobileMenu()">Campus Savings</a>
   <a href="perks.html" onclick="closeMobileMenu()">Student Perks</a>
   <a href="military.html" onclick="closeMobileMenu()">Military &amp; Veterans</a>
@@ -1491,35 +1483,11 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS  - 3 STEPS -->
-<section id="how-it-works">
-  <div class="section-label">How it works</div>
-  <div class="section-title">Three steps to better banking.</div>
-  <p class="section-sub">No credit check. No minimum deposit. Takes minutes.</p>
-  <div class="steps-grid reveal-group">
-    <div class="step-card reveal">
-      <div class="step-number">1</div>
-      <h3>Sign up</h3>
-      <p>Create your account with just your name, email, and school. No credit check, no Social Security number required to get started.</p>
-    </div>
-    <div class="step-card reveal">
-      <div class="step-number">2</div>
-      <h3>Get your account</h3>
-      <p>Your FDIC-insured checking account is issued through our banking partner. Funds held at an FDIC-member bank &#8212; protected up to $250K.</p>
-    </div>
-    <div class="step-card reveal">
-      <div class="step-number">3</div>
-      <h3>Use it anywhere</h3>
-      <p>Send money, receive deposits, and pay for things. Each transaction costs exactly $0.01&#8211;$0.02. That&#8217;s the whole model.</p>
-    </div>
-  </div>
-</section>
-
 <!-- PRODUCT SHOWCASE -->
 <section id="product-showcase">
   <div class="section-label">The product</div>
-  <div class="section-title">This is what banking that respects you looks like.</div>
-  <p class="section-sub">A real preview of the dashboard you get on day one. Tap the account number &#8212; it&#8217;s interactive.</p>
+  <div class="section-title">This is what money that respects you looks like.</div>
+  <p class="section-sub">A real preview of the dashboard you get on day one. Tap the wallet address &#8212; it&#8217;s interactive.</p>
 
   <div class="showcase-wrap">
     <div class="showcase-phone" id="showcase-phone">
@@ -1530,7 +1498,7 @@
 
       <div class="showcase-greeting">
         <div class="showcase-greeting-title">Good morning, Jane.</div>
-        <div class="showcase-greeting-sub">Here is your FAWN account.</div>
+        <div class="showcase-greeting-sub">Here is your FAWN wallet.</div>
       </div>
 
       <div class="showcase-balance">
@@ -1539,18 +1507,18 @@
           <div class="showcase-balance-amount" id="showcase-balance-amount">$0.00</div>
         </div>
         <div class="showcase-balance-right">
-          <div class="showcase-badge"><span class="showcase-live-dot"></span> FDIC Insured</div>
+          <div class="showcase-badge"><span class="showcase-live-dot"></span> USDC on Polygon</div>
         </div>
       </div>
 
       <div class="showcase-tiles">
         <div class="showcase-tile">
-          <div class="showcase-tile-label">Routing number</div>
-          <div class="showcase-tile-value">021000021</div>
+          <div class="showcase-tile-label">Network</div>
+          <div class="showcase-tile-value">Polygon</div>
         </div>
         <div class="showcase-tile showcase-tile-interactive" id="showcase-account-tile" onclick="toggleShowcaseReveal()">
-          <div class="showcase-tile-label">Account number</div>
-          <div class="showcase-tile-value showcase-masked" id="showcase-account-value">&bull;&bull;&bull;&bull;&bull;&bull;9182</div>
+          <div class="showcase-tile-label">Wallet address</div>
+          <div class="showcase-tile-value showcase-masked" id="showcase-account-value">0x71C&bull;&bull;&bull;&bull;9182</div>
           <div class="showcase-tile-hint" id="showcase-tile-hint">tap to reveal</div>
         </div>
       </div>
@@ -1611,7 +1579,7 @@
       <div class="showcase-callout" data-target="showcase-account-tile">
         <div class="showcase-callout-dot"></div>
         <div>
-          <h3>Account numbers, protected</h3>
+          <h3>Wallet address, protected</h3>
           <p>Blurred by default. Tap to reveal &#8212; same as the real dashboard.</p>
         </div>
       </div>
@@ -1630,13 +1598,13 @@
 <section id="p2p-payments">
   <div class="section-label">New: FAWN-to-FAWN payments</div>
   <div class="section-title">Pay your friends like you text them.</div>
-  <p class="section-sub">Send money to another FAWN user by their @handle &#8212; no account numbers, no routing numbers, no waiting around. Since it&#8217;s a direct move between two FAWN accounts, it&#8217;s instant and it&#8217;s free.</p>
+  <p class="section-sub">Send money to another FAWN user by their @handle &#8212; no account numbers, no routing numbers, no waiting around. Since it&#8217;s a direct move between two FAWN wallets, it&#8217;s instant and it&#8217;s free.</p>
 
   <div class="p2p-grid reveal-group">
     <div class="p2p-card reveal">
       <div class="p2p-icon">&#9889;</div>
       <h3>Send by @handle</h3>
-      <p>Look up a friend by their FAWN handle, type an amount, send. The money lands in their account instantly &#8212; it&#8217;s a direct ledger move between two FAWN accounts, not a multi-day transfer.</p>
+      <p>Look up a friend by their FAWN handle, type an amount, send. The money lands in their wallet instantly &#8212; it&#8217;s a direct on-chain move between two FAWN wallets, not a multi-day transfer.</p>
     </div>
     <div class="p2p-card reveal">
       <div class="p2p-icon">&#128221;</div>
@@ -1659,33 +1627,8 @@
   </div>
 
   <p class="p2p-scope-note">
-    FAWN-to-FAWN payments work between FAWN accounts only &#8212; sending to other banks, cards, or apps like Venmo or Cash App isn&#8217;t supported yet. This feature is live in our sandbox banking environment as we prepare for launch.
+    FAWN-to-FAWN payments work between FAWN wallets only &#8212; sending to external wallets works too (see Send), but bank transfers and apps like Venmo or Cash App aren&#8217;t supported yet. This feature is live in beta as we prepare for launch.
   </p>
-</section>
-
-<!-- CARDS & SPENDING INSIGHTS -->
-<section id="cards-insights">
-  <div class="section-label">New: Card &amp; spending insights</div>
-  <div class="section-title">A card you control. Spending you can actually see.</div>
-  <p class="section-sub">Issue a virtual debit card in seconds and watch where your money goes, broken down by category &#8212; no spreadsheet required.</p>
-
-  <div class="p2p-grid reveal-group">
-    <div class="p2p-card reveal">
-      <div class="p2p-icon">&#128179;</div>
-      <h3>Instant virtual card</h3>
-      <p>Issue a virtual debit card straight from your account and start spending right away &#8212; no waiting on the mail.</p>
-    </div>
-    <div class="p2p-card reveal">
-      <div class="p2p-icon">&#128274;</div>
-      <h3>Freeze it, anytime</h3>
-      <p>Lost your phone for a minute or just being careful? Freeze your card in one tap and unfreeze it just as fast when you&#8217;re ready.</p>
-    </div>
-    <div class="p2p-card reveal">
-      <div class="p2p-icon">&#128202;</div>
-      <h3>Spending, by category</h3>
-      <p>See exactly where your money went &#8212; food, housing, transport, and more &#8212; broken down automatically so you don&#8217;t have to track it yourself.</p>
-    </div>
-  </div>
 </section>
 
 <!-- SOLUTION / FEATURES -->
@@ -1702,7 +1645,7 @@
     <div class="solution-card reveal">
       <div class="solution-icon">&#128274;</div>
       <h3>Your money stays yours</h3>
-      <p>Deposits are held at an FDIC-insured bank (via our banking partner). Fully liquid &#8212; withdraw anytime. We never invest your deposits. Our revenue comes from fees, not your balance.</p>
+      <p>FAWN is self-custodial &#8212; your USDC lives in your own wallet, not a pooled account we control. Fully liquid, withdraw anytime. We never invest or lend your balance. Our revenue comes from the $0.01 transaction fee, not from touching your money.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#129504;</div>
@@ -1835,7 +1778,7 @@
   </div>
 
   <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.6">
-    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN&#8217;s deposits are FDIC-insured up to $250,000 through our banking partner, the same insurance structure used by Chime, Current, Varo, and SoFi&#8217;s bank partners.
+    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN holds no deposits at all &#8212; your USDC sits in your own self-custodial wallet, not in an account FAWN controls.
   </p>
 </section>
 
@@ -1921,7 +1864,7 @@
       <div class="pricing-price">$0<span>/month</span></div>
       <div class="pricing-desc">For verified college students</div>
       <ul class="pricing-features">
-        <li>FDIC-insured checking account</li>
+        <li>Self-custodial USDC wallet</li>
         <li>$0.01 per transaction</li>
         <li>Real-time balance</li>
         <li>AI news summaries</li>
@@ -1937,9 +1880,9 @@
         <li>Everything in Student</li>
         <li>$0.01&#8211;$0.02 per transaction</li>
         <li>Transaction history</li>
-        <li>ACH transfers</li>
-        <li>Virtual debit card</li>
-        <li>Spending insights by category</li>
+        <li>Bank-linked funding</li>
+        <li>Buy crypto (card or bank)</li>
+        <li>Stock &amp; ETF investing</li>
       </ul>
     </div>
     <div class="pricing-card">
@@ -2010,11 +1953,11 @@ function toggleShowcaseReveal() {
   const val = document.getElementById('showcase-account-value');
   const hint = document.getElementById('showcase-tile-hint');
   if (showcaseRevealed) {
-    val.textContent = '4417209182';
+    val.textContent = '0x71C7656EC7ab88b098defB751B7401B5f6d9182';
     val.classList.remove('showcase-masked');
     hint.textContent = 'tap to hide';
   } else {
-    val.textContent = '•••••• 9182';
+    val.textContent = '0x71C•••9182';
     val.classList.add('showcase-masked');
     hint.textContent = 'tap to reveal';
   }
@@ -2116,23 +2059,18 @@ updateArtFeeDial();
 <section id="security">
   <div class="section-label">Security &amp; trust</div>
   <div class="section-title">Built to protect your money &#8212; and your data.</div>
-  <p class="section-sub">Security isn&#8217;t a feature we bolted on. It&#8217;s baked into how FAWN handles your deposits, your identity, your card, and every dollar you send.</p>
+  <p class="section-sub">Security isn&#8217;t a feature we bolted on. It&#8217;s baked into how FAWN handles your keys, your identity, and every dollar you send.</p>
 
   <div class="solution-grid reveal-group">
     <div class="solution-card reveal">
       <div class="solution-icon">&#127974;</div>
-      <h3>FDIC-insured deposits</h3>
-      <p>Your funds are held at an FDIC-member bank through our banking partner, insured up to $250,000 per depositor &#8212; the same protection you&#8217;d get at Chase or Bank of America.</p>
+      <h3>Self-custodial by design</h3>
+      <p>Your USDC lives in your own wallet, encrypted with AES-256-GCM. FAWN never pools user funds into one account it controls &#8212; there's nothing to invest, lend, or lose on our end.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#128272;</div>
-      <h3>Your SSN, never stored by us</h3>
-      <p>When we verify your identity, your Social Security number is passed directly to our banking partner for that check. FAWN does not store your SSN on our own servers.</p>
-    </div>
-    <div class="solution-card reveal">
-      <div class="solution-icon">&#128179;</div>
-      <h3>Card details, never exposed</h3>
-      <p>Freeze or unfreeze your virtual card instantly from the app. FAWN never stores or displays your full card number or CVV anywhere &#8212; only the last 4 digits, ever. That&#8217;s by design, not a limitation.</p>
+      <h3>No SSN, ever</h3>
+      <p>FAWN doesn&#8217;t ask for a Social Security number, date of birth, or address to open an account &#8212; there's no third party we'd need to send it to in the first place.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#9989;</div>
@@ -2160,11 +2098,11 @@ updateArtFeeDial();
   <div class="faq-list">
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
-        Is it really FDIC insured?
+        Is FAWN FDIC insured?
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">Yes. Your deposits are held at an FDIC-member bank through our banking-as-a-service partner. This means your money is insured up to $250,000 per depositor &#8212; the same protection you get at Chase or Bank of America. FAWN itself is not a bank; it is a fintech platform that uses regulated banking infrastructure to hold your funds safely.</div>
+        <div class="faq-answer-inner">No &#8212; and it doesn't need to be. FAWN isn't a bank and doesn't hold deposits. Your USDC lives in your own self-custodial wallet, not in a pooled account FAWN controls. There's no bank in the middle to insure against, because there's no bank in the middle, period.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2173,7 +2111,7 @@ updateArtFeeDial();
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">Your deposits sit in an FDIC-insured account, fully liquid, fully yours. We do not invest, lend, or pool your money. You can withdraw at any time. FAWN&#8217;s only revenue comes from the per-transaction fee &#8212; not from using your balance for anything else. This is by design: your money is not our asset.</div>
+        <div class="faq-answer-inner">Your USDC sits in your own wallet, fully liquid, fully yours. We do not invest, lend, or pool your money. You can withdraw or send it at any time. FAWN&#8217;s only revenue comes from the per-transaction fee &#8212; not from using your balance for anything else. This is by design: your money is not our asset.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2191,7 +2129,7 @@ updateArtFeeDial();
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">No hard credit check to open an account. We verify your identity (as required by banking regulations) but we do not pull your credit score, and opening a FAWN account will not affect your credit. This is a checking account, not a loan product.</div>
+        <div class="faq-answer-inner">No credit check, period. Opening a FAWN wallet only takes a name, email, and password &#8212; no SSN, no credit pull, no impact on your credit score. This is a self-custodial crypto wallet, not a loan product.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2221,7 +2159,7 @@ updateArtFeeDial();
   <div class="section-label" style="margin-bottom:16px">Early Access</div>
   <div class="section-title" style="margin-bottom:16px">Join the waitlist.</div>
   <p style="color:var(--muted);margin-bottom:12px;font-size:1.05rem">
-    We&#8217;re onboarding students first. No credit check. No minimum deposit.<br />Just banking that respects you.
+    We&#8217;re onboarding students first. No credit check. No minimum deposit.<br />Just money that respects you.
   </p>
   <div id="wl-count-row" style="color:var(--green);font-size:0.9rem;font-weight:700;margin-bottom:28px;min-height:20px"></div>
 
@@ -2248,7 +2186,7 @@ updateArtFeeDial();
   </button>
 
   <p style="color:var(--muted);font-size:0.8rem;margin-top:8px">
-    FDIC insured &#183; No hidden fees &#183; No credit check &#183; Cancel anytime
+    Self-custodial &#183; No hidden fees &#183; No credit check &#183; Cancel anytime
   </p>
 </div>
 
@@ -2380,8 +2318,8 @@ async function shareNative() {
   if (!navigator.share) return;
   try {
     await navigator.share({
-      title: 'FAWN  - Free Student Banking',
-      text: 'Banking that doesn\'t rob you. No monthly fees, no overdraft traps. FDIC-insured. Just $0.01 per transaction.',
+      title: 'FAWN  - Crypto Payments for Students',
+      text: 'Money that doesn\'t rob you. No monthly fees, no overdraft traps. Self-custodial USDC. Just $0.01 per transaction.',
       url: 'https://goldstarorbital.github.io/fawn-landing'
     });
   } catch (e) {
@@ -2483,8 +2421,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <button onclick="closeExitPopup()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;line-height:1" aria-label="Close">&#215;</button>
     <div style="font-size:2rem;margin-bottom:12px">&#9995;</div>
     <div style="font-size:1.3rem;font-weight:800;margin-bottom:10px;line-height:1.3">Wait &#8212; before you go:</div>
-    <div id="exit-popup-count" style="color:#00c896;font-size:1.05rem;font-weight:700;margin-bottom:20px">Join the waitlist for $0 banking</div>
-    <p style="color:#888;font-size:0.9rem;margin-bottom:28px;line-height:1.6">No monthly fees. No overdraft traps. Just a penny per transaction &#8212; FDIC insured.</p>
+    <div id="exit-popup-count" style="color:#00c896;font-size:1.05rem;font-weight:700;margin-bottom:20px">Join the waitlist for $0 fees</div>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:28px;line-height:1.6">No monthly fees. No overdraft traps. Just a penny per transaction &#8212; self-custodial, always.</p>
     <button onclick="exitPopupJoin()" style="width:100%;padding:14px;background:#00c896;color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer">Reserve my free spot &#8594;</button>
     <div style="margin-top:14px;color:#555;font-size:0.78rem;cursor:pointer" onclick="closeExitPopup()">No thanks, I prefer paying $35 overdraft fees</div>
   </div>

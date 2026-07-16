@@ -88,16 +88,12 @@
   <a class="logo" href="index.html">FAWN<span>.bank</span></a>
 
   <div class="card" id="form-card">
-    <h1>Open your account</h1>
-    <p class="subtitle">FDIC-insured checking, zero fees, 2 minutes.</p>
+    <h1>Create your wallet</h1>
+    <p class="subtitle">Self-custodial USDC, zero fees, under a minute. No SSN, no credit check.</p>
 
-    <div class="steps" id="step-dots"></div>
-    <div class="step-label" id="step-label"></div>
-
-    <!-- Step 1: Personal Info -->
     <div class="pane active" id="pane-1">
       <div class="field">
-        <label for="full_name">Full legal name</label>
+        <label for="full_name">Full name</label>
         <input type="text" id="full_name" placeholder="Jane Smith" autocomplete="name">
       </div>
       <div class="field">
@@ -109,11 +105,11 @@
         <input type="password" id="password" placeholder="Create a password" autocomplete="new-password">
       </div>
       <div class="field">
-        <label for="phone">Phone number</label>
+        <label for="phone">Phone number <span style="color:var(--muted);font-weight:400">(optional)</span></label>
         <input type="tel" id="phone" placeholder="(555) 000-0000" autocomplete="tel">
       </div>
       <div class="field">
-        <label for="school">School</label>
+        <label for="school">School <span style="color:var(--muted);font-weight:400">(optional)</span></label>
         <select id="school">
           <option value="">-- Select your school (optional) --</option>
           <option value="berkeley">UC Berkeley</option>
@@ -154,85 +150,19 @@
           <option value="other">Other / not listed</option>
         </select>
       </div>
-      <div class="form-error" id="err-1"></div>
-      <button class="btn btn-primary" onclick="goTo(2)">Continue</button>
-    </div>
-
-    <!-- Step 2: Identity -->
-    <div class="pane" id="pane-2">
-      <div class="sensitive-note">
-        Your SSN and date of birth are sent directly to our FDIC-insured banking partner for identity verification. FAWN never stores your SSN.
-      </div>
-      <div class="field">
-        <label for="ssn">Social Security Number</label>
-        <input type="text" id="ssn" placeholder="XXX-XX-XXXX" maxlength="11" autocomplete="off" inputmode="numeric">
-      </div>
-      <div class="field">
-        <label for="dob">Date of birth</label>
-        <input type="date" id="dob" autocomplete="bday">
-      </div>
-      <div class="form-error" id="err-2"></div>
-      <button class="btn btn-primary" onclick="goTo(3)">Continue</button>
-      <button class="btn btn-ghost" onclick="goTo(1)">Back</button>
-    </div>
-
-    <!-- Step 3: Address -->
-    <div class="pane" id="pane-3">
-      <div class="field">
-        <label for="street">Street address</label>
-        <input type="text" id="street" placeholder="123 Main St" autocomplete="address-line1">
-      </div>
-      <div class="field">
-        <label for="city">City</label>
-        <input type="text" id="city" placeholder="San Francisco" autocomplete="address-level2">
-      </div>
-      <div class="row">
-        <div class="field">
-          <label for="state">State</label>
-          <select id="state" autocomplete="address-level1">
-            <option value="">-- State --</option>
-            <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
-            <option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option>
-            <option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option>
-            <option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option>
-            <option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option>
-            <option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option>
-            <option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option>
-            <option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option>
-            <option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option>
-            <option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="postal_code">ZIP code</label>
-          <input type="text" id="postal_code" placeholder="94105" maxlength="5" inputmode="numeric" autocomplete="postal-code">
-        </div>
-      </div>
-      <div class="form-error" id="err-3"></div>
-      <button class="btn btn-primary" onclick="goTo(4)">Continue</button>
-      <button class="btn btn-ghost" onclick="goTo(2)">Back</button>
-    </div>
-
-    <!-- Step 4: Review -->
-    <div class="pane" id="pane-4">
-      <div class="review-block" id="review-personal"></div>
-      <div class="review-block" id="review-address"></div>
       <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;">
-        By opening an account you agree to FAWN's <a href="terms.html" style="color:var(--accent)">Terms</a> and <a href="privacy.html" style="color:var(--accent)">Privacy Policy</a>. Banking services provided by our banking partner, with funds held at FDIC-member partner banks.
+        By creating a wallet you agree to FAWN's <a href="terms.html" style="color:var(--accent)">Terms</a> and <a href="privacy.html" style="color:var(--accent)">Privacy Policy</a>. FAWN is self-custodial &#8212; you control your own keys.
       </p>
-      <div class="form-error" id="err-4"></div>
-      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Open my account</button>
-      <button class="btn btn-ghost" onclick="goTo(3)">Back</button>
+      <div class="form-error" id="err-1"></div>
+      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Create my wallet</button>
     </div>
   </div>
 
   <!-- Success state -->
   <div class="card" id="success">
     <div class="success-icon">&#10003;</div>
-    <h1 id="success-title">Account opened!</h1>
-    <p class="subtitle" id="success-subtitle">Welcome to FAWN. Your checking account is ready.</p>
-
-    <div id="account-info"></div>
+    <h1 id="success-title">You're in!</h1>
+    <p class="subtitle" id="success-subtitle">Welcome to FAWN. Head to your dashboard to create your USDC wallet.</p>
 
     <a href="https://goldstarorbital.github.io/fawn-frontend/" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin-top:8px;">Go to my dashboard</a>
   </div>
@@ -242,20 +172,6 @@
   <script>
     const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const APP_URL = window.FAWN_FRONTEND_URL || 'https://goldstarorbital.github.io/fawn-frontend/';
-    let currentStep = 1;
-    const TOTAL = 4;
-
-    function buildDots() {
-      const c = document.getElementById('step-dots');
-      c.innerHTML = '';
-      for (let i = 1; i <= TOTAL; i++) {
-        const d = document.createElement('div');
-        d.className = 'step-dot' + (i <= currentStep ? ' active' : '');
-        c.appendChild(d);
-      }
-      const labels = ['Personal info', 'Identity', 'Address', 'Review'];
-      document.getElementById('step-label').textContent = `Step ${currentStep} of ${TOTAL}: ${labels[currentStep-1]}`;
-    }
 
     function showErr(id, msg) {
       const el = document.getElementById(id);
@@ -263,95 +179,34 @@
       el.style.display = msg ? 'block' : 'none';
     }
 
-    function validateStep(step) {
-      showErr('err-' + step, '');
-      if (step === 1) {
-        const name = document.getElementById('full_name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const pw = document.getElementById('password').value;
-        const phone = document.getElementById('phone').value.replace(/\D/g,'');
-        if (!name || name.split(' ').length < 2) return 'Enter your full legal name (first and last)';
-        if (!email.includes('@')) return 'Enter a valid email address';
-        if (pw.length < 8) return 'Password must be at least 8 characters';
-        if (phone.length < 10) return 'Enter a valid 10-digit phone number';
-      }
-      if (step === 2) {
-        const ssn = document.getElementById('ssn').value.replace(/\D/g,'');
-        const dob = document.getElementById('dob').value;
-        if (ssn.length !== 9) return 'Enter your 9-digit SSN';
-        if (!dob) return 'Enter your date of birth';
-        const age = (new Date() - new Date(dob)) / (365.25 * 86400000);
-        if (age < 18) return 'You must be 18 or older to open an account';
-      }
-      if (step === 3) {
-        if (!document.getElementById('street').value.trim()) return 'Enter your street address';
-        if (!document.getElementById('city').value.trim()) return 'Enter your city';
-        if (!document.getElementById('state').value) return 'Select your state';
-        const zip = document.getElementById('postal_code').value.replace(/\D/g,'');
-        if (zip.length !== 5) return 'Enter a valid 5-digit ZIP code';
-      }
+    function validate() {
+      const name = document.getElementById('full_name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const pw = document.getElementById('password').value;
+      const phone = document.getElementById('phone').value.replace(/\D/g,'');
+      if (!name) return 'Enter your full name';
+      if (!email.includes('@')) return 'Enter a valid email address';
+      if (pw.length < 8) return 'Password must be at least 8 characters';
+      if (phone && phone.length < 10) return 'Enter a valid 10-digit phone number, or leave it blank';
       return null;
     }
 
-    function goTo(step) {
-      if (step > currentStep) {
-        const err = validateStep(currentStep);
-        if (err) { showErr('err-' + currentStep, err); return; }
-      }
-      if (step === 4) buildReview();
-      document.getElementById('pane-' + currentStep).classList.remove('active');
-      currentStep = step;
-      document.getElementById('pane-' + currentStep).classList.add('active');
-      buildDots();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function buildReview() {
-      const p = document.getElementById('review-personal');
-      const ssn = document.getElementById('ssn').value.replace(/\D/g,'');
-      const schoolSelect = document.getElementById('school');
-      const schoolLabel = schoolSelect.value ? schoolSelect.options[schoolSelect.selectedIndex].text : 'Not specified';
-      p.innerHTML = `
-        <div class="review-row"><span class="k">Name</span><span class="v">${esc(document.getElementById('full_name').value)}</span></div>
-        <div class="review-row"><span class="k">Email</span><span class="v">${esc(document.getElementById('email').value)}</span></div>
-        <div class="review-row"><span class="k">Phone</span><span class="v">${esc(document.getElementById('phone').value)}</span></div>
-        <div class="review-row"><span class="k">School</span><span class="v">${esc(schoolLabel)}</span></div>
-        <div class="review-row"><span class="k">Date of birth</span><span class="v">${esc(document.getElementById('dob').value)}</span></div>
-        <div class="review-row"><span class="k">SSN</span><span class="v ssn-mask">XXX-XX-${ssn.slice(-4)}</span></div>
-      `;
-      const a = document.getElementById('review-address');
-      a.innerHTML = `
-        <div class="review-row"><span class="k">Address</span><span class="v">${esc(document.getElementById('street').value)}</span></div>
-        <div class="review-row"><span class="k">City / State</span><span class="v">${esc(document.getElementById('city').value)}, ${esc(document.getElementById('state').value)} ${esc(document.getElementById('postal_code').value)}</span></div>
-      `;
-    }
-
-    function esc(s) {
-      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
-
     async function submitForm() {
-      showErr('err-4', '');
+      showErr('err-1', '');
+      const err = validate();
+      if (err) { showErr('err-1', err); return; }
+
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Opening account...';
+      btn.innerHTML = '<span class="spinner"></span>Creating wallet...';
 
+      const phoneDigits = document.getElementById('phone').value.replace(/\D/g,'');
       const body = {
         full_name: document.getElementById('full_name').value.trim(),
         email: document.getElementById('email').value.trim(),
         password: document.getElementById('password').value,
-        phone: document.getElementById('phone').value.replace(/\D/g,'').slice(-10),
-        ssn: document.getElementById('ssn').value.replace(/\D/g,''),
-        date_of_birth: document.getElementById('dob').value,
-        address: {
-          street: document.getElementById('street').value.trim(),
-          city: document.getElementById('city').value.trim(),
-          state: document.getElementById('state').value,
-          postal_code: document.getElementById('postal_code').value.trim(),
-          country: 'US',
-        },
+        phone: phoneDigits ? phoneDigits.slice(-10) : null,
         is_student: true,
-        occupation: 'Student',
         school: document.getElementById('school').value || null,
       };
 
@@ -365,68 +220,23 @@
 
         if (!resp.ok) {
           const msg = data.detail || 'Registration failed. Please try again.';
-          showErr('err-4', msg);
+          showErr('err-1', msg);
           btn.disabled = false;
-          btn.textContent = 'Open my account';
+          btn.textContent = 'Create my wallet';
           return;
         }
 
-        // Store token
         localStorage.setItem('fawn_token', data.access_token);
-
-        // Fetch dashboard to get account details
-        const dash = await fetch(API + '/accounts/dashboard', {
-          headers: { 'Authorization': 'Bearer ' + data.access_token }
-        });
-        const dashData = dash.ok ? await dash.json() : null;
-
-        showSuccess(dashData);
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        const dashboardLink = document.querySelector('#success a.btn-primary');
+        if (dashboardLink) dashboardLink.href = APP_URL;
       } catch (e) {
-        showErr('err-4', 'Network error. Check your connection and try again.');
+        showErr('err-1', 'Network error. Check your connection and try again.');
         btn.disabled = false;
-        btn.textContent = 'Open my account';
+        btn.textContent = 'Create my wallet';
       }
     }
-
-    function showSuccess(dashData) {
-      document.getElementById('form-card').style.display = 'none';
-      document.getElementById('success').style.display = 'block';
-      const info = document.getElementById('account-info');
-
-      if (dashData && dashData.account_active && dashData.account_details) {
-        const d = dashData.account_details;
-        info.innerHTML = `
-          <div class="account-box">
-            <div class="label">Routing number</div>
-            <div class="value">${esc(d.routing_number)}</div>
-          </div>
-          <div class="account-box" style="margin-top:12px;">
-            <div class="label">Account number</div>
-            <div class="value">${esc(d.account_number)}</div>
-          </div>
-        `;
-      } else if (dashData && dashData.application_pending) {
-        document.getElementById('success-title').textContent = 'Application submitted';
-        document.getElementById('success-subtitle').textContent = 'We are reviewing your identity. You will get an email within 1-2 business days.';
-        info.innerHTML = `<div class="pending-box">Your identity is under review. No action needed - we will email you when approved.</div>`;
-      } else {
-        info.innerHTML = `<div class="pending-box">Account opening in progress. Check your dashboard for updates.</div>`;
-      }
-      const dashboardLink = document.querySelector('#success a.btn-primary');
-      if (dashboardLink) dashboardLink.href = APP_URL;
-    }
-
-    // Auto-format SSN
-    document.addEventListener('DOMContentLoaded', () => {
-      buildDots();
-      const ssn = document.getElementById('ssn');
-      ssn.addEventListener('input', () => {
-        let v = ssn.value.replace(/\D/g,'');
-        if (v.length > 5) v = v.slice(0,3) + '-' + v.slice(3,5) + '-' + v.slice(5,9);
-        else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
-        ssn.value = v;
-      });
-    });
   </script>
   <script src="assets/fawn-polish.js" defer></script>
 </body>
