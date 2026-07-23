@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>FAWN Daily AI News</title>
+    <link>https://goldstarorbital.github.io/fawn-landing/podcast/</link>
+    <description>Plain-English AI, markets, policy, and money news for students.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Jul 2026 00:00:00 -0700</lastBuildDate>
+    <item>
+      <title>AI spending hits markets as oil and jobs data shape the rate debate</title>
+      <link>https://goldstarorbital.github.io/fawn-landing/podcast/2026-07-23/</link>
+      <guid isPermaLink="true">https://goldstarorbital.github.io/fawn-landing/podcast/2026-07-23/</guid>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 -0700</pubDate>
+      <description>FAWN Daily AI News for July 23, 2026: AI capital spending rattles Alphabet and Tesla investors, oil above $100 adds inflation pressure, U.S. jobless claims fall sharply, Washington debates AI transparency, and OpenAI's reported Hugging Face incident raises safety questions.</description>
+      <enclosure url="https://goldstarorbital.github.io/fawn-landing/podcast/2026-07-23/fawn-daily-news-2026-07-23.wav" length="14790998" type="audio/wav" />
+    </item>
+  </channel>
+</rss>
