@@ -24,6 +24,7 @@ body.fawn-polished::before {
     radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(0, 200, 150, 0.22), transparent 19rem),
     url("fawn-penny-lifelike.png") left clamp(92px, 14vw, 180px) top clamp(110px, 18vh, 220px) / min(22vw, 210px) auto no-repeat,
     repeating-linear-gradient(115deg, rgba(255,255,255,0.026) 0 1px, transparent 1px 22px);
+  mix-blend-mode: multiply;
 }
 
 body.fawn-polished::after {
@@ -40,6 +41,7 @@ body.fawn-polished::after {
   filter: saturate(1.08) drop-shadow(0 34px 90px rgba(0, 0, 0, 0.45));
   transform: translate3d(calc(var(--drift-x, 0) * -10px), calc(var(--drift-y, 0) * -8px), 0);
   transition: transform 0.25s ease-out;
+  mix-blend-mode: multiply;
 }
 
 body.polish-roadmap { --page-atmosphere: radial-gradient(circle at 12% 18%, rgba(0, 200, 150, 0.24), transparent 25rem), radial-gradient(circle at 82% 16%, rgba(255, 215, 94, 0.16), transparent 24rem), linear-gradient(135deg, rgba(18, 48, 37, 0.8), rgba(7, 8, 10, 0.96)); }
