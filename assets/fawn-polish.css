@@ -8,6 +8,7 @@
 
 body.fawn-polished {
   min-height: 100vh;
+  isolation: isolate;
   background-color: #080b0a;
   background-image: var(--page-atmosphere), linear-gradient(180deg, #080b0a 0%, #101211 100%) !important;
   background-attachment: fixed;
@@ -18,13 +19,13 @@ body.fawn-polished::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: -2;
+  z-index: 0;
   opacity: 0.28;
   background:
     radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(0, 200, 150, 0.22), transparent 19rem),
     url("fawn-penny-lifelike.png") left clamp(92px, 14vw, 180px) top clamp(110px, 18vh, 220px) / min(22vw, 210px) auto no-repeat,
     repeating-linear-gradient(115deg, rgba(255,255,255,0.026) 0 1px, transparent 1px 22px);
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
 }
 
 body.fawn-polished::after {
@@ -35,14 +36,16 @@ body.fawn-polished::after {
   width: min(56vw, 640px);
   aspect-ratio: 980 / 760;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
   opacity: 0.38;
   background: url("buck-dollar-lifelike.png") center / contain no-repeat;
   filter: saturate(1.08) drop-shadow(0 34px 90px rgba(0, 0, 0, 0.45));
   transform: translate3d(calc(var(--drift-x, 0) * -10px), calc(var(--drift-y, 0) * -8px), 0);
   transition: transform 0.25s ease-out;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
 }
+
+body.fawn-polished > * { position: relative; z-index: 1; }
 
 body.polish-roadmap { --page-atmosphere: radial-gradient(circle at 12% 18%, rgba(0, 200, 150, 0.24), transparent 25rem), radial-gradient(circle at 82% 16%, rgba(255, 215, 94, 0.16), transparent 24rem), linear-gradient(135deg, rgba(18, 48, 37, 0.8), rgba(7, 8, 10, 0.96)); }
 body.polish-about { --page-atmosphere: radial-gradient(circle at 18% 24%, rgba(255, 215, 94, 0.18), transparent 22rem), radial-gradient(circle at 82% 74%, rgba(0, 200, 150, 0.22), transparent 28rem), linear-gradient(140deg, rgba(20, 16, 10, 0.88), rgba(6, 12, 10, 0.98)); }
