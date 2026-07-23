@@ -71,7 +71,7 @@ FAWN is NOT a bank. FAWN is NOT licensed to provide financial services. FAWN is 
   <li><strong>Issuer risk:</strong> USDC is issued by Centre Consortium. If Centre fails, USDC value may collapse.</li>
   <li><strong>Market risk:</strong> "Stable" does not mean guaranteed. USDC price can depeg from USD, especially during market stress.</li>
   <li><strong>No insurance:</strong> If your wallet is compromised, stolen, or lost, there is no recovery mechanism. This is not like a bank account.</li>
-  <li><strong>Seed phrase security:</strong> If you choose non-custodial wallet and lose your seed phrase, your funds are lost forever. No FAWN employee can recover them.</li>
+  <li><strong>Custody:</strong> New FAWN wallets are custodial &#8212; FAWN holds each wallet's private key in encrypted custody and signs transfers you authorize. (Legacy non-custodial wallets from early beta: if you lose your seed phrase, your funds are lost forever; no FAWN employee can recover them.)</li>
 </ul>
 
 <h3>Tax & Regulatory Responsibility</h3>
@@ -145,7 +145,7 @@ This platform was built with significant AI assistance (Anthropic Claude). Users
 <h3>Personal Data We DO NOT Collect</h3>
 <ul>
   <li><strong>Seed phrases:</strong> Never stored, never logged. Shown only on first wallet creation.</li>
-  <li><strong>Private keys:</strong> For non-custodial wallets, users manage keys themselves. FAWN never touches them.</li>
+  <li><strong>Private keys:</strong> For custodial wallets (all new accounts), FAWN stores the key envelope-encrypted with AES-256-GCM; it is never logged or shared. For legacy non-custodial wallets, users manage keys themselves.</li>
   <li><strong>Real name:</strong> Not required; email is sufficient.</li>
   <li><strong>Identity documents:</strong> No KYC (Know Your Customer) verification. No government ID required.</li>
   <li><strong>Phone number:</strong> Not collected.</li>
@@ -224,8 +224,8 @@ FAWN is still in BETA. Use with caution. This is not production-grade security, 
 <p>Full Terms of Service available at <code>/terms.html</code>. Key points:</p>
 
 <ul>
-  <li><strong>Wallet ownership:</strong> Users own their wallets and funds. FAWN is custodian for custodial wallets only.</li>
-  <li><strong>Seed phrase responsibility:</strong> Non-custodial users are fully responsible for seed phrase backup and security.</li>
+  <li><strong>Wallet ownership:</strong> Users own their funds. FAWN acts as custodian of the wallet keys for all new (custodial) accounts.</li>
+  <li><strong>Seed phrase responsibility:</strong> Legacy non-custodial users (early beta only) remain fully responsible for seed phrase backup and security.</li>
   <li><strong>Fee structure:</strong> $0.01 (100 cents) flat fee per transfer. Immutable. No hidden fees.</li>
   <li><strong>No refunds:</strong> Transactions are final. No refunds for user error (wrong address, lost seed).</li>
   <li><strong>Liability cap:</strong> FAWN liability capped at fees paid in prior 30 days. Maximum refund = recent fees.</li>

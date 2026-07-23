@@ -58,7 +58,7 @@
         "name": "Does FAWN charge monthly fees?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. FAWN charges $0 per month. The only fee is $0.01 per USDC transfer. There are no monthly maintenance fees, no minimum balance fees, and no hidden charges."
+          "text": "No. FAWN charges $0 per month. Transfers to another FAWN user are $0.01 flat; sends to an outside wallet are $0.50. There are no monthly maintenance fees, no minimum balance fees, and no hidden charges."
         }
       },
       {
@@ -1643,12 +1643,12 @@
     <div class="solution-card reveal">
       <div class="solution-icon">&#9889;</div>
       <h3>Simple pricing</h3>
-      <p>One flat fee per transaction: $0.01 to $0.02. That&#8217;s it. No monthly fee, no minimum balance, no overdraft trap. You always know what you&#8217;re paying.</p>
+      <p>$0.01 to send to another FAWN user, $0.50 to send to an outside wallet. That&#8217;s it. No monthly fee, no minimum balance, no overdraft trap. You always know what you&#8217;re paying.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#128274;</div>
       <h3>Your money stays yours</h3>
-      <p>FAWN is self-custodial &#8212; your USDC lives in your own wallet, not a pooled account we control. Fully liquid, withdraw anytime. We never invest or lend your balance. Our revenue comes from the $0.01 transaction fee, not from touching your money.</p>
+      <p>Every FAWN account gets its own dedicated USDC wallet on Polygon &#8212; a real on-chain wallet you can verify, not a hidden internal ledger. FAWN holds that wallet's key in encrypted custody and signs the transfers you authorize, similar to how custodial wallets at exchanges like Coinbase work. Fully liquid, withdraw anytime. We never invest or lend your balance &#8212; our revenue comes from the $0.01 transaction fee, not from touching your money.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#129504;</div>
@@ -1677,7 +1677,7 @@
         <tr>
           <td>Monthly maintenance</td>
           <td class="fee-bad-high">$15/mo</td>
-          <td class="fee-bad-mid">$10/mo</td>
+          <td class="fee-bad-mid">$15/mo</td>
           <td class="fee-good">$0</td>
         </tr>
         <tr>
@@ -1702,12 +1702,12 @@
           <td>Per transaction fee</td>
           <td style="color:var(--muted)">$0</td>
           <td style="color:var(--muted)">$0</td>
-          <td class="fee-good">$0.01</td>
+          <td class="fee-good">$0.01 (FAWN-to-FAWN)</td>
         </tr>
         <tr>
           <td>Annual cost estimate</td>
           <td class="fee-bad-high">$180&#8211;$600+</td>
-          <td class="fee-bad-mid">$120&#8211;$420+</td>
+          <td class="fee-bad-mid">$180&#8211;$450+</td>
           <td class="fee-good">&lt; $10</td>
         </tr>
       </tbody>
@@ -1776,12 +1776,12 @@
   <div class="problem-grid reveal-group" style="margin-top:24px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
     <div class="problem-card reveal" style="border-color:rgba(0,200,150,0.3);background:rgba(0,200,150,0.04)">
       <div style="font-size:0.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">FAWN</div>
-      <p class="problem-desc">No conditions, no qualifying deposit, no tiers to unlock. You pay $0.01&#8211;$0.02 per transaction and that&#8217;s the entire revenue model &#8212; visible on every single transaction in your history. Nothing is monetized in the background.</p>
+      <p class="problem-desc">No conditions, no qualifying deposit, no tiers to unlock. You pay $0.01 to another FAWN user or $0.50 to an outside wallet, and that&#8217;s the entire revenue model &#8212; visible on every single transaction in your history. Nothing is monetized in the background.</p>
     </div>
   </div>
 
   <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.6">
-    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN holds no deposits at all &#8212; your USDC sits in your own self-custodial wallet, not in an account FAWN controls.
+    Fee structures and perks at other providers can change and often vary by account tier or qualifying activity &#8212; always check the provider&#8217;s current terms. FAWN is a custodial USDC wallet, not a bank &#8212; your USDC sits in a dedicated on-chain wallet that FAWN secures for you, and balances are not FDIC insured.
   </p>
 </section>
 
@@ -1867,7 +1867,7 @@
       <div class="pricing-price">$0<span>/month</span></div>
       <div class="pricing-desc">For verified college students</div>
       <ul class="pricing-features">
-        <li>Self-custodial USDC wallet</li>
+        <li>Dedicated USDC wallet on Polygon</li>
         <li>$0.01 per transaction</li>
         <li>Real-time balance</li>
         <li>AI news summaries</li>
@@ -1881,7 +1881,7 @@
       <div class="pricing-desc">Pay only when you transact</div>
       <ul class="pricing-features">
         <li>Everything in Student</li>
-        <li>$0.01&#8211;$0.02 per transaction</li>
+        <li>$0.01 FAWN-to-FAWN, $0.50 to outside wallets</li>
         <li>Transaction history</li>
         <li>Bank-linked funding</li>
         <li>Buy crypto (card or bank)</li>
@@ -2067,8 +2067,8 @@ updateArtFeeDial();
   <div class="solution-grid reveal-group">
     <div class="solution-card reveal">
       <div class="solution-icon">&#127974;</div>
-      <h3>Self-custodial by design</h3>
-      <p>Your USDC lives in your own wallet, encrypted with AES-256-GCM. FAWN never pools user funds into one account it controls &#8212; there's nothing to invest, lend, or lose on our end.</p>
+      <h3>Transparent by design</h3>
+      <p>Your USDC lives in a dedicated on-chain wallet created just for you, its key envelope-encrypted with AES-256-GCM in FAWN's custody. Every balance is verifiable on-chain &#8212; and we never invest or lend user funds.</p>
     </div>
     <div class="solution-card reveal">
       <div class="solution-icon">&#128272;</div>
@@ -2105,7 +2105,7 @@ updateArtFeeDial();
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">No &#8212; and it doesn't need to be. FAWN isn't a bank and doesn't hold deposits. Your USDC lives in your own self-custodial wallet, not in a pooled account FAWN controls. There's no bank in the middle to insure against, because there's no bank in the middle, period.</div>
+        <div class="faq-answer-inner">No. FAWN isn't a bank and isn't FDIC insured. Your USDC lives in a dedicated on-chain wallet that FAWN holds the keys to and secures for you &#8212; similar to a custodial exchange account. USDC itself is issued by Circle and backed 1:1 by USD reserves, but FAWN balances are not government-insured deposits.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2123,7 +2123,7 @@ updateArtFeeDial();
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">Every time you complete a transaction, FAWN charges $0.01&#8211;$0.02. That&#8217;s our entire revenue model. We also offer an optional $3/month Premium plan for higher transfer limits and custom features. We don&#8217;t charge monthly fees, we don&#8217;t sell your data, and we don&#8217;t lend your deposits. The business is profitable when you use the account &#8212; not when you forget about a fee.</div>
+        <div class="faq-answer-inner">Every time you complete a transaction, FAWN charges $0.01 (FAWN-to-FAWN) or $0.50 (to an outside wallet). That&#8217;s our entire revenue model. We also offer an optional $3/month Premium plan for higher transfer limits and custom features. We don&#8217;t charge monthly fees, we don&#8217;t sell your data, and we don&#8217;t lend your deposits. The business is profitable when you use the account &#8212; not when you forget about a fee.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2132,7 +2132,7 @@ updateArtFeeDial();
         <span class="faq-chevron">&#9662;</span>
       </button>
       <div class="faq-answer">
-        <div class="faq-answer-inner">No credit check, period. Opening a FAWN wallet only takes a name, email, and password &#8212; no SSN, no credit pull, no impact on your credit score. This is a self-custodial crypto wallet, not a loan product.</div>
+        <div class="faq-answer-inner">No credit check, period. Opening a FAWN wallet only takes a name, email, and password &#8212; no SSN, no credit pull, no impact on your credit score. This is a custodial crypto wallet, not a loan product.</div>
       </div>
     </div>
     <div class="faq-item">
@@ -2189,7 +2189,7 @@ updateArtFeeDial();
   </button>
 
   <p style="color:var(--muted);font-size:0.8rem;margin-top:8px">
-    Self-custodial &#183; No hidden fees &#183; No credit check &#183; Cancel anytime
+    No hidden fees &#183; No credit check &#183; Not a bank &#183; Cancel anytime
   </p>
 </div>
 
@@ -2322,7 +2322,7 @@ async function shareNative() {
   try {
     await navigator.share({
       title: 'FAWN  - Crypto Payments for Students',
-      text: 'Money that doesn\'t rob you. No monthly fees, no overdraft traps. Self-custodial USDC. Just $0.01 per transaction.',
+      text: 'Money that doesn\'t rob you. No monthly fees, no overdraft traps. USDC payments. Just $0.01 per transaction.',
       url: 'https://goldstarorbital.github.io/fawn-landing'
     });
   } catch (e) {
@@ -2425,7 +2425,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div style="font-size:2rem;margin-bottom:12px">&#9995;</div>
     <div style="font-size:1.3rem;font-weight:800;margin-bottom:10px;line-height:1.3">Wait &#8212; before you go:</div>
     <div id="exit-popup-count" style="color:#00c896;font-size:1.05rem;font-weight:700;margin-bottom:20px">Join the waitlist for $0 fees</div>
-    <p style="color:#888;font-size:0.9rem;margin-bottom:28px;line-height:1.6">No monthly fees. No overdraft traps. Just a penny per transaction &#8212; self-custodial, always.</p>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:28px;line-height:1.6">No monthly fees. No overdraft traps. Just a penny per transaction &#8212; no hidden fees, ever.</p>
     <button onclick="exitPopupJoin()" style="width:100%;padding:14px;background:#00c896;color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer">Reserve my free spot &#8594;</button>
     <div style="margin-top:14px;color:#555;font-size:0.78rem;cursor:pointer" onclick="closeExitPopup()">No thanks, I prefer paying $35 overdraft fees</div>
   </div>
