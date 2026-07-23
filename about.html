@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About FAWN - Crypto payments that work for you</title>
-  <meta name="description" content="Why we're building FAWN: a fee-free, self-custodial USDC wallet for college students. Built solo by a Gen Z founder using Claude Code." />
+  <meta name="description" content="Why we're building FAWN: a fee-free, custodial USDC wallet for college students. Built solo by a Gen Z founder using Claude Code." />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -74,7 +74,7 @@
 
 <div class="content">
   <h1>We're building the bank we <em>wished existed</em> when we were 19.</h1>
-  <p class="lead">FAWN is a fee-free, self-custodial USDC wallet built specifically for college students. No monthly fees, no overdraft penalties, no minimum balance - just money that respects your reality.</p>
+  <p class="lead">FAWN is a fee-free, custodial USDC wallet built specifically for college students. No monthly fees, no overdraft penalties, no minimum balance - just money that respects your reality.</p>
 
   <h2>Why this exists</h2>
   <p>Americans paid <a href="https://finhealthnetwork.org/research/overdraft-nsf-fees-bigger-burden-than-previously-estimated/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">$12.1 billion in overdraft and NSF fees in 2024</a> (Financial Health Network) - before counting monthly maintenance, ATM, and other account fees on top. A disproportionate share of that comes from people who can least afford it - students living paycheck-to-paycheck, in their first independent financial environment, often making the kind of small mistakes that turn $4 coffees into $39 catastrophes.</p>
@@ -85,7 +85,7 @@
   <p>We don't make a cent if you overdraft, can't afford your subscription, or run out of money. That's how it should be.</p>
 
   <h2>How it's built</h2>
-  <p>FAWN is built solo by Alex Goldsmith, a Gen Z founder, using Claude Code as a primary engineering partner. The backend is FastAPI on Railway with PostgreSQL. FAWN is self-custodial and crypto-native &#8212; your USDC lives in your own wallet on Polygon, encrypted with AES-256-GCM, not in a pooled account FAWN controls.</p>
+  <p>FAWN is built solo by Alex Goldsmith, a Gen Z founder, using Claude Code as a primary engineering partner. The backend is FastAPI on Railway with PostgreSQL. FAWN is custodial and crypto-native &#8212; each USDC wallet is dedicated to its account on Polygon, with signing keys protected by envelope encryption.</p>
 
   <div class="stack">
     <div class="stack-item">
@@ -94,7 +94,7 @@
     </div>
     <div class="stack-item">
       <div class="stack-label">Wallets</div>
-      <div class="stack-value">Self-custodial - AES-256-GCM</div>
+      <div class="stack-value">Custodial - envelope encryption</div>
     </div>
     <div class="stack-item">
       <div class="stack-label">Auth</div>

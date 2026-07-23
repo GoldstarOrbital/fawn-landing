@@ -75,4 +75,15 @@
     document.body.style.setProperty("--drift-x", String((x - 50) / 50));
     document.body.style.setProperty("--drift-y", String((y - 50) / 50));
   }, { passive: true });
+
+  document.querySelectorAll("[data-fawn-tilt]").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const rect = card.getBoundingClientRect();
+      const rx = ((event.clientY - rect.top) / rect.height - 0.5) * -5;
+      const ry = ((event.clientX - rect.left) / rect.width - 0.5) * 7;
+      card.style.transform = `perspective(680px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(4px)`;
+    });
+    card.addEventListener("pointerleave", () => { card.style.transform = ""; });
+  });
 })();

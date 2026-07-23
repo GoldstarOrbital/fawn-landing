@@ -88,8 +88,12 @@
   <a class="logo" href="index.html">FAWN</a>
 
   <div class="card" id="form-card">
-    <h1>Create your wallet</h1>
-    <p class="subtitle">Self-custodial USDC, zero fees, under a minute. No SSN, no credit check.</p>
+    <h1>Create your FAWN account</h1>
+    <p class="subtitle">Custodial USDC, encrypted signing, and zero seed-phrase stress. No SSN, no credit check.</p>
+    <div class="custody-callout" data-fawn-tilt>
+      <span class="custody-orbit" aria-hidden="true"></span>
+      <div><strong>Custodial by design</strong><small>FAWN protects the encrypted signing key so you can send and receive without managing wallet keys.</small></div>
+    </div>
 
     <div class="pane active" id="pane-1">
       <div class="field">
@@ -152,10 +156,10 @@
       </div>
       <label style="display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--muted);margin-bottom:16px;cursor:pointer;line-height:1.5;">
         <input type="checkbox" id="agree-policies" style="margin-top:3px;accent-color:var(--accent);width:15px;height:15px;flex-shrink:0;cursor:pointer;">
-        <span>I agree to FAWN's <a href="terms.html" target="_blank" style="color:var(--accent)">Terms</a> and <a href="privacy.html" target="_blank" style="color:var(--accent)">Privacy Policy</a>. FAWN is self-custodial &#8212; you control your own keys.</span>
+        <span>I agree to FAWN's <a href="terms.html" target="_blank" style="color:var(--accent)">Terms</a> and <a href="privacy.html" target="_blank" style="color:var(--accent)">Privacy Policy</a>. FAWN is custodial by design and encrypts signing keys at rest.</span>
       </label>
       <div class="form-error" id="err-1"></div>
-      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Create my wallet</button>
+      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Create my account</button>
     </div>
   </div>
 
@@ -163,7 +167,7 @@
   <div class="card" id="success">
     <div class="success-icon">&#10003;</div>
     <h1 id="success-title">You're in!</h1>
-    <p class="subtitle" id="success-subtitle">Welcome to FAWN. Head to your dashboard to create your USDC wallet.</p>
+    <p class="subtitle" id="success-subtitle">Welcome to FAWN. Head to your dashboard to activate your encrypted custodial wallet.</p>
 
     <a href="https://goldstarorbital.github.io/fawn-frontend/" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin-top:8px;">Go to my dashboard</a>
   </div>
@@ -200,7 +204,7 @@
 
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Creating wallet...';
+      btn.innerHTML = '<span class="spinner"></span>Creating account...';
 
       const phoneDigits = document.getElementById('phone').value.replace(/\D/g,'');
       const body = {
@@ -224,7 +228,7 @@
           const msg = data.detail || 'Registration failed. Please try again.';
           showErr('err-1', msg);
           btn.disabled = false;
-          btn.textContent = 'Create my wallet';
+          btn.textContent = 'Create my account';
           return;
         }
 
@@ -236,7 +240,7 @@
       } catch (e) {
         showErr('err-1', 'Network error. Check your connection and try again.');
         btn.disabled = false;
-        btn.textContent = 'Create my wallet';
+        btn.textContent = 'Create my account';
       }
     }
   </script>
