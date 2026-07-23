@@ -22,7 +22,7 @@ body.fawn-polished::before {
   opacity: 0.28;
   background:
     radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(0, 200, 150, 0.22), transparent 19rem),
-    url("fawn-quarter-real.png") left clamp(92px, 14vw, 180px) top clamp(110px, 18vh, 220px) / min(22vw, 210px) auto no-repeat,
+    url("fawn-penny-lifelike.png") left clamp(92px, 14vw, 180px) top clamp(110px, 18vh, 220px) / min(22vw, 210px) auto no-repeat,
     repeating-linear-gradient(115deg, rgba(255,255,255,0.026) 0 1px, transparent 1px 22px);
 }
 
@@ -36,7 +36,7 @@ body.fawn-polished::after {
   pointer-events: none;
   z-index: -1;
   opacity: 0.38;
-  background: url("buck-dollar-real.png") center / contain no-repeat;
+  background: url("buck-dollar-lifelike.png") center / contain no-repeat;
   filter: saturate(1.08) drop-shadow(0 34px 90px rgba(0, 0, 0, 0.45));
   transform: translate3d(calc(var(--drift-x, 0) * -10px), calc(var(--drift-y, 0) * -8px), 0);
   transition: transform 0.25s ease-out;
