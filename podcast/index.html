@@ -69,20 +69,70 @@
     <h1>AI, markets, and money news in about five minutes.</h1>
     <p class="lead">FAWN's AI-compiled daily briefing keeps the focus on what matters for students: technology, financial markets, policy, rates, consumer costs, and the business of AI.</p>
 
-    <a class="episode" href="2026-07-23/">
-      <div class="episode-date">July 23, 2026</div>
-      <h2>AI spending hits markets as oil and jobs data shape the rate debate</h2>
-      <p>Alphabet and Tesla put AI capital spending under the spotlight, oil above $100 raises inflation questions, U.S. jobless claims fall, and Washington debates AI oversight.</p>
-    </a>
+    <section class="episode" id="latest-episode" aria-live="polite">
+      <div class="episode-date" id="episode-date">Loading latest published brief…</div>
+      <h2 id="episode-title">FAWN Daily Brief</h2>
+      <p id="episode-description">FAWN is loading the most recent automatically published episode.</p>
+      <audio id="episode-audio" controls preload="none" style="display:none;width:100%;margin-top:16px"></audio>
+      <details id="episode-transcript-wrap" style="display:none;margin-top:16px">
+        <summary style="color:#00c896;font-weight:700;cursor:pointer">Read transcript</summary>
+        <p id="episode-transcript" style="margin-top:12px;white-space:pre-wrap;color:#bdbdbd"></p>
+      </details>
+    </section>
 
     <div class="links">
       <a href="rss.xml">RSS feed</a>
-      <a href="2026-07-23/transcript.txt">Latest transcript</a>
+      <a href="2026-07-23/">Archived July 23 edition</a>
     </div>
   </main>
 
   <footer>
     FAWN Daily AI News is informational news only; not investment, financial, legal, or tax advice.
   </footer>
+  <script>
+    const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
+    const FALLBACK = {
+      date: 'July 23, 2026',
+      title: 'AI spending hits markets as oil and jobs data shape the rate debate',
+      description: 'The newest live Daily Brief is being prepared. This is the most recent archived FAWN edition.',
+      transcript: 'The latest published FAWN Daily Brief is available from the archive while the next edition is prepared.'
+    };
+
+    function showFallback() {
+      document.getElementById('episode-date').textContent = FALLBACK.date + ' · latest archived edition';
+      document.getElementById('episode-title').textContent = FALLBACK.title;
+      document.getElementById('episode-description').textContent = FALLBACK.description;
+      document.getElementById('episode-transcript').textContent = FALLBACK.transcript;
+      document.getElementById('episode-transcript-wrap').style.display = '';
+    }
+
+    async function loadLatestEpisode() {
+      try {
+        const response = await fetch(API_BASE + '/podcast/latest', { cache: 'no-store' });
+        if (!response.ok) throw new Error('No current episode');
+        const episode = await response.json();
+        const date = new Date(episode.episode_date + 'T12:00:00').toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+        const minutes = Math.max(1, Math.round((episode.est_duration_seconds || 0) / 60));
+        document.getElementById('episode-date').textContent = date + ' · ~' + minutes + ' min · published automatically by FAWN';
+        document.getElementById('episode-title').textContent = episode.title || 'FAWN Daily Brief';
+        document.getElementById('episode-description').textContent = 'Today\'s source-grounded news briefing, covering markets, money, policy, and the wider world.';
+        document.getElementById('episode-transcript').textContent = episode.script || 'Transcript is being prepared.';
+        document.getElementById('episode-transcript-wrap').style.display = '';
+        const audio = document.getElementById('episode-audio');
+        if (episode.audio_available && episode.audio_url) {
+          audio.src = /^https?:/i.test(episode.audio_url) ? episode.audio_url : API_BASE + episode.audio_url;
+          audio.style.display = '';
+        } else {
+          audio.removeAttribute('src');
+          audio.style.display = 'none';
+        }
+      } catch (_) {
+        showFallback();
+      }
+    }
+
+    loadLatestEpisode();
+    setInterval(loadLatestEpisode, 5 * 60 * 1000);
+  </script>
 </body>
 </html>
