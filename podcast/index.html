@@ -108,7 +108,11 @@
 
     async function loadLatestEpisode() {
       try {
-        const response = await fetch(API_BASE + '/podcast/latest', { cache: 'no-store' });
+        const requestedDate = new URLSearchParams(window.location.search).get('episode');
+        const endpoint = requestedDate && /^\d{4}-\d{2}-\d{2}$/.test(requestedDate)
+          ? '/podcast/episodes/' + encodeURIComponent(requestedDate)
+          : '/podcast/latest';
+        const response = await fetch(API_BASE + endpoint, { cache: 'no-store' });
         if (!response.ok) throw new Error('No current episode');
         const episode = await response.json();
         const date = new Date(episode.episode_date + 'T12:00:00').toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
