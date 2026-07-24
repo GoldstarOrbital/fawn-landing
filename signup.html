@@ -94,6 +94,11 @@
       <span class="custody-orbit" aria-hidden="true"></span>
       <div><strong>Custodial by design</strong><small>FAWN protects the encrypted signing key so you can send and receive without managing wallet keys.</small></div>
     </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 22px;font-size:0.72rem;color:var(--muted);line-height:1.35">
+      <div><strong style="display:block;color:var(--text)">Clear fees</strong>$0.01 internal transfers</div>
+      <div><strong style="display:block;color:var(--text)">Visible limits</strong>Confirm before sending</div>
+      <div><strong style="display:block;color:var(--text)">Help when needed</strong>Audited support path</div>
+    </div>
 
     <div class="pane active" id="pane-1">
       <div class="field">
@@ -183,6 +188,10 @@
   <script>
     const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const APP_URL = window.FAWN_FRONTEND_URL || 'https://goldstarorbital.github.io/fawn-frontend/';
+    const anonymousId = localStorage.getItem('fawn_anonymous_id') || (crypto.randomUUID ? crypto.randomUUID() : `anon-${Date.now()}`);
+    localStorage.setItem('fawn_anonymous_id', anonymousId);
+    function telemetry(event_name, details = {}) { try { fetch(API + '/experience/telemetry', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ event_name, anonymous_id:anonymousId, ...details }), keepalive:true }).catch(() => {}); } catch {} }
+    window.addEventListener('load', () => telemetry('page_load', { duration_ms:Math.round(performance.now()), success:true, path:'/signup' }));
 
     function showErr(id, msg) {
       const el = document.getElementById(id);
@@ -236,6 +245,7 @@
     }
 
     async function submitForm() {
+      telemetry('onboarding_started', { success:true, path:'/signup' });
       showErr('err-1', '');
       const err = validate();
       if (err) { showErr('err-1', err); return; }
