@@ -89,7 +89,7 @@
 
   <div class="card" id="form-card">
     <h1>Create your FAWN account</h1>
-    <p class="subtitle">Custodial USDC, encrypted signing, and zero seed-phrase stress. No SSN, no credit check.</p>
+    <p class="subtitle">Custodial USDC, encrypted signing, and zero seed-phrase stress. Create your username in one quick setup.</p>
     <div class="custody-callout" data-fawn-tilt>
       <span class="custody-orbit" aria-hidden="true"></span>
       <div><strong>Custodial by design</strong><small>FAWN protects the encrypted signing key so you can send and receive without managing wallet keys.</small></div>
@@ -101,12 +101,18 @@
         <input type="text" id="full_name" placeholder="Jane Smith" autocomplete="name">
       </div>
       <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="jane_smith" autocomplete="username" maxlength="30" autocapitalize="none" spellcheck="false" onblur="checkUsername()" oninput="usernameAvailable=false">
+        <div id="username-hint" style="font-size:0.75rem;color:var(--muted);margin-top:5px">3–30 lowercase letters, numbers, or underscores. This is how people find you.</div>
+      </div>
+      <div class="field">
         <label for="email">Email address</label>
         <input type="email" id="email" placeholder="jane@example.com" autocomplete="email">
       </div>
       <div class="field">
         <label for="password">Password (8+ characters)</label>
         <input type="password" id="password" placeholder="Create a password" autocomplete="new-password">
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:5px">Use 8+ characters. Your password cannot contain your username or a username part.</div>
       </div>
       <div class="field">
         <label for="phone">Phone number <span style="color:var(--muted);font-weight:400">(optional)</span></label>
@@ -184,14 +190,46 @@
       el.style.display = msg ? 'block' : 'none';
     }
 
+    let usernameAvailable = false;
+    let usernameCheckValue = '';
+
+    async function checkUsername() {
+      const input = document.getElementById('username');
+      const hint = document.getElementById('username-hint');
+      const username = input.value.trim().toLowerCase();
+      input.value = username;
+      usernameAvailable = false;
+      usernameCheckValue = username;
+      if (!/^[a-z0-9_]{3,30}$/.test(username)) {
+        hint.textContent = '3–30 lowercase letters, numbers, or underscores. This is how people find you.';
+        hint.style.color = 'var(--muted)';
+        return;
+      }
+      hint.textContent = 'Checking availability…';
+      try {
+        const response = await fetch(API + '/accounts/check-username/' + encodeURIComponent(username));
+        const result = await response.json();
+        usernameAvailable = result.available === true && usernameCheckValue === username;
+        hint.textContent = usernameAvailable ? '✓ Username is available' : (result.reason || 'Username is already taken');
+        hint.style.color = usernameAvailable ? 'var(--accent)' : 'var(--error)';
+      } catch {
+        hint.textContent = 'Could not check availability yet. We’ll verify it when you submit.';
+        hint.style.color = 'var(--muted)';
+      }
+    }
+
     function validate() {
       const name = document.getElementById('full_name').value.trim();
       const email = document.getElementById('email').value.trim();
+      const username = document.getElementById('username').value.trim().toLowerCase();
       const pw = document.getElementById('password').value;
       const phone = document.getElementById('phone').value.replace(/\D/g,'');
       if (!name) return 'Enter your full name';
+      if (!/^[a-z0-9_]{3,30}$/.test(username)) return 'Choose a username with 3-30 lowercase letters, numbers, or underscores';
       if (!email.includes('@')) return 'Enter a valid email address';
       if (pw.length < 8) return 'Password must be at least 8 characters';
+      const usernameParts = username.split('_').filter(part => part.length >= 3);
+      if (pw.toLowerCase().includes(username) || usernameParts.some(part => pw.toLowerCase().includes(part))) return 'Your password cannot contain your username or a username part';
       if (phone && phone.length < 10) return 'Enter a valid 10-digit phone number, or leave it blank';
       if (!document.getElementById('agree-policies').checked) return 'Please agree to the Terms and Privacy Policy to continue';
       return null;
@@ -201,6 +239,10 @@
       showErr('err-1', '');
       const err = validate();
       if (err) { showErr('err-1', err); return; }
+      if (!usernameAvailable || usernameCheckValue !== document.getElementById('username').value.trim().toLowerCase()) {
+        await checkUsername();
+        if (!usernameAvailable) { showErr('err-1', 'Choose an available username to continue'); return; }
+      }
 
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
@@ -210,6 +252,7 @@
       const body = {
         full_name: document.getElementById('full_name').value.trim(),
         email: document.getElementById('email').value.trim(),
+        username: document.getElementById('username').value.trim().toLowerCase(),
         password: document.getElementById('password').value,
         phone: phoneDigits ? phoneDigits.slice(-10) : null,
         is_student: true,
