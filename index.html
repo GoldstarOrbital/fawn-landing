@@ -47,6 +47,8 @@
   }
   </script>
 
+  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
+
   <!-- Structured data: FAQPage -->
   <script type="application/ld+json">
   {
@@ -2196,11 +2198,17 @@ updateArtFeeDial();
 
   <div id="wl-form" style="max-width:440px;margin:0 auto 16px">
     <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <label for="wl-name" class="sr-only">First name</label>
       <input id="wl-name" type="text" placeholder="First name" autocomplete="given-name"
         style="flex:1;min-width:120px;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;color:#f0f0f0;font-size:0.95rem;outline:none" />
-      <input id="wl-email" type="email" inputmode="email" placeholder="your@email.com" autocomplete="email"
+      <label for="wl-email" class="sr-only">Email address</label>
+      <input id="wl-email" type="email" inputmode="email" placeholder="your@email.com" autocomplete="email" required aria-required="true"
         style="flex:2;min-width:200px;background:#161616;border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;color:#f0f0f0;font-size:0.95rem;outline:none" />
     </div>
+    <label style="display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:0.78rem;line-height:1.45;margin:0 0 12px;text-align:left;cursor:pointer">
+      <input id="wl-opt-in" type="checkbox" style="margin-top:3px;accent-color:var(--green)" />
+      <span>Yes, email me occasional FAWN updates and beta invitations. This is optional; you can unsubscribe anytime.</span>
+    </label>
     <button onclick="joinWaitlist()" id="wl-btn"
       style="width:100%;padding:15px;background:var(--green);color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:background 0.2s">
       Reserve my spot &#8594;
@@ -2208,7 +2216,7 @@ updateArtFeeDial();
     <p style="color:var(--muted);font-size:0.82rem;margin-top:10px;font-weight:600">No credit card. No monthly fee. Ever.</p>
   </div>
 
-  <div id="wl-success" style="display:none;color:var(--green);font-size:1.1rem;font-weight:700;margin-bottom:16px"></div>
+  <div id="wl-success" role="status" aria-live="polite" style="display:none;color:var(--green);font-size:1.1rem;font-weight:700;margin-bottom:16px"></div>
 
   <!-- Web Share API button (mobile only, hidden if API unavailable) -->
   <button class="share-btn" id="share-btn" onclick="shareNative()" aria-label="Share FAWN with a friend">
@@ -2283,6 +2291,11 @@ async function joinWaitlist() {
   const email = document.getElementById('wl-email').value.trim();
   const name = document.getElementById('wl-name').value.trim();
   if (!email) { document.getElementById('wl-email').focus(); return; }
+  const marketingOptIn = document.getElementById('wl-opt-in').checked;
+
+  const params = new URLSearchParams(window.location.search);
+  const referralCode = (params.get('ref') || '').trim().slice(0, 80) || null;
+  const source = (params.get('source') || params.get('utm_source') || 'landing').trim().slice(0, 80);
 
   const btn = document.getElementById('wl-btn');
   btn.disabled = true; btn.textContent = 'Saving your spot...';
@@ -2291,13 +2304,13 @@ async function joinWaitlist() {
     const r = await fetch(API_BASE + '/waitlist/join', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, name: name, source: 'landing' })
+      body: JSON.stringify({ email: email, name: name, source: source, referral_code: referralCode, marketing_opt_in: marketingOptIn })
     });
     const d = await r.json();
     document.getElementById('wl-form').style.display = 'none';
     const success = document.getElementById('wl-success');
     success.style.display = 'block';
-    success.innerHTML = 'You\'re #' + d.position + ' on the list!<br><span style="font-size:0.85rem;font-weight:400;color:#aaa">We\'ll email ' + email + ' when you\'re up.</span>';
+    success.innerHTML = 'You\'re #' + d.position + ' on the list!<br><span style="font-size:0.85rem;font-weight:400;color:#aaa">' + (marketingOptIn ? 'We\'ll email ' + email + ' when you\'re up.' : 'You\'re on the list. We\'ll only email you if you opt in later.') + '</span>';
     loadWaitlistCount();
   } catch (e) {
     btn.disabled = false; btn.textContent = 'Reserve my spot ->';
@@ -2411,11 +2424,11 @@ async function loadLandingNews(manual) {
     const params = new URLSearchParams();
     if (query) params.set('q', query);
     params.set('limit', '5');
-    const resp = await fetch(window.FAWN_API_BASE + '/news/public-headlines?' + params.toString(), { cache: 'no-store' });
+    const resp = await fetch(API_BASE + '/news/public-headlines?' + params.toString(), { cache: 'no-store' });
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.detail || 'News unavailable');
     const articles = (data.articles || []).slice(0, 3);
-    if (status) status.textContent = articles.length ? `Multiple sources - ${articles.length} live matches` : 'No matches yet';
+    if (status) status.textContent = articles.length ? `Multiple sources - ${articles.length} live matches · updated just now` : 'No matches yet';
     if (!articles.length) {
       feed.innerHTML = 'No stories matched that topic yet. Try a broader query like student money, housing, or AI fintech.';
       return;
@@ -2443,7 +2456,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Enter') loadLandingNews(true);
   });
   loadLandingNews(true);
-  setInterval(function() { loadLandingNews(false); }, 1000);
+  setInterval(function() {
+    if (!document.hidden) loadLandingNews(false);
+  }, 1000);
 });
 </script>
 
@@ -2471,6 +2486,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <a href="https://x.com/SrGoldy56" target="_blank" rel="noopener noreferrer">X</a>
     <a href="https://www.linkedin.com/in/alex-goldsmith-46a911302" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a href="mailto:alex@getfawn.com">Contact</a>
+    <a href="agentic.html">AI &amp; partner facts</a>
   </div>
   <div class="footer-legal">
     &#169; 2026 FAWN. USDC payments. Not a bank. Not FDIC insured. Beta platform.<br />
