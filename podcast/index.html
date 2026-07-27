@@ -93,10 +93,10 @@
   <script>
     const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const FALLBACK = {
-      date: 'July 26, 2026',
-      title: 'AI spending, the Fed, and what markets are watching next',
-      description: 'AI spending remains a major market theme, but investors want proof of returns. Read the latest source-grounded FAWN briefing.',
-      transcript: 'The latest published FAWN Daily Brief is available in the July 26 archive.'
+      date: 'July 27, 2026',
+      title: 'The Fed, oil, and the AI returns test',
+      description: 'A source-grounded briefing on rates, markets, AI earnings, global growth, and security.',
+      transcript: 'The latest published FAWN Daily Brief is available in the July 27 archive.'
     };
 
     function showFallback() {
@@ -105,6 +105,9 @@
       document.getElementById('episode-description').textContent = FALLBACK.description;
       document.getElementById('episode-transcript').textContent = FALLBACK.transcript;
       document.getElementById('episode-transcript-wrap').style.display = '';
+      const fallbackAudio = document.getElementById('episode-audio');
+      fallbackAudio.src = '2026-07-27/fawn-daily-news-2026-07-27.mp3';
+      fallbackAudio.style.display = '';
     }
 
     async function loadLatestEpisode() {
