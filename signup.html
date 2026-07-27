@@ -83,6 +83,8 @@
   </style>
   <link rel="stylesheet" href="assets/fawn-polish.css" />
   <script src="assets/fawn-api.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" async></script>
 </head>
 <body>
   <a class="logo" href="index.html">FAWN</a>
@@ -101,6 +103,11 @@
     </div>
 
     <div class="pane active" id="pane-1">
+      <div style="display:grid;gap:8px;margin-bottom:18px">
+        <button class="btn btn-ghost" type="button" onclick="socialSignup('google')">Sign up with Google</button>
+        <button class="btn btn-ghost" type="button" onclick="socialSignup('apple')">Sign up with Apple</button>
+        <div style="text-align:center;color:var(--muted);font-size:.72rem;margin-top:4px">or continue with email</div>
+      </div>
       <div class="field">
         <label for="full_name">Full name</label>
         <input type="text" id="full_name" placeholder="Jane Smith" autocomplete="name">
@@ -188,6 +195,8 @@
   <script>
     const API = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const APP_URL = window.FAWN_FRONTEND_URL || 'https://goldstarorbital.github.io/fawn-frontend/';
+    window.FAWN_GOOGLE_CLIENT_ID = window.FAWN_GOOGLE_CLIENT_ID || '';
+    window.FAWN_APPLE_CLIENT_ID = window.FAWN_APPLE_CLIENT_ID || '';
     const anonymousId = localStorage.getItem('fawn_anonymous_id') || (crypto.randomUUID ? crypto.randomUUID() : `anon-${Date.now()}`);
     localStorage.setItem('fawn_anonymous_id', anonymousId);
     function telemetry(event_name, details = {}) { try { fetch(API + '/experience/telemetry', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ event_name, anonymous_id:anonymousId, ...details }), keepalive:true }).catch(() => {}); } catch {} }
@@ -242,6 +251,28 @@
       if (phone && phone.length < 10) return 'Enter a valid 10-digit phone number, or leave it blank';
       if (!document.getElementById('agree-policies').checked) return 'Please agree to the Terms and Privacy Policy to continue';
       return null;
+    }
+
+    async function socialSignup(provider) {
+      const finish = async (idToken) => {
+        const username = document.getElementById('username').value.trim().toLowerCase();
+        if (!/^[a-z0-9_]{3,30}$/.test(username)) return showErr('err-1', 'Choose your username before using social sign-up');
+        if (!document.getElementById('agree-policies').checked) return showErr('err-1', 'Please agree to the Terms and Privacy Policy to continue');
+        try {
+          const resp = await fetch(API + '/auth/social', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ provider, id_token:idToken, username, full_name:document.getElementById('full_name').value.trim(), is_student:true, school:document.getElementById('school').value || null }) });
+          const data = await resp.json();
+          if (!resp.ok) return showErr('err-1', data.detail || 'Social sign-up failed');
+          localStorage.setItem('fawn_token', data.access_token); location.href = APP_URL;
+        } catch { showErr('err-1', 'Network error. Try again or use email sign-up.'); }
+      };
+      const target = 'err-1';
+      if (provider === 'google') {
+        if (!window.FAWN_GOOGLE_CLIENT_ID || !window.google?.accounts?.id) return showErr(target, 'Google sign-up is not configured yet. Please use email for now.');
+        google.accounts.id.initialize({client_id:window.FAWN_GOOGLE_CLIENT_ID, callback:r=>finish(r.credential)}); google.accounts.id.prompt();
+      } else {
+        if (!window.FAWN_APPLE_CLIENT_ID || !window.AppleID) return showErr(target, 'Apple sign-up is not configured yet. Please use email for now.');
+        try { AppleID.auth.init({clientId:window.FAWN_APPLE_CLIENT_ID, scope:'name email', redirectURI:location.href.split('#')[0], usePopup:true, state:crypto.randomUUID()}); const r=await AppleID.auth.signIn(); await finish(r.authorization.id_token); } catch { showErr(target, 'Apple sign-up was cancelled or failed.'); }
+      }
     }
 
     async function submitForm() {
