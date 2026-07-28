@@ -1329,8 +1329,8 @@
     /* Handcrafted visual pass: an ink-and-moss palette, editorial type, and
        uneven spacing keep the page from reading like a generated template. */
     :root {
-      --green: #b8e04b;
-      --green-dark: #8eaf2c;
+      --green: #8fc8a2;
+      --green-dark: #629b78;
       --bg: #10130f;
       --surface: #171b15;
       --surface2: #20261c;
@@ -1338,6 +1338,7 @@
       --text: #f1f2e8;
       --muted: #a7ad9d;
       --ink: #28301f;
+      --warm: #c9a66a;
     }
     body {
       font-family: "Avenir Next", "Segoe UI", sans-serif;
@@ -1355,7 +1356,7 @@
     nav { background: rgba(16,19,15,.96); border-bottom-color: #30392a; }
     .hero { padding-top: 168px; padding-bottom: 118px; }
     .hero h1 { max-width: 760px; font-size: clamp(3.2rem, 9vw, 7.6rem); line-height: .93; }
-    .hero h1 span { color: var(--green); font-style: italic; }
+    .hero h1 span { color: var(--warm); font-style: italic; }
     .hero-sub { max-width: 570px; text-align: left; margin-left: 8%; }
     .hero-buttons { justify-content: flex-start; margin-left: 8%; }
     .hero-proof-strip { justify-content: flex-start; margin-left: 8%; transform: rotate(-1deg); }
@@ -1393,6 +1394,10 @@
     .testimonials-grid { grid-template-columns: 1.2fr .85fr 1fr; }
     .testimonial-card:nth-child(2) { transform: translateY(20px); }
     .section-label { color: var(--green); letter-spacing: .16em; }
+    .hero-badge, .roadmap-badge { color: var(--warm); border-color: rgba(201,166,106,.38); background: rgba(201,166,106,.08); }
+    .hero-badge-dot, .roadmap-badge-dot { background: var(--warm); }
+    .hero-trust strong, .hero-proof-pill strong { color: var(--warm); }
+    .fee-good, .money-result-amount { color: var(--green); }
     .section-title { font-size: clamp(2.2rem, 5vw, 4.6rem); line-height: .98; }
     .film-frame, .film-card { border-radius: 12px; box-shadow: none; }
     .film-card { background: #171b15; }
