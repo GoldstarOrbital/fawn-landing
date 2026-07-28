@@ -1326,6 +1326,89 @@
         scroll-behavior: auto !important;
       }
     }
+    /* Handcrafted visual pass: an ink-and-moss palette, editorial type, and
+       uneven spacing keep the page from reading like a generated template. */
+    :root {
+      --green: #b8e04b;
+      --green-dark: #8eaf2c;
+      --bg: #10130f;
+      --surface: #171b15;
+      --surface2: #20261c;
+      --border: #36402d;
+      --text: #f1f2e8;
+      --muted: #a7ad9d;
+      --ink: #28301f;
+    }
+    body {
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      background: var(--bg);
+    }
+    body::before { opacity: .11; background-size: 360px 184px; }
+    .hero-glow { display: none; }
+    .steps-grid::before { background: var(--green); }
+    .roadmap-highlight-card, .pricing-card.featured, .compare-section { background: #171b15; }
+    h1, h2, h3, .section-title, .film-card h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 600;
+      letter-spacing: -.035em;
+    }
+    nav { background: rgba(16,19,15,.96); border-bottom-color: #30392a; }
+    .hero { padding-top: 168px; padding-bottom: 118px; }
+    .hero h1 { max-width: 760px; font-size: clamp(3.2rem, 9vw, 7.6rem); line-height: .93; }
+    .hero h1 span { color: var(--green); font-style: italic; }
+    .hero-sub { max-width: 570px; text-align: left; margin-left: 8%; }
+    .hero-buttons { justify-content: flex-start; margin-left: 8%; }
+    .hero-proof-strip { justify-content: flex-start; margin-left: 8%; transform: rotate(-1deg); }
+    section:nth-of-type(odd) { padding-left: 7%; padding-right: 7%; }
+    section:nth-of-type(even) { padding-left: 12%; padding-right: 5%; }
+    .problem-grid { grid-template-columns: 1.25fr .8fr 1fr .9fr; align-items: end; }
+    .problem-card:nth-child(2) { transform: translateY(28px); }
+    .problem-card:nth-child(4) { transform: translateY(-18px); }
+    .problem-card, .p2p-card, .solution-card, .testimonial-card, .pricing-card {
+      border-radius: 12px;
+      box-shadow: none;
+      background: #171b15;
+    }
+    .problem-card:hover, .p2p-card:hover, .solution-card:hover { box-shadow: none; }
+    .showcase-wrap { grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr); }
+    .showcase-phone { transform: rotate(-1.2deg); }
+    .showcase-callout:nth-child(2) { margin-left: 42px; }
+    .showcase-callout:nth-child(3) { margin-left: 14px; }
+    .p2p-grid, .solution-grid { grid-template-columns: 1.15fr .9fr 1.05fr; }
+    .p2p-card:nth-child(2), .solution-card:nth-child(2) { transform: translateY(24px); }
+    .p2p-card:nth-child(3), .solution-card:nth-child(3) { transform: translateY(-12px); }
+    .p2p-icon, .solution-icon, .showcase-txn-icon {
+      display: grid; place-items: center; width: 36px; height: 36px;
+      border-radius: 9px; color: var(--green); background: var(--ink);
+      font-size: 0; border: 1px solid #465237;
+    }
+    .p2p-icon::before, .solution-icon::before, .showcase-txn-icon::before {
+      content: ""; width: 15px; height: 15px; border: 1.5px solid currentColor;
+      border-radius: 50%; transform: rotate(-12deg);
+    }
+    .p2p-icon:has(svg)::before, .solution-icon:has(svg)::before { display: none; }
+    .pricing-grid { grid-template-columns: 1.15fr .85fr; align-items: start; }
+    .pricing-card.featured { transform: translateY(24px); background: #1f2a18; border-color: var(--green); }
+    .pricing-card:nth-child(3) { grid-column: 1 / -1; max-width: 520px; margin-left: 19%; }
+    .testimonials-grid { grid-template-columns: 1.2fr .85fr 1fr; }
+    .testimonial-card:nth-child(2) { transform: translateY(20px); }
+    .section-label { color: var(--green); letter-spacing: .16em; }
+    .section-title { font-size: clamp(2.2rem, 5vw, 4.6rem); line-height: .98; }
+    .film-frame, .film-card { border-radius: 12px; box-shadow: none; }
+    .film-card { background: #171b15; }
+    @media (max-width: 900px) {
+      .hero-sub, .hero-buttons, .hero-proof-strip { margin-left: 0; }
+      section:nth-of-type(odd), section:nth-of-type(even) { padding-left: 24px; padding-right: 24px; }
+      .problem-grid, .p2p-grid, .solution-grid, .testimonials-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-card:nth-child(3) { grid-column: auto; max-width: none; margin-left: 0; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding-top: 126px; }
+      .hero h1 { font-size: clamp(3rem, 16vw, 5rem); }
+      .problem-grid, .p2p-grid, .solution-grid, .testimonials-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .problem-card:nth-child(2), .problem-card:nth-child(4), .p2p-card:nth-child(2), .p2p-card:nth-child(3), .solution-card:nth-child(2), .solution-card:nth-child(3), .testimonial-card:nth-child(2) { transform: none; }
+      .pricing-card.featured { transform: none; }
+    }
   </style>
   <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureFlagEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -1607,24 +1690,24 @@
 
   <div class="p2p-grid reveal-group">
     <div class="p2p-card reveal">
-      <div class="p2p-icon">&#9889;</div>
+      <div class="p2p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2 5 13h6l-1 9 8-11h-6l1-9Z"/></svg></div>
       <h3>Send by @handle</h3>
       <p>Look up a friend by their FAWN handle, type an amount, and send. The money lands in their wallet instantly. It&#8217;s a direct on-chain move between two FAWN wallets, not a multi-day transfer.</p>
     </div>
     <div class="p2p-card reveal">
-      <div class="p2p-icon">&#128221;</div>
+      <div class="p2p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
       <h3>Request, with one tap to pay</h3>
       <p>Need money back for groceries or a show ticket? Send a request to any FAWN user. They get a one-tap link to pay you back, with no chasing or awkward texts.</p>
     </div>
     <div class="p2p-card reveal">
-      <div class="p2p-icon">&#127869;</div>
+      <div class="p2p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h16"/><path d="M7 4v16M17 4v16"/></svg></div>
       <h3>Split a bill in one go</h3>
       <p>Dinner for six? Rent with three roommates? Split the total across everyone in a single flow, and each person gets their own request to settle up &#8212; FAWN does the math.</p>
     </div>
   </div>
 
   <div class="p2p-safety reveal">
-    <div class="p2p-safety-icon">&#128274;</div>
+    <div class="p2p-safety-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 10V7a6 6 0 0 1 12 0v3"/><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M12 14v3"/></svg></div>
     <div>
       <h3>Built so you can&#8217;t send money by accident</h3>
       <p>Every send shows an explicit confirmation screen before anything moves. Once it&#8217;s sent, it&#8217;s sent. FAWN also flags first-time recipients or unusually large sends for an extra confirmation step.</p>
@@ -1643,17 +1726,17 @@
   <p class="section-sub">Three things we obsessed over so you don&#8217;t have to think about them.</p>
   <div class="solution-grid reveal-group">
     <div class="solution-card reveal">
-      <div class="solution-icon">&#9889;</div>
+      <div class="solution-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2 5 13h6l-1 9 8-11h-6l1-9Z"/></svg></div>
       <h3>Simple pricing</h3>
       <p>One flat fee per transaction: $0.01 to $0.02. That&#8217;s it. No monthly fee, no minimum balance, no overdraft trap. You always know what you&#8217;re paying.</p>
     </div>
     <div class="solution-card reveal">
-      <div class="solution-icon">&#128274;</div>
+      <div class="solution-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 10V7a6 6 0 0 1 12 0v3"/><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M12 14v3"/></svg></div>
       <h3>Your money stays yours</h3>
       <p>FAWN is custodial by design &#8212; your USDC balance is held in a dedicated encrypted wallet, with signing handled by FAWN infrastructure. Fully liquid, withdraw anytime. We never invest or lend your balance. Our revenue comes from the $0.01 transaction fee.</p>
     </div>
     <div class="solution-card reveal">
-      <div class="solution-icon">&#129504;</div>
+      <div class="solution-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="m12 7 1.8 3.5L17 12l-3.2 1.5L12 17l-1.8-3.5L7 12l3.2-1.5L12 7Z"/></svg></div>
       <h3>Plain-English context</h3>
       <p>Inflation went up. Interest rates changed. What does it mean for you? FAWN&#8217;s news layer explains what&#8217;s happening in the economy in plain English, without the jargon.</p>
     </div>
