@@ -82,7 +82,8 @@
 
     <div class="links">
       <a href="rss.xml">RSS feed</a>
-      <a href="2026-07-28/">Latest: July 28 edition</a>
+      <a href="2026-07-29/">Latest: July 29 edition</a>
+      <a href="2026-07-28/">Archived July 28 edition</a>
       <a href="2026-07-27/">Archived July 27 edition</a>
       <a href="2026-07-23/">Archived July 23 edition</a>
     </div>
@@ -94,10 +95,10 @@
   <script>
     const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const FALLBACK = {
-      date: 'July 28, 2026',
-      title: 'The Fed, consumers, and the AI spending test',
-      description: 'A source-grounded briefing on rates, markets, household costs, AI investment, and policy.',
-      transcript: 'The latest published FAWN Daily Brief is available in the July 28 archive.'
+      date: 'July 29, 2026',
+      title: 'The Fed decision and the AI profit test',
+      description: 'A source-grounded briefing on rates, borrowing costs, markets, AI returns, energy, and the global economy.',
+      transcript: 'The latest published FAWN Daily Brief is available in the July 29 archive.'
     };
 
     function showFallback() {
@@ -107,7 +108,7 @@
       document.getElementById('episode-transcript').textContent = FALLBACK.transcript;
       document.getElementById('episode-transcript-wrap').style.display = '';
       const fallbackAudio = document.getElementById('episode-audio');
-      fallbackAudio.src = '2026-07-28/fawn-daily-news-2026-07-28.mp3';
+      fallbackAudio.src = '2026-07-29/fawn-daily-news-2026-07-29.mp3';
       fallbackAudio.style.display = '';
     }
 
