@@ -82,7 +82,8 @@
 
     <div class="links">
       <a href="rss.xml">RSS feed</a>
-      <a href="2026-07-29/">Latest: July 29 edition</a>
+      <a href="2026-07-31/">Latest: July 31 edition</a>
+      <a href="2026-07-29/">Archived July 29 edition</a>
       <a href="2026-07-28/">Archived July 28 edition</a>
       <a href="2026-07-27/">Archived July 27 edition</a>
       <a href="2026-07-23/">Archived July 23 edition</a>
@@ -95,10 +96,10 @@
   <script>
     const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const FALLBACK = {
-      date: 'July 29, 2026',
-      title: 'The Fed holds, but the AI spending test gets harder',
-      description: 'A source-grounded briefing on rates, jobs, markets, AI revenue, and the global chip supply chain.',
-      transcript: 'The latest published FAWN Daily Brief is available in the July 29 archive.'
+      date: 'July 31, 2026',
+      title: 'Rates hold as AI spending faces a profit test',
+      description: 'A source-grounded briefing on the Fed, inflation, jobs, markets, AI infrastructure, and global chips.',
+      transcript: 'The latest published FAWN Daily Brief is available in the July 31 archive.'
     };
 
     function showFallback() {
@@ -108,7 +109,7 @@
       document.getElementById('episode-transcript').textContent = FALLBACK.transcript;
       document.getElementById('episode-transcript-wrap').style.display = '';
       const fallbackAudio = document.getElementById('episode-audio');
-      fallbackAudio.src = '2026-07-29/fawn-daily-news-2026-07-29.mp3';
+      fallbackAudio.src = '2026-07-31/fawn-daily-news-2026-07-31.mp3';
       fallbackAudio.style.display = '';
     }
 
