@@ -82,7 +82,8 @@
 
     <div class="links">
       <a href="rss.xml">RSS feed</a>
-      <a href="2026-08-21/">Latest: August 21 edition</a>
+      <a href="2026-08-23/">Latest: August 23 edition</a>
+      <a href="2026-08-21/">Archived August 21 edition</a>
       <a href="2026-07-31/">Archived July 31 edition</a>
       <a href="2026-07-29/">Archived July 29 edition</a>
       <a href="2026-07-28/">Archived July 28 edition</a>
@@ -97,10 +98,10 @@
   <script>
     const API_BASE = window.FAWN_API_BASE || 'https://web-production-13d5b.up.railway.app';
     const FALLBACK = {
-      date: 'August 21, 2026',
-      title: 'Markets rebound as AI debt meets the rate test',
-      description: 'A source-grounded briefing on markets, Treasury yields, oil, AI financing, the Fed, and AI literacy.',
-      transcript: 'The latest published FAWN Daily Brief is available in the August 21 archive.'
+      date: 'August 23, 2026',
+      title: 'AI spending meets the bond-market reality check',
+      description: 'A source-grounded briefing on AI spending, Treasury yields, the Fed, school AI literacy, teen safeguards, and health AI.',
+      transcript: 'The latest published FAWN Daily Brief is available in the August 23 archive.'
     };
 
     function showFallback() {
@@ -110,7 +111,7 @@
       document.getElementById('episode-transcript').textContent = FALLBACK.transcript;
       document.getElementById('episode-transcript-wrap').style.display = '';
       const fallbackAudio = document.getElementById('episode-audio');
-      fallbackAudio.src = '2026-08-21/fawn-daily-news-2026-08-21.mp3';
+      fallbackAudio.src = '2026-08-23/fawn-daily-news-2026-08-23.mp3';
       fallbackAudio.style.display = '';
     }
 
