@@ -1,0 +1,29 @@
+FAWN DAILY BRIEF — AUGUST 26, 2026
+AI spending meets a hotter inflation signal
+
+Welcome to FAWN Daily Brief. Here is the money and technology news in about five minutes.
+
+First, the U.S. economy grew, but not especially quickly. The Bureau of Economic Analysis says real gross domestic product rose at a 1.5 percent annual rate in the second quarter, unchanged from its first estimate. That is slower than the 2.1 percent pace in the first quarter. Consumer spending, exports, and investment supported growth, while government spending declined. A useful detail: final sales to private domestic purchasers, a measure of underlying private demand, were revised up to a 4.2 percent annual rate.
+
+For everyday budgets, the inflation part of the report matters. The price index for personal consumption expenditures rose at a 5.3 percent annual rate in the second quarter, and the version excluding food and energy rose 3.6 percent. Those are not monthly readings; they are quarterly annualized rates. Still, they show why the Federal Reserve is cautious about cutting rates.
+
+Today’s separate BEA report says personal income increased 0.4 percent in July, disposable income rose 0.5 percent, and consumer spending rose 0.2 percent. But after adjusting for prices, real spending was essentially flat. The personal saving rate was 3.0 percent. In plain English, incomes grew, but households did not add much more buying power after inflation. Spending shifted toward services while goods spending fell.
+
+Markets reacted to that inflation picture. The AP reported that the S&P 500 was down about 0.1 percent in afternoon trading, the Dow was down 0.3 percent, and the Nasdaq was down 0.3 percent. The 10-year Treasury yield moved up to 4.67 percent from 4.64 percent late Tuesday. Higher yields can raise the cost of borrowing for governments, companies, homebuyers, and sometimes students using private credit. Reuters reported that hotter inflation strengthened expectations for at least one more quarter-point Fed rate increase this year.
+
+Oil remains another variable. AP reported Brent crude swinging during the session, most recently around 87 dollars a barrel and below its level late last week. Energy prices can feed into transportation, food, and household bills. The important point is uncertainty: a lower oil price can ease inflation, but geopolitical disruptions can reverse that quickly. We are not treating any one intraday price as a forecast.
+
+Now to the AI business story driving much of the market conversation: Nvidia reports results after the close today. The chip company has become the largest U.S. stock by market value because of the AI infrastructure boom. Investors are watching not just the quarter that ended, but the company’s outlook for future data-center demand. AP says AI stocks have become more volatile as investors debate whether huge chip purchases will produce enough profit. That is a financial story as much as a technology story: data centers require chips, power, buildings, and debt, and all of those costs face higher interest rates.
+
+There is also a consumer-finance angle in corporate earnings. AP reported that Intuit, whose products include TurboTax, Credit Karma, and QuickBooks, beat profit expectations but fell after its forecast for the next fiscal year came in below what investors wanted. That is a reminder that a good quarter does not guarantee a rising share price. For users, the practical question is whether financial software saves time or money—not whether a stock moved on one day.
+
+One more technology item: Meta agreed to pay 17 billion dollars and add child-safety measures to Facebook and Instagram to settle a landmark teen social-media addiction trial, according to AP. The agreement is significant for students because it links platform design, youth safety, and corporate legal costs. A settlement is not the same as a court finding on every allegation, so the details of the measures and how they are enforced will matter.
+
+The short takeaway: U.S. growth is positive, household income is rising, but real spending is barely moving and inflation remains above the Fed’s target. That combination keeps borrowing costs and the AI investment boom in focus. This episode is informational news only; it is not investment, financial, legal, or tax advice.
+
+Sources
+1. BEA, GDP (Second Estimate) and Corporate Profits, Q2 2026: https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-2nd-quarter-2026
+2. BEA, Personal Income and Outlays, July 2026: https://www.bea.gov/news/2026/personal-income-and-outlays-july-2026
+3. AP, U.S. stocks and bonds drift after inflation update: https://apnews.com/article/stocks-markets-ai-oil-nvidia-7112fc458ebbf59dfa6172799e4e139d
+4. Reuters via StreetInsider, Wall Street slips at open; Nvidia in focus: https://www.streetinsider.com/Reuters/Wall%2BSt%2Bslips%2Bat%2Bopen%2Bafter%2Binflation%2Bdata%3B%2BNvidia%2Bin%2Bfocus/26978374.html
+5. BLS 2026 release schedule: https://www.bls.gov/schedule/2026/home.htm
